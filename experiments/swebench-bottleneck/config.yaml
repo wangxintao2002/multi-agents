@@ -1,0 +1,40 @@
+# Experiment config for the SWE-bench sandbox-bottleneck study (Phase A).
+# Values here are the knobs; run_experiment.py / run_a0_harness.py read this.
+
+model:
+  # litellm model string. DeepSeek V4 Flash via OpenRouter (confirmed reachable).
+  name: "openrouter/deepseek/deepseek-v4-flash"
+  # DeepSeek-via-OpenRouter is not in litellm's cost map -> must ignore cost errors,
+  # else every query raises RuntimeError. Cost will read as 0; we track tokens instead.
+  cost_tracking: "ignore_errors"
+  model_kwargs:
+    drop_params: true
+    parallel_tool_calls: true
+    temperature: 0.0
+
+dataset:
+  subset: "lite"          # princeton-nlp/SWE-Bench_Lite
+  split: "test"           # 300 instances
+  n_instances: 20         # pilot size (mark as pilot in report)
+  selection: "stratified" # stratified | head | cached
+  seed: 42
+
+# Per-task guardrails. cost_limit does NOT bind (cost=0 under ignore_errors),
+# so step_limit + wall_time_limit_seconds are the real guards.
+limits:
+  step_limit: 100
+  cost_limit: 1.5
+  wall_time_limit_seconds: 1800   # 30 min hard cap per task
+
+run:
+  offered_concurrency: 20         # N: tasks submitted at once (ThreadPoolExecutor workers)
+  # C values (slot pool capacity) to sweep. "inf" is rendered as a large number.
+  slot_capacities: [2, 4, 8, "inf"]
+  inf_capacity: 64                # the number used to approximate C=inf
+  lease_mode: "task_lease"        # task_lease (A1) | exec_lease (A2)
+  pre_pull_images: true           # pull all images in a timed phase before the run
+  docker_executable: "docker"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 5.0
