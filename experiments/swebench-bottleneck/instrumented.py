@@ -150,6 +150,8 @@ class InstrumentedDockerEnvironment(DockerEnvironment):
 
     def __init__(self, *, pool: SlotPool, bus: EventBus, task_id: str,
                  lease_mode: str = "task_lease", **kwargs):
+        if lease_mode not in {"task_lease", "exec_lease", "exec_lease_stop"}:
+            raise ValueError(f"unknown lease_mode: {lease_mode}")
         self.pool = pool
         self.bus = bus
         self.task_id = task_id
@@ -159,7 +161,7 @@ class InstrumentedDockerEnvironment(DockerEnvironment):
         # exec_lease_stop must keep the container across stop/start, so it cannot
         # use --rm (which deletes on stop, losing the agent's filesystem work).
         if lease_mode == "exec_lease_stop":
-            kwargs.setdefault("run_args", [])
+            kwargs["run_args"] = [arg for arg in kwargs.get("run_args", []) if arg != "--rm"]
         # NOTE: base __init__ calls _start_container() at the end, so all the
         # above must be set first.
         super().__init__(**kwargs)
@@ -171,33 +173,39 @@ class InstrumentedDockerEnvironment(DockerEnvironment):
                            capture_output=True, text=True, timeout=timeout)
         return r.returncode
 
-    def _suspend(self) -> None:
+    def _suspend(self) -> bool:
         """exec_lease_stop: stop the container to free RAM during LLM wait.
         Uses --time 0 (immediate SIGKILL): PID 1 is `sleep` and ignores SIGTERM, so
         a grace period would just stall. The container is retained (no --rm) so a
         later `docker start` resumes it with its filesystem intact."""
         if self._suspended or not self.container_id:
-            return
+            return True
         t0 = time.perf_counter()
+        ok = False
         try:
-            self._docker_cmd("stop", "--time", "0", self.container_id, timeout=30)
-            self._suspended = True
+            ok = self._docker_cmd("stop", "--time", "0", self.container_id, timeout=30) == 0
+            if ok:
+                self._suspended = True
+            return ok
         finally:
             self.bus.emit("container_suspend", task_id=self.task_id,
-                          duration_s=time.perf_counter() - t0)
+                          duration_s=time.perf_counter() - t0, ok=ok)
 
-    def _resume(self) -> None:
+    def _resume(self) -> bool:
         """exec_lease_stop: restart the stopped container before an exec.
         The restart latency is the real cost of suspend/wake and is recorded."""
         if not self._suspended or not self.container_id:
-            return
+            return True
         t0 = time.perf_counter()
+        ok = False
         try:
-            self._docker_cmd("start", self.container_id)
-            self._suspended = False
+            ok = self._docker_cmd("start", self.container_id) == 0
+            if ok:
+                self._suspended = False
+            return ok
         finally:
             self.bus.emit("container_resume", task_id=self.task_id,
-                          duration_s=time.perf_counter() - t0)
+                          duration_s=time.perf_counter() - t0, ok=ok)
 
     # ---- container lifecycle -------------------------------------------------
     def _start_container(self):
@@ -231,30 +239,34 @@ class InstrumentedDockerEnvironment(DockerEnvironment):
             self._task_lease_handle = handle
         else:
             # exec_lease / exec_lease_stop: release the slot now; re-acquire per exec.
-            if self.lease_mode == "exec_lease_stop":
-                self._suspend()  # free RAM while waiting for the first LLM response
-            self.pool.release(handle)
+            try:
+                if self.lease_mode == "exec_lease_stop":
+                    self._suspend()  # free RAM while waiting for the first LLM response
+            finally:
+                self.pool.release(handle)
 
     # ---- per-action execution ------------------------------------------------
     def execute(self, action: dict, cwd: str = "", *, timeout: int | None = None):
         handle = None
-        if self.lease_mode in ("exec_lease", "exec_lease_stop"):
-            handle = self.pool.acquire(self.task_id, phase="exec")
-            if self.lease_mode == "exec_lease_stop":
-                self._resume()  # bring the container back before running the command
-        t0 = time.perf_counter()
-        cmd_preview = (action.get("command", "") or "")[:120]
-        self.bus.emit("exec_begin", task_id=self.task_id, cmd=cmd_preview)
+        t0 = None
         rc = None
         try:
+            if self.lease_mode in ("exec_lease", "exec_lease_stop"):
+                handle = self.pool.acquire(self.task_id, phase="exec")
+                if self.lease_mode == "exec_lease_stop" and not self._resume():
+                    raise RuntimeError(f"failed to restart container {self.container_id}")
+            t0 = time.perf_counter()
+            cmd_preview = (action.get("command", "") or "")[:120]
+            self.bus.emit("exec_begin", task_id=self.task_id, cmd=cmd_preview)
             # Base execute() may raise Submitted via _check_finished; we must still
             # release the slot, so timing/release happen in finally.
             result = super().execute(action, cwd, timeout=timeout)
             rc = result.get("returncode")
             return result
         finally:
-            dt = time.perf_counter() - t0
-            self.bus.emit("exec_end", task_id=self.task_id, duration_s=dt, returncode=rc)
+            if t0 is not None:
+                dt = time.perf_counter() - t0
+                self.bus.emit("exec_end", task_id=self.task_id, duration_s=dt, returncode=rc)
             if handle is not None:
                 if self.lease_mode == "exec_lease_stop":
                     self._suspend()  # free RAM again while the next LLM call runs

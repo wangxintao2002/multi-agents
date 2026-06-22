@@ -156,7 +156,9 @@ def analyze_cell(evs: list[dict]) -> dict:
             if mem is not None or cpu is not None:
                 d["n_resource_samples"] += 1
 
-    # finalize: idle-held = lease_held - active (active = exec + container_start)
+    # finalize: idle-held = lease_held - active sandbox operations. For task_lease,
+    # cleanup happens before the slot release, so container_stop is active while
+    # held. For exec_lease modes cleanup happens outside the pool lease.
     rows = []
     for tid, d in tasks.items():
         d.pop("_acq", None)
@@ -166,14 +168,17 @@ def analyze_cell(evs: list[dict]) -> dict:
         d["avg_mem_mb"] = statistics.mean(mem_samples) if mem_samples else 0.0
         d["peak_cpu_pct"] = max(cpu_samples) if cpu_samples else 0.0
         d["avg_cpu_pct"] = statistics.mean(cpu_samples) if cpu_samples else 0.0
-        # active sandbox time also includes resume (restart) work in exec_lease_stop.
-        active = d["sandbox_exec"] + d["container_start"] + d["container_resume"]
+        active = (d["sandbox_exec"] + d["container_start"]
+                  + d["container_resume"] + d["container_suspend"])
+        if lease_mode == "task_lease":
+            active += d["container_stop"]
         d["sandbox_active"] = active
         d["sandbox_idle_held"] = max(0.0, d["lease_held"] - active)
         d["idle_held_frac"] = (d["sandbox_idle_held"] / d["lease_held"]) if d["lease_held"] > 0 else 0.0
         # accounted = the wall-clock pieces we can attribute
         d["accounted_s"] = (d["llm_wait"] + d["sandbox_exec"] + d["container_start"]
-                            + d["container_resume"] + d["slot_wait_initial"]
+                            + d["container_resume"] + d["container_suspend"]
+                            + d["container_stop"] + d["slot_wait_initial"]
                             + d["slot_wait_midtask"])
         d["task_id"] = tid
         rows.append(d)

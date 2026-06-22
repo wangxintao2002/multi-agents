@@ -196,7 +196,9 @@ def main() -> None:
     ap.add_argument("--config", default=str(HERE / "config.yaml"))
     ap.add_argument("--capacities", nargs="*", default=None,
                     help="Override slot capacities, e.g. --capacities 2 4")
-    ap.add_argument("--lease", default=None, help="task_lease | exec_lease")
+    ap.add_argument("--lease", default=None,
+                    choices=["task_lease", "exec_lease", "exec_lease_stop"],
+                    help="Lease discipline to run.")
     ap.add_argument("--smoke", type=int, default=0, help="Use only the first K instances")
     ap.add_argument("--run-id", default=None)
     args = ap.parse_args()
