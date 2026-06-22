@@ -1,0 +1,38 @@
+# A1 experiment 1: characterize sandbox/OS resource usage under real agent load.
+# This is intentionally observational: task-long sandbox lease, no artificial
+# memory pressure, one high-concurrency C=inf cell.
+
+model:
+  name: "openrouter/xiaomi/mimo-v2.5-pro"
+  cost_tracking: "ignore_errors"
+  model_kwargs:
+    drop_params: true
+    parallel_tool_calls: true
+    temperature: 0.0
+
+dataset:
+  subset: "lite"
+  split: "test"
+  n_instances: 20
+  selection: "stratified"
+  seed: 42
+  exclude_instance_ids:
+    - "psf__requests-863"
+    - "psf__requests-2317"
+
+limits:
+  step_limit: 20
+  cost_limit: 1.5
+  wall_time_limit_seconds: 1800
+
+run:
+  offered_concurrency: 18
+  slot_capacities: ["inf"]
+  inf_capacity: 64
+  lease_mode: "task_lease"
+  pre_pull_images: true
+  docker_executable: "docker"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 2.0

@@ -76,5 +76,12 @@ def select(instances: list[dict], *, n: int, strategy: str, seed: int = 42) -> l
     return chosen[:n]
 
 
+def exclude_instance_ids(instances: list[dict], exclude_ids: list[str] | None) -> list[dict]:
+    if not exclude_ids:
+        return instances
+    excluded = set(exclude_ids)
+    return [inst for inst in instances if inst["instance_id"] not in excluded]
+
+
 def image_for(instance: dict) -> str:
     return get_swebench_docker_image_name(instance)

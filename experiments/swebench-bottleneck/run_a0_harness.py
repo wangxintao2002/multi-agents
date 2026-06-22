@@ -26,7 +26,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from dataset import image_for, load_instances, select  # noqa: E402
+from dataset import exclude_instance_ids, image_for, load_instances, select  # noqa: E402
 from events import EventBus  # noqa: E402
 from resources import Sampler  # noqa: E402
 
@@ -40,8 +40,13 @@ def run_harness_cell(instance_ids: list[str], *, subset_path: str, split: str,
     cell_dir = run_dir / f"workers{max_workers}"
     cell_dir.mkdir(parents=True, exist_ok=True)
     bus = EventBus()
-    sampler = Sampler(bus, fast_interval=sampler_cfg["fast_interval"],
-                      slow_interval=sampler_cfg["slow_interval"], docker_exe=docker_exe)
+    sampler = Sampler(
+        bus,
+        fast_interval=sampler_cfg["fast_interval"],
+        slow_interval=sampler_cfg["slow_interval"],
+        docker_exe=docker_exe,
+        name_prefix="sweb.eval.",
+    )
 
     run_id = f"a0_w{max_workers}_{int(time.time())}"
     print(f"\n=== A0 CELL workers={max_workers}: {len(instance_ids)} gold evals ===")
@@ -104,6 +109,7 @@ def main() -> None:
     n = args.smoke if args.smoke else cfg["dataset"]["n_instances"]
     strategy = "cached" if args.smoke else cfg["dataset"]["selection"]
     instances = select(all_inst, n=n, strategy=strategy, seed=cfg["dataset"]["seed"])
+    instances = exclude_instance_ids(instances, cfg["dataset"].get("exclude_instance_ids"))
     instance_ids = [i["instance_id"] for i in instances]
     print(f"A0 on {len(instance_ids)} instances ({strategy}): {instance_ids}")
 

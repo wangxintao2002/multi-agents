@@ -52,9 +52,11 @@ not guess.
   instance image layers before the sweep, so every measured cell starts from the
   same warm-cache state (a throughput rise reflects concurrency, not cache warm-up).
   `--shuffle-order` adds a seeded order-randomization as a second guard.
-- **Container count is experiment-scoped**: the Sampler counts only `minisweagent-*`
-  containers (`n_running_containers`) and also reports the host-wide total
-  (`n_running_all`), so other workloads on the box can't inflate the concurrency signal.
+- **Container count is experiment-scoped**: the Sampler counts only containers
+  matching the experiment's prefix (`sweb.eval.*` for A0, `minisweagent-*` for
+  A1/A2) as `n_running_containers` and also reports the host-wide total
+  (`n_running_all`), so unrelated workloads on the box don't silently inflate the
+  concurrency signal.
 - **Synchronous teardown**: cleanup uses `docker rm -f` (immediate) and releases the
   slot only after the container is gone, so running-container count never transiently
   exceeds C. (`docker stop` would block ~60s because PID 1 is `sleep`.)

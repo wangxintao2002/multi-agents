@@ -27,7 +27,7 @@ import yaml
 # --- make sibling modules importable when run as a script -------------------
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from dataset import image_for, load_instances, select  # noqa: E402
+from dataset import exclude_instance_ids, image_for, load_instances, select  # noqa: E402
 from events import EventBus  # noqa: E402
 from instrumented import InstrumentedDockerEnvironment, InstrumentedLitellmModel  # noqa: E402
 from resources import Sampler, SlotPool  # noqa: E402
@@ -221,6 +221,7 @@ def main() -> None:
     n = args.smoke if args.smoke else cfg["dataset"]["n_instances"]
     strategy = "cached" if args.smoke else cfg["dataset"]["selection"]
     instances = select(all_inst, n=n, strategy=strategy, seed=cfg["dataset"]["seed"])
+    instances = exclude_instance_ids(instances, cfg["dataset"].get("exclude_instance_ids"))
     print(f"Selected {len(instances)} instances ({strategy}): "
           f"{[i['instance_id'] for i in instances]}")
 
