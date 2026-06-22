@@ -89,10 +89,39 @@ $VENV analyze.py results/A2_stop
 
 Smoke (cached images, 1-2 tasks): add `--smoke 2`.
 
+## A3 aggregate memory-cap runs
+
+`config.a3_memcap.yaml` attaches every mini-swe-agent Docker sandbox to the
+same systemd cgroup parent (`a3-sandbox.slice`) via Docker `--cgroup-parent`.
+Set the aggregate memory cap outside Python, then sweep offered concurrency:
+
+```bash
+# Requires admin rights. This caps all containers in a3-sandbox.slice together.
+sudo systemctl set-property --runtime a3-sandbox.slice MemoryMax=16G MemorySwapMax=0
+systemctl show a3-sandbox.slice -p MemoryCurrent -p MemoryMax
+
+for N in 1 2 4 8 16 24 32; do
+  RUN_ID=A3_memcap_16G_N${N}_$(date -u +%Y%m%d_%H%M%S)
+  PYTHONUNBUFFERED=1 $VENV run_experiment.py \
+    --config config.a3_memcap.yaml \
+    --n-instances "$N" \
+    --offered-concurrency "$N" \
+    --capacities inf \
+    --lease task_lease \
+    --run-id "$RUN_ID"
+  $VENV analyze.py "results/$RUN_ID"
+done
+```
+
+The cap is aggregate across this experiment's sandbox containers, not a
+per-container `--memory` limit. `analyze.py` writes cgroup memory/current/max and
+`memory.events` counters to each cell's `utilization.csv` and to `summary.csv`
+(`peak_cgroup_memory_mb`, `cgroup_memory_events_{high,max,oom,oom_kill}`).
+
 ## Environment notes
 
-- Model: `openrouter/deepseek/deepseek-v4-flash` via `OPENROUTER_API_KEY`.
-- `MSWEA_COST_TRACKING=ignore_errors` is required (DeepSeek not in litellm cost map);
+- Model: `openrouter/xiaomi/mimo-v2.5-pro` via `OPENROUTER_API_KEY`.
+- `MSWEA_COST_TRACKING=ignore_errors` is required (the OpenRouter model may not be in litellm cost maps);
   cost reads 0, so `step_limit` + `wall_time_limit_seconds` are the real guards.
 - Proxy: the host's `NO_PROXY` contains `[::1]` which breaks httpx; `run_experiment.py`
   unsets proxy vars in-process (OpenRouter is reachable directly).

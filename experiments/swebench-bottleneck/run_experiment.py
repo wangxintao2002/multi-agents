@@ -82,6 +82,18 @@ def pre_pull_images(instances: list[dict], bus: EventBus, docker_exe: str) -> No
                      duration_s=time.perf_counter() - t0)
 
 
+def apply_docker_run_args(env_settings: dict, cfg: dict) -> None:
+    """Inject experiment-level Docker args into mini-swe-agent's env settings."""
+    cgroup_parent = cfg["run"].get("cgroup_parent")
+    if not cgroup_parent:
+        return
+    run_args = list(env_settings.get("run_args", []))
+    prefix = "--cgroup-parent"
+    if not any(arg == prefix or arg.startswith(f"{prefix}=") for arg in run_args):
+        run_args.append(f"{prefix}={cgroup_parent}")
+    env_settings["run_args"] = run_args
+
+
 def run_one_task(inst: dict, *, cfg: dict, templates: dict, pool: SlotPool,
                  bus: EventBus, lease_mode: str, cell_dir: Path) -> dict:
     """Run a single instance end-to-end. Returns a small result record."""
@@ -106,6 +118,7 @@ def run_one_task(inst: dict, *, cfg: dict, templates: dict, pool: SlotPool,
         )
         env_settings = dict(templates["environment"])
         env_settings.pop("environment_class", None)
+        apply_docker_run_args(env_settings, cfg)
         env = InstrumentedDockerEnvironment(
             pool=pool, bus=bus, task_id=instance_id, lease_mode=lease_mode,
             image=image_for(inst), **env_settings,
@@ -161,11 +174,12 @@ def run_cell(instances: list[dict], *, capacity: int, lease_mode: str, cfg: dict
         fast_interval=cfg["sampler"]["fast_interval"],
         slow_interval=cfg["sampler"]["slow_interval"],
         docker_exe=cfg["run"]["docker_executable"],
+        cgroup_parent=cfg["run"].get("cgroup_parent"),
     )
 
     print(f"\n=== CELL {cell_name}: N={len(instances)} C={capacity} lease={lease_mode} ===")
     bus.emit("cell_start", cell=cell_name, capacity=capacity, lease_mode=lease_mode,
-             n_tasks=len(instances))
+             n_tasks=len(instances), cgroup_parent=cfg["run"].get("cgroup_parent"))
     sampler.start()
     t0 = time.perf_counter()
     results = []
@@ -200,6 +214,10 @@ def main() -> None:
                     choices=["task_lease", "exec_lease", "exec_lease_stop"],
                     help="Lease discipline to run.")
     ap.add_argument("--smoke", type=int, default=0, help="Use only the first K instances")
+    ap.add_argument("--n-instances", type=int, default=None,
+                    help="Override dataset.n_instances without switching to cached smoke selection.")
+    ap.add_argument("--offered-concurrency", type=int, default=None,
+                    help="Override run.offered_concurrency for A3-style N sweeps.")
     ap.add_argument("--run-id", default=None)
     args = ap.parse_args()
 
@@ -209,6 +227,8 @@ def main() -> None:
     cfg = yaml.safe_load(Path(args.config).read_text())
     if args.lease:
         cfg["run"]["lease_mode"] = args.lease
+    if args.offered_concurrency is not None:
+        cfg["run"]["offered_concurrency"] = args.offered_concurrency
     lease_mode = cfg["run"]["lease_mode"]
 
     templates = _load_agent_templates()
@@ -220,7 +240,7 @@ def main() -> None:
 
     # Select instances.
     all_inst = load_instances(cfg["dataset"]["subset"], cfg["dataset"]["split"])
-    n = args.smoke if args.smoke else cfg["dataset"]["n_instances"]
+    n = args.smoke if args.smoke else (args.n_instances or cfg["dataset"]["n_instances"])
     strategy = "cached" if args.smoke else cfg["dataset"]["selection"]
     instances = select(all_inst, n=n, strategy=strategy, seed=cfg["dataset"]["seed"])
     instances = exclude_instance_ids(instances, cfg["dataset"].get("exclude_instance_ids"))

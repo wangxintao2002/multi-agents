@@ -23,6 +23,7 @@ import subprocess
 import threading
 import time
 from dataclasses import dataclass
+from pathlib import Path
 
 from events import EventBus
 
@@ -118,6 +119,8 @@ _SIZE_FACTORS_MB = {
     "gib": 1024 * 1024 * 1024 / 1e6,
 }
 
+_CGROUP_ROOT = Path("/sys/fs/cgroup")
+
 
 def _parse_percent(value: str | None) -> float | None:
     if not value:
@@ -152,6 +155,73 @@ def _parse_mem_usage(value: str | None) -> tuple[float | None, float | None]:
     return usage, limit
 
 
+def _read_int(path: Path) -> int | None:
+    try:
+        raw = path.read_text().strip()
+        if raw == "max":
+            return None
+        return int(raw)
+    except Exception:
+        return None
+
+
+def _bytes_to_mb(value: int | None) -> float | None:
+    if value is None:
+        return None
+    return round(value / 1e6, 3)
+
+
+def _systemd_slice_candidates(name: str) -> list[Path]:
+    if not name.endswith(".slice") or "-" not in name:
+        return []
+    base = name.removesuffix(".slice")
+    parts = base.split("-")
+    candidates = []
+    path_parts = []
+    for i, _part in enumerate(parts):
+        slice_name = "-".join(parts[: i + 1]) + ".slice"
+        path_parts.append(slice_name)
+    candidates.append(_CGROUP_ROOT.joinpath(*path_parts))
+    return candidates
+
+
+def _resolve_cgroup_path(cgroup_parent: str | None) -> Path | None:
+    if not cgroup_parent:
+        return None
+    parent = cgroup_parent.strip()
+    if not parent:
+        return None
+    candidates = [
+        _CGROUP_ROOT / parent.lstrip("/"),
+        *_systemd_slice_candidates(parent),
+    ]
+    for path in candidates:
+        if path.exists():
+            return path
+    # The slice may not exist until the first container starts; returning the most
+    # likely path lets callers keep trying cheaply on later samples.
+    return candidates[-1]
+
+
+def _read_cgroup_memory(cgroup_path: Path | None) -> dict:
+    if cgroup_path is None or not cgroup_path.exists():
+        return {}
+    fields = {
+        "cgroup_path": str(cgroup_path),
+        "cgroup_memory_current_mb": _bytes_to_mb(_read_int(cgroup_path / "memory.current")),
+        "cgroup_memory_max_mb": _bytes_to_mb(_read_int(cgroup_path / "memory.max")),
+        "cgroup_memory_swap_current_mb": _bytes_to_mb(_read_int(cgroup_path / "memory.swap.current")),
+        "cgroup_memory_swap_max_mb": _bytes_to_mb(_read_int(cgroup_path / "memory.swap.max")),
+    }
+    try:
+        for line in (cgroup_path / "memory.events").read_text().splitlines():
+            key, value = line.split(maxsplit=1)
+            fields[f"cgroup_memory_events_{key}"] = int(value)
+    except Exception:
+        pass
+    return fields
+
+
 class Sampler(threading.Thread):
     """Daemon thread sampling host + docker utilization to events.jsonl.
 
@@ -174,6 +244,7 @@ class Sampler(threading.Thread):
         slow_interval: float = 5.0,
         docker_exe: str = "docker",
         name_prefix: str = "minisweagent-",
+        cgroup_parent: str | None = None,
     ) -> None:
         super().__init__(daemon=True)
         self.bus = bus
@@ -181,6 +252,8 @@ class Sampler(threading.Thread):
         self.slow_interval = slow_interval
         self.docker_exe = docker_exe
         self.name_prefix = name_prefix
+        self.cgroup_parent = cgroup_parent
+        self._cgroup_path = _resolve_cgroup_path(cgroup_parent)
         self._stop_event = threading.Event()
         try:
             import psutil  # noqa: F401
@@ -267,7 +340,11 @@ class Sampler(threading.Thread):
                 "n_running_containers": ours,
                 "n_running_all": all_c,
                 "container_name_prefix": self.name_prefix,
+                "cgroup_parent": self.cgroup_parent,
             }
+            if self.cgroup_parent and (self._cgroup_path is None or not self._cgroup_path.exists()):
+                self._cgroup_path = _resolve_cgroup_path(self.cgroup_parent)
+            fields.update(_read_cgroup_memory(self._cgroup_path))
             if psutil is not None:
                 vm = psutil.virtual_memory()
                 fields["host_cpu_pct"] = psutil.cpu_percent(interval=None)

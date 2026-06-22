@@ -1,0 +1,45 @@
+# A3 memcap: real agent run with no artificial sandbox-slot cap.
+#
+# Memory is capped outside this script by setting MemoryMax on a systemd slice:
+#   sudo systemctl set-property --runtime a3-sandbox.slice MemoryMax=16G MemorySwapMax=0
+#
+# All Docker sandboxes are attached to that slice via --cgroup-parent, so the cap
+# is aggregate across this experiment's sandbox containers, not per-container.
+
+model:
+  name: "openrouter/xiaomi/mimo-v2.5-pro"
+  cost_tracking: "ignore_errors"
+  model_kwargs:
+    drop_params: true
+    parallel_tool_calls: true
+    temperature: 0.0
+    timeout: 120
+
+dataset:
+  subset: "lite"
+  split: "test"
+  n_instances: 32
+  selection: "stratified"
+  seed: 42
+  exclude_instance_ids:
+    - "psf__requests-863"
+    - "psf__requests-2317"
+    - "astropy__astropy-12907"
+
+limits:
+  step_limit: 10
+  cost_limit: 1.5
+  wall_time_limit_seconds: 900
+
+run:
+  offered_concurrency: 32
+  slot_capacities: ["inf"]
+  inf_capacity: 256
+  lease_mode: "task_lease"
+  pre_pull_images: true
+  docker_executable: "docker"
+  cgroup_parent: "a3-sandbox.slice"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 2.0

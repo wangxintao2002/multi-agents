@@ -1,0 +1,25 @@
+# A3d: sandbox memory ceiling diagnostic.
+#
+# No LLM and no artificial memory cap. The SWE-bench harness applies gold patches
+# and runs tests inside real sandbox containers. This estimates the upper bound
+# of sandbox memory demand for heavier repos before we decide whether RAM reclaim
+# is a plausible scheduling target.
+
+dataset:
+  subset: "lite"
+  split: "test"
+  selection: "explicit"
+  n_instances: 4
+  seed: 42
+  instance_ids:
+    - "astropy__astropy-7746"
+    - "matplotlib__matplotlib-25433"
+    - "scikit-learn__scikit-learn-10508"
+    - "sympy__sympy-11400"
+
+run:
+  docker_executable: "docker"
+
+sampler:
+  fast_interval: 0.5
+  slow_interval: 0.5

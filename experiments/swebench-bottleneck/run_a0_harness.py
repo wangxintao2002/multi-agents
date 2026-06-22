@@ -26,7 +26,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from dataset import exclude_instance_ids, image_for, load_instances, select  # noqa: E402
+from dataset import exclude_instance_ids, image_for, load_instances, select, select_instance_ids  # noqa: E402
 from events import EventBus  # noqa: E402
 from resources import Sampler  # noqa: E402
 
@@ -106,10 +106,17 @@ def main() -> None:
     split = cfg["dataset"]["split"]
 
     all_inst = load_instances(cfg["dataset"]["subset"], split)
-    n = args.smoke if args.smoke else cfg["dataset"]["n_instances"]
-    strategy = "cached" if args.smoke else cfg["dataset"]["selection"]
-    instances = select(all_inst, n=n, strategy=strategy, seed=cfg["dataset"]["seed"])
-    instances = exclude_instance_ids(instances, cfg["dataset"].get("exclude_instance_ids"))
+    explicit_ids = cfg["dataset"].get("instance_ids")
+    if explicit_ids:
+        instances = select_instance_ids(all_inst, explicit_ids)
+        strategy = "explicit"
+        if args.smoke:
+            instances = instances[:args.smoke]
+    else:
+        n = args.smoke if args.smoke else cfg["dataset"]["n_instances"]
+        strategy = "cached" if args.smoke else cfg["dataset"]["selection"]
+        instances = select(all_inst, n=n, strategy=strategy, seed=cfg["dataset"]["seed"])
+        instances = exclude_instance_ids(instances, cfg["dataset"].get("exclude_instance_ids"))
     instance_ids = [i["instance_id"] for i in instances]
     print(f"A0 on {len(instance_ids)} instances ({strategy}): {instance_ids}")
 

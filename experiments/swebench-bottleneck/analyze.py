@@ -191,6 +191,15 @@ def analyze_cell(evs: list[dict]) -> dict:
     host_mem = [x for x in host_mem if x is not None]
     running = [_num(e.get("n_running_containers")) for e in fast_samples]
     running = [x for x in running if x is not None]
+    cgroup_mem = [_num(e.get("cgroup_memory_current_mb")) for e in fast_samples]
+    cgroup_mem = [x for x in cgroup_mem if x is not None]
+    cgroup_max = [_num(e.get("cgroup_memory_max_mb")) for e in fast_samples]
+    cgroup_max = [x for x in cgroup_max if x is not None]
+    cgroup_events = {}
+    for key in ("low", "high", "max", "oom", "oom_kill"):
+        vals = [_num(e.get(f"cgroup_memory_events_{key}")) for e in fast_samples]
+        vals = [x for x in vals if x is not None]
+        cgroup_events[key] = max(vals) if vals else 0
     resource_rows = resource_series(evs, {"t0_mono": 0})
     total_mem = [r["total_mem_usage_mb"] for r in resource_rows if r["total_mem_usage_mb"] is not None]
     single_mem = [r["max_container_mem_mb"] for r in resource_rows if r["max_container_mem_mb"] is not None]
@@ -215,6 +224,12 @@ def analyze_cell(evs: list[dict]) -> dict:
         "mean_host_cpu_pct": statistics.mean(host_cpu) if host_cpu else 0,
         "peak_host_cpu_pct": max(host_cpu) if host_cpu else 0,
         "peak_host_mem_used_gb": max(host_mem) if host_mem else 0,
+        "peak_cgroup_memory_mb": max(cgroup_mem) if cgroup_mem else 0,
+        "cgroup_memory_max_mb": max(cgroup_max) if cgroup_max else 0,
+        "cgroup_memory_events_high": cgroup_events["high"],
+        "cgroup_memory_events_max": cgroup_events["max"],
+        "cgroup_memory_events_oom": cgroup_events["oom"],
+        "cgroup_memory_events_oom_kill": cgroup_events["oom_kill"],
         "mean_total_container_mem_mb": statistics.mean(total_mem) if total_mem else 0,
         "peak_total_container_mem_mb": max(total_mem) if total_mem else 0,
         "peak_single_container_mem_mb": max(single_mem) if single_mem else 0,
@@ -236,6 +251,15 @@ def util_series(evs: list[dict], origin: dict) -> list[dict]:
                 "cpu": e.get("host_cpu_pct"),
                 "mem_used_gb": e.get("host_mem_used_gb"),
                 "mem_avail_gb": e.get("host_mem_avail_gb"),
+                "cgroup_parent": e.get("cgroup_parent"),
+                "cgroup_memory_current_mb": e.get("cgroup_memory_current_mb"),
+                "cgroup_memory_max_mb": e.get("cgroup_memory_max_mb"),
+                "cgroup_memory_swap_current_mb": e.get("cgroup_memory_swap_current_mb"),
+                "cgroup_memory_swap_max_mb": e.get("cgroup_memory_swap_max_mb"),
+                "cgroup_memory_events_high": e.get("cgroup_memory_events_high"),
+                "cgroup_memory_events_max": e.get("cgroup_memory_events_max"),
+                "cgroup_memory_events_oom": e.get("cgroup_memory_events_oom"),
+                "cgroup_memory_events_oom_kill": e.get("cgroup_memory_events_oom_kill"),
             })
     return out
 
@@ -370,7 +394,11 @@ def main() -> None:
             all_task_rows.append(r)
         # per-cell utilization series
         write_csv(cd / "utilization.csv", util_series(evs, origin),
-                  ["t", "n_containers", "n_containers_all", "cpu", "mem_used_gb", "mem_avail_gb"])
+                  ["t", "n_containers", "n_containers_all", "cpu", "mem_used_gb", "mem_avail_gb",
+                   "cgroup_parent", "cgroup_memory_current_mb", "cgroup_memory_max_mb",
+                   "cgroup_memory_swap_current_mb", "cgroup_memory_swap_max_mb",
+                   "cgroup_memory_events_high", "cgroup_memory_events_max",
+                   "cgroup_memory_events_oom", "cgroup_memory_events_oom_kill"])
         write_csv(cd / "resource_timeline.csv", resource_series(evs, origin), [
             "t", "n_containers_sampled", "total_mem_usage_mb", "max_container_mem_mb",
             "mean_container_mem_mb", "total_container_cpu_pct",
@@ -379,6 +407,7 @@ def main() -> None:
         print(f"{cd.name}: makespan={a['makespan_s']:.0f}s thr={a['throughput_per_hour']:.1f}/hr "
               f"idle-held={a['mean_idle_held_frac']:.0%} "
               f"peak-mem={a['peak_total_container_mem_mb']:.0f}MB "
+              f"peak-cgroup={a['peak_cgroup_memory_mb']:.0f}MB "
               f"solved={a['solved']}/{a['n_tasks']}")
 
     if not cells:

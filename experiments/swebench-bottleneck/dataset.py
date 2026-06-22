@@ -83,5 +83,13 @@ def exclude_instance_ids(instances: list[dict], exclude_ids: list[str] | None) -
     return [inst for inst in instances if inst["instance_id"] not in excluded]
 
 
+def select_instance_ids(instances: list[dict], instance_ids: list[str]) -> list[dict]:
+    by_id = {inst["instance_id"]: inst for inst in instances}
+    missing = [iid for iid in instance_ids if iid not in by_id]
+    if missing:
+        raise ValueError(f"unknown SWE-bench instance ids: {missing}")
+    return [by_id[iid] for iid in instance_ids]
+
+
 def image_for(instance: dict) -> str:
     return get_swebench_docker_image_name(instance)
