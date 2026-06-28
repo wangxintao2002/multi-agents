@@ -118,6 +118,56 @@ per-container `--memory` limit. `analyze.py` writes cgroup memory/current/max an
 `memory.events` counters to each cell's `utilization.csv` and to `summary.csv`
 (`peak_cgroup_memory_mb`, `cgroup_memory_events_{high,max,oom,oom_kill}`).
 
+## Lifecycle suspend/restore microbenchmark
+
+`bench_lifecycle.py` isolates sandbox lifecycle cost from the LLM/agent loop. It
+uses locally cached SWE-bench images, writes a marker into `/testbed`, suspends
+the container, restores it, then measures the first post-restore `docker exec`.
+This answers whether a reclaim mechanism is cheap enough before wiring it into
+`run_experiment.py`.
+
+```bash
+# Smoke: one cached django image, one repetition, cheap first exec.
+$VENV bench_lifecycle.py \
+  --repos django \
+  --first-exec-kinds cheap \
+  --repetitions 1 \
+  --run-id lifecycle_smoke
+
+# Full baseline: 5 representative repos x 3 first-exec commands x 20 reps.
+$VENV bench_lifecycle.py --repetitions 20 --run-id lifecycle_stop_start_main
+
+# Memory sweep: test whether lifecycle cost grows with resident sandbox RSS.
+$VENV bench_lifecycle.py \
+  --first-exec-kinds cheap python \
+  --resident-mb 0 64 256 1024 \
+  --repetitions 10 \
+  --run-id lifecycle_memory_sweep
+
+# Concurrency stress: test whether Docker lifecycle cost inflates when many
+# independent sandboxes suspend/restore at the same time.
+$VENV bench_lifecycle.py \
+  --first-exec-kinds cheap \
+  --resident-mb 0 1024 \
+  --repetitions 10 \
+  --lifecycle-concurrency 16 \
+  --run-id lifecycle_concurrency_c16
+```
+
+Outputs live under `results/<run_id>/`:
+
+- `raw.csv`: one row per trial, including resident-memory target,
+  suspend/restore/first-exec latency, cgroup memory before/after suspend,
+  state-preservation status, process-preservation status, and errors.
+- `summary.csv`: p50/p90/p95/max by image, first-exec kind, and overall.
+- `metadata.json`: host, Docker, cgroup, command availability, and selected
+  images.
+
+The implemented mechanism is `docker-stop-start`. `docker-checkpoint` is exposed
+as an optional experimental arm, but this host currently reports Docker
+`ExperimentalBuild=false`; expect it to fail until Docker checkpoint support is
+enabled.
+
 ## Environment notes
 
 - Model: `openrouter/xiaomi/mimo-v2.5-pro` via `OPENROUTER_API_KEY`.
