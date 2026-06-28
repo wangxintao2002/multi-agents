@@ -1,0 +1,49 @@
+# Podman stop/start pilot for exec_lease_stop.
+# Run three lease arms with:
+#   --lease task_lease
+#   --lease exec_lease
+#   --lease exec_lease_stop
+#
+# This config assumes the listed images have already been imported into the
+# rootless Podman image store. pre_pull_images is disabled so network pull and
+# image import time cannot pollute the lease-policy measurements.
+
+model:
+  name: "openrouter/xiaomi/mimo-v2.5-pro"
+  cost_tracking: "ignore_errors"
+  model_kwargs:
+    drop_params: true
+    parallel_tool_calls: true
+    temperature: 0.0
+    timeout: 120
+
+dataset:
+  subset: "lite"
+  split: "test"
+  n_instances: 6
+  selection: "stratified"
+  seed: 42
+  include_instance_ids:
+    - "django__django-12308"
+    - "sympy__sympy-11400"
+    - "scikit-learn__scikit-learn-10297"
+    - "pytest-dev__pytest-9359"
+    - "pylint-dev__pylint-7228"
+    - "sphinx-doc__sphinx-8721"
+
+limits:
+  step_limit: 10
+  cost_limit: 1.5
+  wall_time_limit_seconds: 900
+
+run:
+  offered_concurrency: 6
+  slot_capacities: [2, "inf"]
+  inf_capacity: 64
+  lease_mode: "task_lease"
+  pre_pull_images: false
+  docker_executable: "podman"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 2.0

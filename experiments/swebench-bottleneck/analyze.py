@@ -62,6 +62,48 @@ def _num(value) -> float | None:
         return None
 
 
+def _integrate_sampled_value(
+    events: list[dict],
+    value_key: str,
+    *,
+    end_mono: float | None = None,
+) -> tuple[float, float]:
+    """Integrate a sampled step signal.
+
+    Sampler emits instantaneous values such as running-container count. For a
+    coarse resource-footprint metric, treat each sample as holding until the next
+    sample, then optionally extend the last value to ``end_mono``.
+
+    Returns (area, span_seconds). For n_running_containers, area is
+    live_container_seconds and area/span is time-weighted mean live containers.
+    """
+    points: list[tuple[float, float]] = []
+    for e in events:
+        if e.get("kind") != "sample_fast":
+            continue
+        t = _num(e.get("mono"))
+        v = _num(e.get(value_key))
+        if t is None or v is None:
+            continue
+        points.append((t, v))
+    points.sort()
+    if not points:
+        return 0.0, 0.0
+
+    area = 0.0
+    for (t0, v), (t1, _next_v) in zip(points, points[1:]):
+        if t1 > t0:
+            area += v * (t1 - t0)
+
+    last_t, last_v = points[-1]
+    if end_mono is not None and end_mono > last_t:
+        area += last_v * (end_mono - last_t)
+
+    final_t = end_mono if end_mono is not None and end_mono > points[-1][0] else points[-1][0]
+    span = max(0.0, final_t - points[0][0])
+    return area, span
+
+
 def _container_task_map(evs: list[dict]) -> dict[str, str]:
     mapping = {}
     for e in evs:
@@ -204,6 +246,11 @@ def analyze_cell(evs: list[dict]) -> dict:
     total_mem = [r["total_mem_usage_mb"] for r in resource_rows if r["total_mem_usage_mb"] is not None]
     single_mem = [r["max_container_mem_mb"] for r in resource_rows if r["max_container_mem_mb"] is not None]
     total_cpu = [r["total_container_cpu_pct"] for r in resource_rows if r["total_container_cpu_pct"] is not None]
+    live_container_seconds, container_sample_span_s = _integrate_sampled_value(
+        fast_samples,
+        "n_running_containers",
+        end_mono=_num(cell_end.get("mono")),
+    )
     solved = sum(1 for r in rows if r["exit_status"] == "Submitted")
     n = len(rows)
     agg = {
@@ -221,6 +268,10 @@ def analyze_cell(evs: list[dict]) -> dict:
         "total_429": sum(r["n_429"] for r in rows),
         "total_tokens": sum(r["total_tokens"] for r in rows),
         "max_running_containers": max(running) if running else 0,
+        "mean_running_containers": (live_container_seconds / container_sample_span_s)
+        if container_sample_span_s else 0,
+        "live_container_seconds": live_container_seconds,
+        "container_sample_span_s": container_sample_span_s,
         "mean_host_cpu_pct": statistics.mean(host_cpu) if host_cpu else 0,
         "peak_host_cpu_pct": max(host_cpu) if host_cpu else 0,
         "peak_host_mem_used_gb": max(host_mem) if host_mem else 0,
@@ -406,6 +457,8 @@ def main() -> None:
         a = res["agg"]
         print(f"{cd.name}: makespan={a['makespan_s']:.0f}s thr={a['throughput_per_hour']:.1f}/hr "
               f"idle-held={a['mean_idle_held_frac']:.0%} "
+              f"mean-live={a['mean_running_containers']:.1f} "
+              f"live-sec={a['live_container_seconds']:.0f} "
               f"peak-mem={a['peak_total_container_mem_mb']:.0f}MB "
               f"peak-cgroup={a['peak_cgroup_memory_mb']:.0f}MB "
               f"solved={a['solved']}/{a['n_tasks']}")

@@ -27,7 +27,7 @@ import yaml
 # --- make sibling modules importable when run as a script -------------------
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from dataset import exclude_instance_ids, image_for, load_instances, select  # noqa: E402
+from dataset import exclude_instance_ids, image_for, load_instances, select, select_instance_ids  # noqa: E402
 from events import EventBus  # noqa: E402
 from instrumented import InstrumentedDockerEnvironment, InstrumentedLitellmModel  # noqa: E402
 from resources import Sampler, SlotPool  # noqa: E402
@@ -53,12 +53,23 @@ def _load_agent_templates() -> dict:
     return yaml.safe_load(path.read_text())
 
 
+def normalize_image_for_runtime(image: str, docker_exe: str) -> str:
+    """Return the image reference as the selected container runtime sees it."""
+    if Path(docker_exe).name == "podman":
+        return image.removeprefix("docker.io/")
+    return image
+
+
+def image_for_runtime(instance: dict, docker_exe: str) -> str:
+    return normalize_image_for_runtime(image_for(instance), docker_exe)
+
+
 def pre_pull_images(instances: list[dict], bus: EventBus, docker_exe: str) -> None:
     """Pull every image in a timed, serial phase before the contended run, so
     cold-pull latency is recorded separately and doesn't blow the 120s
     container-start pull_timeout under load."""
     for inst in instances:
-        img = image_for(inst)
+        img = image_for_runtime(inst, docker_exe)
         # docker pull is a no-op (fast) if already present.
         t0 = time.perf_counter()
         try:
@@ -84,6 +95,10 @@ def pre_pull_images(instances: list[dict], bus: EventBus, docker_exe: str) -> No
 
 def apply_docker_run_args(env_settings: dict, cfg: dict) -> None:
     """Inject experiment-level Docker args into mini-swe-agent's env settings."""
+    docker_exe = cfg["run"].get("docker_executable")
+    if docker_exe:
+        env_settings["executable"] = docker_exe
+
     cgroup_parent = cfg["run"].get("cgroup_parent")
     if not cgroup_parent:
         return
@@ -121,7 +136,7 @@ def run_one_task(inst: dict, *, cfg: dict, templates: dict, pool: SlotPool,
         apply_docker_run_args(env_settings, cfg)
         env = InstrumentedDockerEnvironment(
             pool=pool, bus=bus, task_id=instance_id, lease_mode=lease_mode,
-            image=image_for(inst), **env_settings,
+            image=image_for_runtime(inst, cfg["run"]["docker_executable"]), **env_settings,
         )
         agent = DefaultAgent(
             model, env,
@@ -238,12 +253,21 @@ def main() -> None:
     inf_cap = cfg["run"]["inf_capacity"]
     capacities = [inf_cap if str(c).lower() == "inf" else int(c) for c in caps_spec]
 
+    docker_exe = cfg["run"]["docker_executable"]
+
     # Select instances.
     all_inst = load_instances(cfg["dataset"]["subset"], cfg["dataset"]["split"])
-    n = args.smoke if args.smoke else (args.n_instances or cfg["dataset"]["n_instances"])
-    strategy = "cached" if args.smoke else cfg["dataset"]["selection"]
-    instances = select(all_inst, n=n, strategy=strategy, seed=cfg["dataset"]["seed"])
-    instances = exclude_instance_ids(instances, cfg["dataset"].get("exclude_instance_ids"))
+    include_ids = cfg["dataset"].get("include_instance_ids")
+    if include_ids:
+        instances = select_instance_ids(all_inst, include_ids)
+        strategy = "include_instance_ids"
+        if args.smoke:
+            instances = instances[:args.smoke]
+    else:
+        n = args.smoke if args.smoke else (args.n_instances or cfg["dataset"]["n_instances"])
+        strategy = "cached" if args.smoke else cfg["dataset"]["selection"]
+        instances = select(all_inst, n=n, strategy=strategy, seed=cfg["dataset"]["seed"])
+        instances = exclude_instance_ids(instances, cfg["dataset"].get("exclude_instance_ids"))
     print(f"Selected {len(instances)} instances ({strategy}): "
           f"{[i['instance_id'] for i in instances]}")
 
@@ -251,13 +275,13 @@ def main() -> None:
     run_dir = HERE / "results" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     (run_dir / "selected_instances.txt").write_text(
-        "\n".join(f"{i['instance_id']}\t{i['repo']}\t{image_for(i)}" for i in instances))
+        "\n".join(f"{i['instance_id']}\t{i['repo']}\t{image_for_runtime(i, docker_exe)}" for i in instances))
 
     # Pre-pull images once (shared across all cells).
     if cfg["run"]["pre_pull_images"]:
         prepull_bus = EventBus()
         print("Pre-pulling images (timed)...")
-        pre_pull_images(instances, prepull_bus, cfg["run"]["docker_executable"])
+        pre_pull_images(instances, prepull_bus, docker_exe)
         prepull_bus.write_jsonl(run_dir / "prepull_events.jsonl")
 
     for cap in capacities:

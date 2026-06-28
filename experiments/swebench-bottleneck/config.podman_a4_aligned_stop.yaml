@@ -1,0 +1,47 @@
+# Podman C=inf stop/start run aligned to the historical Docker A4
+# idle-release comparison.
+
+model:
+  name: "openrouter/xiaomi/mimo-v2.5-pro"
+  cost_tracking: "ignore_errors"
+  model_kwargs:
+    drop_params: true
+    parallel_tool_calls: true
+    temperature: 0.0
+    timeout: 120
+
+dataset:
+  subset: "lite"
+  split: "test"
+  n_instances: 11
+  selection: "stratified"
+  seed: 42
+  include_instance_ids:
+    - "astropy__astropy-7746"
+    - "django__django-12497"
+    - "matplotlib__matplotlib-25433"
+    - "mwaskom__seaborn-2848"
+    - "pallets__flask-5063"
+    - "pydata__xarray-4094"
+    - "pylint-dev__pylint-7228"
+    - "pytest-dev__pytest-9359"
+    - "scikit-learn__scikit-learn-10508"
+    - "sphinx-doc__sphinx-8721"
+    - "sympy__sympy-11400"
+
+limits:
+  step_limit: 10
+  cost_limit: 1.5
+  wall_time_limit_seconds: 900
+
+run:
+  offered_concurrency: 11
+  slot_capacities: ["inf"]
+  inf_capacity: 64
+  lease_mode: "exec_lease_stop"
+  pre_pull_images: false
+  docker_executable: "podman"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 2.0
