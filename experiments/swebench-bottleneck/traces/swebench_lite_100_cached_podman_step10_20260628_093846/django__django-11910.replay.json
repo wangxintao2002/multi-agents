@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11910:latest",
+    "instance_id": "django__django-11910",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11910.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f30dbc0989d448588d3fe8e5"
+        }
+      ],
+      "recorded_llm_wait_s": 4.481497216998832,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed/django -type f -name \"*.py\" | xargs grep -l \"to_field\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b41513d89005b7f6"
+        }
+      ],
+      "recorded_llm_wait_s": 2.734650933998637,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"to_field\" django/db/migrations/autodetector.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4b0841e9b33d47a18346bfa0"
+        }
+      ],
+      "recorded_llm_wait_s": 2.636249521980062,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '900,960p' django/db/migrations/autodetector.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_edf1135dde4e4e079125c71a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5478013639803976,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"renamed_fields\" django/db/migrations/autodetector.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_da8ee3c4a8014cb8b496595e"
+        }
+      ],
+      "recorded_llm_wait_s": 8.909564583009342,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '809,850p' django/db/migrations/autodetector.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d2c57022838f4596a54e6bf8"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1790362960018683,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"deep_deconstruct\" django/db/migrations/autodetector.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ecc4fdcbbf8f4825a25bd062"
+        }
+      ],
+      "recorded_llm_wait_s": 42.946824080019724,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '49,86p' django/db/migrations/autodetector.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5c76588be7d14b88b840d913"
+        }
+      ],
+      "recorded_llm_wait_s": 2.701897282997379,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"deconstruct\" django/db/models/fields/related.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_162d4c13523a4634b137b5f5"
+        }
+      ],
+      "recorded_llm_wait_s": 7.056588322011521,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '565,620p' django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f96a822cbd7340d4b437bd39"
+        }
+      ],
+      "recorded_llm_wait_s": 2.144096500996966,
+      "step_idx": 10
+    }
+  ]
+}

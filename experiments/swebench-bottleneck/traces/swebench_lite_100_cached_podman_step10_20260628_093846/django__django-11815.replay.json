@@ -1,0 +1,144 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11815:latest",
+    "instance_id": "django__django-11815",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11815.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -r \"deconstruct\" django/db/models/fields/__init__.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8baf267c29424f9e81aa1d02"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"enum\" django/db/models/fields/__init__.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e8340d39f5224ae68b17d580"
+        }
+      ],
+      "recorded_llm_wait_s": 3.8918495669786353,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"Enum\\|enum\" django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a0c63fddbdabb6de"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"Enum\\|enum\" django/db/migrations/writer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bb2cb59adb1b2dff"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8781270449981093,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '115,130p' django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_abd42aafc1304123957564db"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6967218139907345,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '280,295p' django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_182ef2480323451c934ad5fd"
+        }
+      ],
+      "recorded_llm_wait_s": 4.315305216005072,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"ChoicesSerializer\" django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_73d92f6a2a8649b4b78d9e52"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2819880599854514,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '49,80p' django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b293a49eb3e7443980274b78"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"EnumSerializer\\|enum.*serial\\|serial.*enum\" django/tests/ | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5b3dbc9bae8f4348ad17ddf6"
+        }
+      ],
+      "recorded_llm_wait_s": 3.020648006000556,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && find . -path \"*/tests/*\" -name \"*.py\" | xargs grep -l \"EnumSerializer\\|enum.*serial\\|test.*enum.*migration\\|test.*migration.*enum\" 2>/dev/null | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_86980b8f4ff045208af2f984"
+        }
+      ],
+      "recorded_llm_wait_s": 3.7481129259977024,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && find . -name \"*.py\" -path \"*/migrations/*test*\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_790ec43c13d14471bf624d81"
+        },
+        {
+          "command": "cd /testbed && find . -name \"*.py\" | xargs grep -l \"EnumSerializer\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6120cb9b87c2497183c06d54"
+        }
+      ],
+      "recorded_llm_wait_s": 3.27431589999469,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && find . -name \"*.py\" -path \"*/tests/*\" | xargs grep -l \"enum\\|Enum\" 2>/dev/null | grep -i migrat | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_548fc8eb13004d63894e4585"
+        }
+      ],
+      "recorded_llm_wait_s": 2.52284676299314,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"enum\\|Enum\" tests/migrations/test_writer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_879c7e78b4d944fba844ce5b"
+        }
+      ],
+      "recorded_llm_wait_s": 2.849655730999075,
+      "step_idx": 10
+    }
+  ]
+}

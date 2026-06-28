@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4094:latest",
+    "instance_id": "pydata__xarray-4094",
+    "repo": "pydata/xarray"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/pydata__xarray-4094.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport xarray as xr\nimport numpy as np\n\narr = xr.DataArray(\n     np.arange(3),\n     coords=[('x', [0, 1, 2])],\n )\ndata = xr.Dataset({'a': arr, 'b': arr})\nstacked = data.to_stacked_array('y', sample_dims=['x'])\nprint('stacked:', stacked)\nunstacked = stacked.to_unstacked_dataset('y')\nprint('unstacked:', unstacked)\n\"\n",
+          "expected_returncode": 1,
+          "tool_call_id": "call_a4b51c44dd8447e0b9915a05"
+        }
+      ],
+      "recorded_llm_wait_s": 4.526663192984415,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"to_unstacked_dataset\" xarray/core/dataarray.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a671806f0b9a4621b881ae28"
+        }
+      ],
+      "recorded_llm_wait_s": 3.4179123140056618,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1901,1975p' xarray/core/dataarray.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8ac1926f80984cd09c560b14"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7531226619903464,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport xarray as xr\nimport numpy as np\n\narr = xr.DataArray(\n     np.arange(3),\n     coords=[('x', [0, 1, 2])],\n )\ndata = xr.Dataset({'a': arr, 'b': arr})\nstacked = data.to_stacked_array('y', sample_dims=['x'])\nprint('stacked:', stacked)\nprint('stacked coords:', stacked.coords)\nprint()\n\n# Simulate what to_unstacked_dataset does\nidx = stacked.indexes['y']\nlevel_number = idx._get_level_number(0)\nvariables = idx.levels[level_number]\nvariable_dim = idx.names[level_number]\nprint('variables:', variables)\nprint('variable_dim:', variable_dim)\n\nfor k in variables:\n    selected = stacked.sel({variable_dim: k})\n    print(f'selected {k}:', selected)\n    squeezed = selected.squeeze(drop=True)\n    print(f'squeezed {k}:', squeezed)\n    print(f'squeezed {k} coords:', squeezed.coords)\n    print()\n\"\n",
+          "expected_returncode": 0,
+          "tool_call_id": "call_205cb4f115cc487bbb03e3c8"
+        }
+      ],
+      "recorded_llm_wait_s": 7.724521914002253,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1958,1968p' xarray/core/dataarray.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_044d73205d384628bf44ad7f"
+        }
+      ],
+      "recorded_llm_wait_s": 6.0291382299910765,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/data_dict\\[k\\] = self.sel({variable_dim: k}).squeeze(drop=True)/data_dict[k] = self.sel({variable_dim: k}).squeeze(drop=True).drop_vars(dim)/' xarray/core/dataarray.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_927ff89732a74c1abcd08209"
+        }
+      ],
+      "recorded_llm_wait_s": 2.9538863569905516,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport xarray as xr\nimport numpy as np\n\narr = xr.DataArray(\n     np.arange(3),\n     coords=[('x', [0, 1, 2])],\n )\ndata = xr.Dataset({'a': arr, 'b': arr})\nstacked = data.to_stacked_array('y', sample_dims=['x'])\nunstacked = stacked.to_unstacked_dataset('y')\nprint('unstacked:', unstacked)\nprint('roundtrip identical:', data.identical(unstacked))\n\"\n",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0d9a64e34e694a75a9645159"
+        }
+      ],
+      "recorded_llm_wait_s": 3.009904025006108,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport xarray as xr\nimport numpy as np\n\narr = xr.DataArray(\n    np.arange(6).reshape(2, 3),\n    coords=[('x', ['a', 'b']), ('y', [0, 1, 2])],\n)\ndata = xr.Dataset({'a': arr, 'b': arr.isel(y=0)})\nstacked = data.to_stacked_array('z', ['y'])\nroundtripped = stacked.to_unstacked_dataset(dim='z')\nprint('roundtrip identical:', data.identical(roundtripped))\n\"\n",
+          "expected_returncode": 1,
+          "tool_call_id": "call_d49e8ae07494459287edb702"
+        }
+      ],
+      "recorded_llm_wait_s": 4.124225290986942,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport xarray as xr\nimport numpy as np\n\narr = xr.DataArray(\n    np.arange(6).reshape(2, 3),\n    coords=[('x', ['a', 'b']), ('y', [0, 1, 2])],\n)\ndata = xr.Dataset({'a': arr, 'b': arr.isel(y=0)})\nstacked = data.to_stacked_array('z', sample_dims=['x'])\nroundtripped = stacked.to_unstacked_dataset(dim='z')\nprint('roundtrip identical:', data.identical(roundtripped))\n\"\n",
+          "expected_returncode": 1,
+          "tool_call_id": "call_0e30b5f3693f4fd1aa2e71a0"
+        }
+      ],
+      "recorded_llm_wait_s": 3.1969355490000453,
+      "step_idx": 9
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-14855:latest",
+    "instance_id": "django__django-14855",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-14855.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -n \"get_admin_url\" /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9bdb8fc6a8080ae3"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8625867180235218,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '200,230p' /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-90a661a9e5d418b9"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0492359210038558,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"reverse(\" /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a0fda8d38e24dabf"
+        }
+      ],
+      "recorded_llm_wait_s": 2.7355972549994476,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"current_app\" /testbed/django/contrib/admin/options.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aa035e0937454f33"
+        }
+      ],
+      "recorded_llm_wait_s": 1.63963326101657,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"get_admin_url\" /testbed/tests/ 2>/dev/null | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-87ec6b9bf7c3fed2"
+        }
+      ],
+      "recorded_llm_wait_s": 2.363965031981934,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"readonly_fields.*ForeignKey\\|ForeignKey.*readonly\" /testbed/tests/ 2>/dev/null | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8b2ec8f94d232d80"
+        }
+      ],
+      "recorded_llm_wait_s": 2.147385307995137,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '5090,5130p' /testbed/tests/admin_views/tests.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-91006750165f230d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0596234399999958,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '206,218p' /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-916f34f0be9e8f78"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4488816380035132,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/            url = reverse(url_name, args=[quote(remote_obj.pk)])/            url = reverse(url_name, args=[quote(remote_obj.pk)], current_app=self.model_admin.admin_site.name)/' django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a7738583c0dcd056"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2001112870057113,
+      "step_idx": 9
+    }
+  ]
+}

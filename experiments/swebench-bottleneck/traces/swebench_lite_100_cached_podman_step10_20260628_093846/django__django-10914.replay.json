@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-10914:latest",
+    "instance_id": "django__django-10914",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-10914.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -r \"FILE_UPLOAD_PERMISSIONS\" /testbed --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8ea991de6cef174a"
+        }
+      ],
+      "recorded_llm_wait_s": 4.800522936013294,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"FILE_UPLOAD_PERMISSIONS\" /testbed/django/conf/global_settings.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9849e3ddd63276a3"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9330251700012013,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"FILE_UPLOAD_PERMISSIONS\" /testbed/django/core/files/storage.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a299c1bbf9f39276"
+        }
+      ],
+      "recorded_llm_wait_s": 12.98940514199785,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '180,230p' /testbed/django/core/files/storage.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-94d6bd2cbcfe9a92"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5703054910118226,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '230,280p' /testbed/django/core/files/storage.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ab550df2e27ff77c"
+        }
+      ],
+      "recorded_llm_wait_s": 3.426391698012594,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '280,310p' /testbed/django/core/files/storage.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0e90c39cc3f64f3c9ed0c8ce"
+        }
+      ],
+      "recorded_llm_wait_s": 18.45346236898331,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -i 's/^FILE_UPLOAD_PERMISSIONS = None$/FILE_UPLOAD_PERMISSIONS = 0o644/' /testbed/django/conf/global_settings.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ac9fc497dfb8198f"
+        }
+      ],
+      "recorded_llm_wait_s": 8.999027926998679,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"FILE_UPLOAD_PERMISSIONS\" /testbed/django/conf/global_settings.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8414b73dd62352a3"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3440057139960118,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test file_storage.tests --settings=tests.test_sqlite -v 2 2>&1 | tail -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bca6aa865188e634"
+        }
+      ],
+      "recorded_llm_wait_s": 2.7236129300144967,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python tests/runtests.py file_storage -v 2 2>&1 | tail -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8de7b0345f524ff4"
+        }
+      ],
+      "recorded_llm_wait_s": 1.19387282198295,
+      "step_idx": 10
+    }
+  ]
+}

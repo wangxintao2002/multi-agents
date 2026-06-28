@@ -1,0 +1,139 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12308:latest",
+    "instance_id": "django__django-12308",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12308.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"display_for_field\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b71e28bb679140ad99ab1705"
+        },
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"JSONField\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2dfcf91a68c544af84242ee4"
+        }
+      ],
+      "recorded_llm_wait_s": 4.117890412977431,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"display_for_field\" /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_eab312a8968940b9b1dde4bd"
+        },
+        {
+          "command": "grep -n \"JSONField\" /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_991f0083c3544be7a4ca2fc8"
+        }
+      ],
+      "recorded_llm_wait_s": 2.93108546701842,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '370,420p' /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5470d542b5864f27ab714250"
+        },
+        {
+          "command": "head -20 /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_863f060102c74abaa2e7bb20"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9466091789945494,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/db/models/fields/json.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_546be950dcbd483d9ee65037"
+        }
+      ],
+      "recorded_llm_wait_s": 7.265943403006531,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"prepare_value\\|class JSONField\" /testbed/django/forms/fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ed5d65552a634440bb4358ee"
+        }
+      ],
+      "recorded_llm_wait_s": 2.774306680978043,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1226,1290p' /testbed/django/forms/fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_05ee98d2fe544146b8c3a794"
+        }
+      ],
+      "recorded_llm_wait_s": 2.7351392499986105,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"JSONField\\|json\" /testbed/tests/admin_utils/tests.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_cc4af9d2dce4434aa360ae89"
+        }
+      ],
+      "recorded_llm_wait_s": 17.950008529005572,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"display_for_field\\|display_for_value\" /testbed/tests/admin_utils/tests.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e63f623e54654c989ab10bac"
+        }
+      ],
+      "recorded_llm_wait_s": 2.370298672001809,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.configure(\n    DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}},\n    INSTALLED_APPS=['django.contrib.contenttypes', 'django.contrib.admin'],\n    DEFAULT_AUTO_FIELD='django.db.models.BigAutoField',\n)\ndjango.setup()\n\nfrom django.db import models\nfrom django.contrib.admin.utils import display_for_field\n\n# Create a JSONField\nfield = models.JSONField()\nvalue = {'foo': 'bar'}\nresult = display_for_field(value, field, '(None)')\nprint(f'Result: {result}')\nprint(f'Expected: {{\\\"foo\\\": \\\"bar\\\"}}')\nprint(f'Is valid JSON? ', end='')\nimport json\ntry:\n    json.loads(result)\n    print('Yes')\nexcept:\n    print('No')\n\"\n",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a797787bc1644134a15b6e2d"
+        }
+      ],
+      "recorded_llm_wait_s": 5.417673371004639,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '395,400p' /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_cdb73a39657b43c7ac99c3b2"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6276677690038923,
+      "step_idx": 10
+    }
+  ]
+}

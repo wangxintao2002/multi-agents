@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13315:latest",
+    "instance_id": "django__django-13315",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13315.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b5390a55d50c0cd7"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8374803620099556,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -r \"limit_choices_to\" django/db/models/fields/related.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bed733c0a1986b44"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7868290600017644,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"formfield\" django/db/models/fields/related.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-98f92004082eaa1d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7758003060007468,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '970,1010p' django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-84f950add3114640"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5410316520137712,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"limit_choices_to\\|formfield\\|complex_filter\" django/db/models/fields/related.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9e81ff0fa693a84e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4160261460056063,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '390,420p' django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a8bff6ca34b048a3"
+        }
+      ],
+      "recorded_llm_wait_s": 3.325521385006141,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"limit_choices_to\" django/forms/ | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b70c492d524b23fb"
+        }
+      ],
+      "recorded_llm_wait_s": 2.323878794995835,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '95,110p' django/forms/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bfc6ddc2e3324ea3"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5236988659889903,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1185,1225p' django/forms/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aabd6992638c40a3"
+        }
+      ],
+      "recorded_llm_wait_s": 4.255018147989176,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"limit_choices_to\" tests/ | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9c4aa16489a09c8e"
+        }
+      ],
+      "recorded_llm_wait_s": 4.473808034003014,
+      "step_idx": 10
+    }
+  ]
+}

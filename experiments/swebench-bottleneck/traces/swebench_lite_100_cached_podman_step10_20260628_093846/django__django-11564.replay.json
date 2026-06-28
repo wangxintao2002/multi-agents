@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11564:latest",
+    "instance_id": "django__django-11564",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11564.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-996307851685004d"
+        }
+      ],
+      "recorded_llm_wait_s": 2.156704646011349,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"SCRIPT_NAME\" 2>/dev/null | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9762ea1b1b648cbf"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2159704850055277,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"STATIC_URL\\|MEDIA_URL\" 2>/dev/null | grep -v test | grep -v __pycache__ | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-96415cac183f90e5"
+        }
+      ],
+      "recorded_llm_wait_s": 1.575064115022542,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"STATIC_URL\\|MEDIA_URL\" 2>/dev/null | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-82d5c9621ce0e3b0"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0892294780060183,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/templatetags/static.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8743c5afe07b142c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8490414329862688,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/staticfiles/storage.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-93a2ab6e7d0ca53c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1394911730021704,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/files/storage.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9797852735a85f25"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0812861199956387,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/urls/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b3e75a2c07922d4c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9203046239854302,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/handlers/wsgi.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bd6aa2da3646dd65"
+        }
+      ],
+      "recorded_llm_wait_s": 10.727348179003457,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"get_script_prefix\\|script_prefix\" /testbed/django/ --include=\"*.py\" | grep -v __pycache__ | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a4a732e63f54232a"
+        }
+      ],
+      "recorded_llm_wait_s": 5.937846781976987,
+      "step_idx": 10
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12497:latest",
+    "instance_id": "django__django-12497",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12497.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -r \"symmetrical=False, through=\" /testbed --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b05b8e0bae6743ea80db6be5"
+        }
+      ],
+      "recorded_llm_wait_s": 2.367382094991626,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"symmetrical=False, through=\" /testbed/django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_18ccb9f931d5498c977af183"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5523684729996603,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1300,1345p' /testbed/django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_22e5dc0c366740658e4e2204"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0942948489973787,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"symmetrical=False, through=\" /testbed/tests/invalid_models_tests/test_relative_fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6d4f9adda7bd44629da16ed3"
+        }
+      ],
+      "recorded_llm_wait_s": 3.7390077639720403,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -i \"s/use ForeignKey(\\\"%s\\\", symmetrical=False, through=\\\"%s\\\")./use ManyToManyField(\\\"%s\\\", through=\\\"%s\\\")./g\" /testbed/django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c22922fd850349ae8909f085"
+        }
+      ],
+      "recorded_llm_wait_s": 3.148223664989928,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"ManyToManyField\\|ForeignKey\" /testbed/django/db/models/fields/related.py | grep -A0 \"131[0-9]\\|133[0-9]\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c508b39f26f74768830361bf"
+        }
+      ],
+      "recorded_llm_wait_s": 3.348293551011011,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1309,1315p' /testbed/django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_86c10dde75004e5580c635fa"
+        }
+      ],
+      "recorded_llm_wait_s": 2.857083392998902,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- django/db/models/fields/related.py > patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ae8e65eceacb4fef96c8f972"
+        }
+      ],
+      "recorded_llm_wait_s": 2.568373680987861,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7195c90555324a32bc51783a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3754517979978118,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat patch.txt",
+          "expected_returncode": null,
+          "tool_call_id": "call_da72008b87c0471aa7e1f3eb"
+        }
+      ],
+      "recorded_llm_wait_s": 2.815420961997006,
+      "step_idx": 10
+    }
+  ]
+}

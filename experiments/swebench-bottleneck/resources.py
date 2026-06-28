@@ -155,6 +155,44 @@ def _parse_mem_usage(value: str | None) -> tuple[float | None, float | None]:
     return usage, limit
 
 
+def _first_present(raw: dict, *keys: str):
+    for key in keys:
+        value = raw.get(key)
+        if value not in (None, ""):
+            return value
+    return None
+
+
+def _json_stats_rows(stdout: str) -> list[dict]:
+    """Parse both Docker's line-delimited JSON stats and Podman's JSON array.
+
+    Docker emits one JSON object per line for ``--format '{{json .}}'``. Podman
+    emits a pretty-printed JSON array. Supporting both here keeps the sampler
+    runtime-agnostic and avoids treating Podman memory as missing.
+    """
+    text = stdout.strip()
+    if not text:
+        return []
+    try:
+        parsed = json.loads(text)
+        if isinstance(parsed, list):
+            return [row for row in parsed if isinstance(row, dict)]
+        if isinstance(parsed, dict):
+            return [parsed]
+    except json.JSONDecodeError:
+        pass
+
+    rows = []
+    for ln in stdout.splitlines():
+        try:
+            raw = json.loads(ln)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(raw, dict):
+            rows.append(raw)
+    return rows
+
+
 def _read_int(path: Path) -> int | None:
     try:
         raw = path.read_text().strip()
@@ -287,26 +325,24 @@ class Sampler(threading.Thread):
                 capture_output=True, text=True, timeout=30,
             )
             rows = []
-            for ln in out.stdout.splitlines():
-                try:
-                    raw = json.loads(ln)
-                except json.JSONDecodeError:
-                    continue
-                name = raw.get("Name") or raw.get("NameOrID") or ""
+            for raw in _json_stats_rows(out.stdout):
+                name = _first_present(raw, "Name", "NameOrID", "name", "NameOrID") or ""
                 if not name.startswith(self.name_prefix):
                     continue
-                mem_usage_mb, mem_limit_mb = _parse_mem_usage(raw.get("MemUsage"))
+                mem_usage_mb, mem_limit_mb = _parse_mem_usage(
+                    _first_present(raw, "MemUsage", "mem_usage")
+                )
                 row = {
-                    "container_id": raw.get("Container"),
+                    "container_id": _first_present(raw, "Container", "ID", "Id", "id", "container"),
                     "name": name,
-                    "mem_usage": raw.get("MemUsage"),
+                    "mem_usage": _first_present(raw, "MemUsage", "mem_usage"),
                     "mem_usage_mb": round(mem_usage_mb, 3) if mem_usage_mb is not None else None,
                     "mem_limit_mb": round(mem_limit_mb, 3) if mem_limit_mb is not None else None,
-                    "mem_pct": _parse_percent(raw.get("MemPerc")),
-                    "cpu_pct": _parse_percent(raw.get("CPUPerc")),
+                    "mem_pct": _parse_percent(_first_present(raw, "MemPerc", "mem_percent")),
+                    "cpu_pct": _parse_percent(_first_present(raw, "CPUPerc", "cpu_percent", "avg_cpu")),
                 }
                 try:
-                    row["pids"] = int(raw["PIDs"])
+                    row["pids"] = int(_first_present(raw, "PIDs", "pids"))
                 except Exception:
                     row["pids"] = None
                 rows.append(row)

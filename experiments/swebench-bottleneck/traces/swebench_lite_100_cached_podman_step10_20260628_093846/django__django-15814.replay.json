@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15814:latest",
+    "instance_id": "django__django-15814",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15814.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"opts = cur_model._meta\" django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9d37c07417054d24b809cd50"
+        }
+      ],
+      "recorded_llm_wait_s": 3.984773043979658,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '730,770p' django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c2408d7c080f4d80bf69d1d8"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4852509979973547,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '765,810p' django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2484662d0e554f3697f92a32"
+        }
+      ],
+      "recorded_llm_wait_s": 13.062214370002039,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"class RelatedPopulator\" django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_108dfbc2a8834c278d9416d2"
+        }
+      ],
+      "recorded_llm_wait_s": 10.698445043992251,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '2534,2600p' django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c6d6cd6005a347beb536a1f0"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7360458269831724,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"deferred_to_data\\|deferred_loading\\|get_deferred_field_aliases\" django/db/models/query.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9e2bab941ebb42d68ce798ef"
+        }
+      ],
+      "recorded_llm_wait_s": 6.439847403991735,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"select_mask\\|deferred_to_data\\|_get_only_select\" django/db/models/sql/compiler.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0dc0731502444e95a598e92a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6577943050069734,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1300,1350p' django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_aa2a77c8c0a548b5b24a3403"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6944659879954997,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"def deferred_to_data\" django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_518fc5e0d8db4ee29df63d46"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4656957119877916,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '721,805p' django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_50ae186e96104680904e480b"
+        }
+      ],
+      "recorded_llm_wait_s": 2.391257758019492,
+      "step_idx": 10
+    }
+  ]
+}

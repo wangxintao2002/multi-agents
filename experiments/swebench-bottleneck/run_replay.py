@@ -109,6 +109,8 @@ def run_one_trace(
     exit_status = "Completed"
     err = None
     n_actions = 0
+    saw_oom = False
+    saw_mismatch = False
     try:
         env_settings = dict(templates["environment"])
         env_settings.pop("environment_class", None)
@@ -145,15 +147,25 @@ def run_one_trace(
                              action_idx=action_idx)
                     raise e
                 rc = result.get("returncode")
+                matched = expected is None or rc == expected
+                if rc == 137:
+                    saw_oom = True
+                if not matched:
+                    saw_mismatch = True
                 bus.emit("replay_action_end", task_id=task_id, call_idx=call_idx,
                          action_idx=action_idx, returncode=rc,
-                         expected_returncode=expected, matched=(expected is None or rc == expected))
+                         expected_returncode=expected, matched=matched)
     except Submitted:
         pass
     except Exception as e:
         exit_status = type(e).__name__
         err = str(e)[:300]
     finally:
+        if exit_status == "Completed":
+            if saw_oom:
+                exit_status = "ReplayOOM"
+            elif saw_mismatch:
+                exit_status = "ReplayMismatch"
         if env is not None:
             try:
                 env.cleanup()
@@ -161,7 +173,8 @@ def run_one_trace(
                 pass
         flow = time.perf_counter() - t_start
         bus.emit("task_done", task_id=task_id, base_instance_id=base_instance_id,
-                 exit_status=exit_status, flow_s=flow, err=err, n_replay_actions=n_actions)
+                 exit_status=exit_status, flow_s=flow, err=err, n_replay_actions=n_actions,
+                 saw_oom=saw_oom, saw_mismatch=saw_mismatch)
     return {
         "task_id": task_id,
         "base_instance_id": base_instance_id,
@@ -169,6 +182,8 @@ def run_one_trace(
         "flow_s": flow,
         "err": err,
         "n_replay_actions": n_actions,
+        "saw_oom": saw_oom,
+        "saw_mismatch": saw_mismatch,
     }
 
 
@@ -232,6 +247,10 @@ def main() -> None:
                     choices=["task_lease", "exec_lease", "exec_lease_stop"])
     ap.add_argument("--delay", type=float, default=None,
                     help="Override trace.fixed_delay_s and force delay_mode=fixed.")
+    ap.add_argument("--offered-concurrency", type=int, default=None,
+                    help="Override run.offered_concurrency.")
+    ap.add_argument("--cgroup-parent", default=None,
+                    help="Override run.cgroup_parent.")
     ap.add_argument("--run-id", default=None)
     args = ap.parse_args()
 
@@ -241,6 +260,10 @@ def main() -> None:
     if args.delay is not None:
         cfg["trace"]["delay_mode"] = "fixed"
         cfg["trace"]["fixed_delay_s"] = args.delay
+    if args.offered_concurrency is not None:
+        cfg["run"]["offered_concurrency"] = args.offered_concurrency
+    if args.cgroup_parent is not None:
+        cfg["run"]["cgroup_parent"] = args.cgroup_parent
     lease_mode = cfg["run"]["lease_mode"]
     docker_exe = cfg["run"]["docker_executable"]
 
@@ -272,6 +295,7 @@ def main() -> None:
         "duplicate_factor": cfg["trace"].get("duplicate_factor", 1),
         "n_traces": len(traces),
         "docker_executable": docker_exe,
+        "offered_concurrency": cfg["run"]["offered_concurrency"],
     }, indent=2, sort_keys=True) + "\n")
 
     for cap in capacities:

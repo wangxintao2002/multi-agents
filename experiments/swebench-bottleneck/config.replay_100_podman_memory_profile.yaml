@@ -1,0 +1,26 @@
+# Replay-based memory profile for the 100 cached SWE-bench Lite traces.
+#
+# This run does not call an LLM. A fixed delay of 0 keeps the measurement focused
+# on active sandbox execution footprint rather than idle agent think time.
+
+trace:
+  trace_dir: "traces/swebench_lite_100_cached_podman_step10_20260628_093846"
+  delay_mode: "fixed"
+  fixed_delay_s: 0.0
+  delay_scale: 1.0
+  duplicate_factor: 1
+
+limits:
+  command_timeout_s: 120
+
+run:
+  offered_concurrency: 16
+  slot_capacities: ["inf"]
+  inf_capacity: 256
+  lease_mode: "task_lease"
+  docker_executable: "podman"
+  cgroup_parent: null
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 1.0

@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11001:latest",
+    "instance_id": "django__django-11001",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11001.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"ordering_parts\" /testbed/django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_912cec6ced8d4511aa20db34"
+        }
+      ],
+      "recorded_llm_wait_s": 5.136571084993193,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '330,380p' /testbed/django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8140daa73c59859d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4728605470154434,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '350,370p' django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8b2dc0e29b85bbbf"
+        }
+      ],
+      "recorded_llm_wait_s": 4.075841087993467,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/without_ordering = self.ordering_parts.search(sql).group(1)/without_ordering = self.ordering_parts.search(sql.replace(\"\\\\n\", \" \")).group(1)/' django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-833431fcb6d62c33"
+        }
+      ],
+      "recorded_llm_wait_s": 4.460510856995825,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"without_ordering\" django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a97d397aafb5aa67"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8320528909971472,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '356p' django/db/models/sql/compiler.py | cat -A",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8246304cbc62fc1c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.38498066100874,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport re\nordering_parts = re.compile(r'(.*)\\s(ASC|DESC)(.*)')\n\n# Simulate the multiline SQL from the PR\nsql1 = '''(case when status in ('accepted', 'verification')\n                 then 2 else 1 end) ASC'''\nsql2 = '''(case when status in ('accepted', 'verification')\n                 then (accepted_datetime, preferred_datetime)\n                 else null end) ASC'''\nsql3 = '''(case when status not in ('accepted', 'verification')\n                 then (accepted_datetime, preferred_datetime, created_at)\n                 else null end) DESC'''\n\n# Without fix (only last line matched)\nprint('Without fix:')\nfor sql in [sql1, sql2, sql3]:\n    m = ordering_parts.search(sql)\n    print(repr(m.group(1)))\n\nprint()\n\n# With fix (newlines replaced with spaces)\nprint('With fix:')\nfor sql in [sql1, sql2, sql3]:\n    sql_oneline = sql.replace('\\n', ' ')\n    m = ordering_parts.search(sql_oneline)\n    print(repr(m.group(1)))\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8a8298ade2e9eb94"
+        }
+      ],
+      "recorded_llm_wait_s": 5.859936324006412,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/sql.replace(\"\\\\n\", \" \")/sql.replace(\"\\\\n\", \" \").replace(\"\\\\r\", \" \")/' django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b5bc7c0f1d57d40d"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6054977889871225,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '356p;369p' django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b2120c077d98cc64"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0418860219942871,
+      "step_idx": 9
+    }
+  ]
+}

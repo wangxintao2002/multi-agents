@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12915:latest",
+    "instance_id": "django__django-12915",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12915.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/staticfiles/handlers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8881eabd5c76adcb"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0460857510042842,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"get_response_async\" /testbed/django/core/handlers/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-875d3611dff8bb75"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8177472910028882,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '138,170p' /testbed/django/core/handlers/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9bad4a3eb0c759f4"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2962304039974697,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- django/contrib/staticfiles/handlers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-96efd8ec9b29df64"
+        }
+      ],
+      "recorded_llm_wait_s": 2.169546315999469,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"asgiref\\|sync_to_async\" django/contrib/staticfiles/handlers.py django/core/handlers/asgi.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_563f981622b445b69dedfc14"
+        }
+      ],
+      "recorded_llm_wait_s": 17.67963107000105,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.configure(\n    INSTALLED_APPS=['django.contrib.staticfiles'],\n    STATIC_URL='/static/',\n    STATICFILES_DIRS=[],\n)\ndjango.setup()\nfrom django.contrib.staticfiles.handlers import ASGIStaticFilesHandler\nprint('Handler loaded OK')\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ba44588d65d16d3a"
+        }
+      ],
+      "recorded_llm_wait_s": 3.509275324991904,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat > /tmp/fix.patch << 'PATCH'\n--- a/django/contrib/staticfiles/handlers.py\n+++ b/django/contrib/staticfiles/handlers.py\n@@ -1,3 +1,4 @@\n+from asgiref.sync import sync_to_async\n from urllib.parse import urlparse\n from urllib.request import url2pathname\n \n@@ -52,6 +53,12 @@ class StaticFilesHandlerMixin:\n         except Http404 as e:\n             return response_for_exception(request, e)\n \n+    async def get_response_async(self, request):\n+        try:\n+            return await sync_to_async(self.serve)(request)\n+        except Http404 as e:\n+            return response_for_exception(request, e)\n+\n \n class StaticFilesHandler(StaticFilesHandlerMixin, WSGIHandler):\n     \"\"\"\nPATCH\necho \"Patch created\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8b4cee10ba1bf86e"
+        }
+      ],
+      "recorded_llm_wait_s": 7.586748553003417,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i '1s/^/from asgiref.sync import sync_to_async\\n/' django/contrib/staticfiles/handlers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-964d968416bd9222"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6751953850034624,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git checkout -- django/contrib/staticfiles/handlers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-913f38cede8ff1e5"
+        }
+      ],
+      "recorded_llm_wait_s": 1.502531979989726,
+      "step_idx": 9
+    }
+  ]
+}

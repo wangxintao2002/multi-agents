@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13933:latest",
+    "instance_id": "django__django-13933",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13933.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class ModelChoiceField\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6024dd877e5f46d196369488"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6058860320190433,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class ModelChoiceField\" /testbed/django/forms/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b844f74d4fa123e3"
+        }
+      ],
+      "recorded_llm_wait_s": 1.2718851120152976,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1186,1300p' /testbed/django/forms/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9ac83f43500a4ed9"
+        }
+      ],
+      "recorded_llm_wait_s": 1.353672072000336,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class ModelMultipleChoiceField\" /testbed/django/forms/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8153c2c750f10362"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6801387020095717,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1301,1400p' /testbed/django/forms/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b85be64d74a98b4b"
+        }
+      ],
+      "recorded_llm_wait_s": 17.77892287800205,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class ChoiceField\" /testbed/django/forms/fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-801884efcbe1dc15"
+        }
+      ],
+      "recorded_llm_wait_s": 12.969256701006088,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '764,830p' /testbed/django/forms/fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-badc47d4b637a2be"
+        }
+      ],
+      "recorded_llm_wait_s": 1.315521892014658,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"invalid_choice\" /testbed/tests/model_forms/test_modelchoicefield.py",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b39016fa6ca7603d"
+        }
+      ],
+      "recorded_llm_wait_s": 4.180669805005891,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"invalid_choice\" /testbed/tests/forms_tests/tests/test_error_messages.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aaf8b88e90ba96a5"
+        }
+      ],
+      "recorded_llm_wait_s": 2.545243732020026,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '280,320p' /testbed/tests/forms_tests/tests/test_error_messages.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b1e56aae2895caee"
+        }
+      ],
+      "recorded_llm_wait_s": 1.387471940019168,
+      "step_idx": 10
+    }
+  ]
+}

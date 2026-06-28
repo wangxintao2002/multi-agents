@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12908:latest",
+    "instance_id": "django__django-12908",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12908.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-89e844bed907606e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3914475479978137,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -r \"def distinct\" django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aa8e77ad34f471e5"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6324424690101296,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"def distinct\\|def union\\|def order_by\" django/db/models/query.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-90fcb9aaf9762b9f"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6566940610064194,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '990,1060p' django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b40192b50ce25fce"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7980252329725772,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1128,1160p' django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8c104bc22a592a42"
+        }
+      ],
+      "recorded_llm_wait_s": 4.6169630420045,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"_not_support_combined_queries\" django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-92fbe6925b48db9c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.087585338013014,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1375,1395p' django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8034eee09a366ca7"
+        }
+      ],
+      "recorded_llm_wait_s": 6.5901853820250835,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"distinct\\|order_by\\|_not_support\" django/db/models/query.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8bbf285bfb134576a2aa3482"
+        }
+      ],
+      "recorded_llm_wait_s": 5.280333151022205,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"distinct.*union\\|union.*distinct\" tests/ | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-af936b573915ed8f"
+        }
+      ],
+      "recorded_llm_wait_s": 9.305941085011,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat tests/queries/test_qs_combinators.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-88dc568936446af5"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5977268400019966,
+      "step_idx": 10
+    }
+  ]
+}

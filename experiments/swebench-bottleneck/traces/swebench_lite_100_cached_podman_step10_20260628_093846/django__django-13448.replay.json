@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13448:latest",
+    "instance_id": "django__django-13448",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13448.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/db/backends/base/creation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9aae9bf6f7f34239"
+        }
+      ],
+      "recorded_llm_wait_s": 3.643847237020964,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '70,100p' django/db/backends/base/creation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_babb5b6849de448f9c45e84e"
+        }
+      ],
+      "recorded_llm_wait_s": 3.8344314339919947,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"serialize\" django/test/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7fec53408bc84391bbd6ff12"
+        }
+      ],
+      "recorded_llm_wait_s": 2.954326592007419,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '160,200p' django/test/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2e104b196ba04137a03cfb10"
+        }
+      ],
+      "recorded_llm_wait_s": 2.445605496992357,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '58,80p' django/db/backends/base/creation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_84ce6faf88534e87a0e9c054"
+        }
+      ],
+      "recorded_llm_wait_s": 5.62805468600709,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i \"s/        if serialize:/        if serialize and self.connection.settings_dict['TEST']['MIGRATE']:/\" django/db/backends/base/creation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d17befa514dd4f928b7fa4b1"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8068124310229905,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '73,82p' django/db/backends/base/creation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6806f93972f541e48c594efa"
+        }
+      ],
+      "recorded_llm_wait_s": 6.316886061016703,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- django/db/backends/base/creation.py > patch.txt && cat patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c50ba0891d4f4ab6ae5e8eda"
+        }
+      ],
+      "recorded_llm_wait_s": 3.6978542569850106,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat patch.txt",
+          "expected_returncode": null,
+          "tool_call_id": "call_156aa51943bb4e2c8e7fdae0"
+        }
+      ],
+      "recorded_llm_wait_s": 4.27025023297756,
+      "step_idx": 9
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11179:latest",
+    "instance_id": "django__django-11179",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11179.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "sed -n '270,290p' /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6de2f07f114f47c38b4e9acb"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3058500190090854,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n 'pk.*None\\|\\.pk =' /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8f7352995475d822"
+        }
+      ],
+      "recorded_llm_wait_s": 4.216255295992596,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '320,330p' /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_005caef61fc14870944646c9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6925278939888813,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '276,281p' django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_26bdbc9771f44b359537a933"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2158538789954036,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i '280a\\                setattr(instance, model._meta.pk.attname, None)' django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bf8611227d9d4d4889356422"
+        }
+      ],
+      "recorded_llm_wait_s": 3.992497903003823,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '274,283p' django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_532c9b4c24c740b984b3cdc4"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6142682469799183,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i '280,281{s/.*//;}' django/db/models/deletion.py && sed -i '279a\\                setattr(instance, model._meta.pk.attname, None)\\n                return count, {model._meta.label: count}' django/db/models/deletion.py && sed -n '274,285p' django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1e17469af5ff4d9ca766b075"
+        }
+      ],
+      "recorded_llm_wait_s": 7.843718368007103,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nimport os\nos.environ['DJANGO_SETTINGS_MODULE'] = 'tests.test_sqlite'\ndjango.setup()\nfrom django.db import models\nfrom test_runner import models as m\n# Quick test with a simple model\n\" 2>&1 | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b8da84d26b204713af507cda"
+        }
+      ],
+      "recorded_llm_wait_s": 3.4678187140088994,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m pytest tests/delete/tests.py -x -q 2>&1 | tail -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_411f89130ced4fdeaff37fa3"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0676526199968066,
+      "step_idx": 9
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11630:latest",
+    "instance_id": "django__django-11630",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11630.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"E028\" --include=\"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_60cf89cc3c4643b4b4c14e19"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"db_table.*is used by multiple\" --include=\"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_76665e44e1a24f879f6081ae"
+        }
+      ],
+      "recorded_llm_wait_s": 4.371208337979624,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/core/checks/model_checks.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3273bd57463d4594b5539f83"
+        }
+      ],
+      "recorded_llm_wait_s": 1.228625567018753,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"class Options\" django/db/models/options.py | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4c614e5c9bd842c3bcd4979c"
+        },
+        {
+          "command": "cd /testbed && python -c \"import django; print(django.__version__)\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_428980dc5f2a4030b68d2a3d"
+        }
+      ],
+      "recorded_llm_wait_s": 11.767233330989257,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/db/models/options.py | head -120",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f3fe684a27664de9aa12eb6c"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"DATABASES\" django/conf/__init__.py | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_16290180719f43d0b989ec8b"
+        }
+      ],
+      "recorded_llm_wait_s": 4.162405504001072,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"required_db_vendor\" django/db/models/options.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_772222c251f747ed8bd397b9"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"allow_migrate\\|db_for_read\\|db_for_write\" django/db/utils.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_56f0f30416d04d7689ddc3c6"
+        }
+      ],
+      "recorded_llm_wait_s": 4.628463922999799,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat tests/check_framework/test_model_checks.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c510acfd9891426aae491ca9"
+        }
+      ],
+      "recorded_llm_wait_s": 4.215627035999205,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/db/utils.py | head -330",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e358e6140be44f2da8bd6ba2"
+        }
+      ],
+      "recorded_llm_wait_s": 6.036250395001844,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git log --oneline --all -- django/core/checks/model_checks.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ff8c037602fd477fb35450d8"
+        }
+      ],
+      "recorded_llm_wait_s": 11.193104125995887,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git show 8d3519071e --stat",
+          "expected_returncode": 0,
+          "tool_call_id": "call_48bd95273ecd4d1e84e522a5"
+        }
+      ],
+      "recorded_llm_wait_s": 3.6850413770007435,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git show 8d3519071e --no-stat",
+          "expected_returncode": 128,
+          "tool_call_id": "call_7ee08c1026fd4a5c84f6b103"
+        }
+      ],
+      "recorded_llm_wait_s": 3.393619494017912,
+      "step_idx": 10
+    }
+  ]
+}

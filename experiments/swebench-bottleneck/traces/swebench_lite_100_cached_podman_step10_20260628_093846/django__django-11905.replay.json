@@ -1,0 +1,134 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11905:latest",
+    "instance_id": "django__django-11905",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11905.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"isnull\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-995f6e2145440be6"
+        },
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class IsNull\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a4f58dfa90884851"
+        }
+      ],
+      "recorded_llm_wait_s": 3.3769934960000683,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class IsNull\" /testbed/django/db/models/lookups.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a0ac2fa03c98c9ab"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0224537789763417,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '455,480p' /testbed/django/db/models/lookups.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-804332ddbd5cab65"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5119229019910563,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"isnull\" /testbed/tests/lookup/ | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1aeea6a0421f48c2b4e15b99"
+        },
+        {
+          "command": "grep -rn \"isnull\" /testbed/tests/queries/tests.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1b1943eef750458fb0c5b556"
+        }
+      ],
+      "recorded_llm_wait_s": 15.521383863990195,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class BuiltinLookup\" /testbed/django/db/models/lookups.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bf8ca15b5d99ae98"
+        }
+      ],
+      "recorded_llm_wait_s": 3.9759315620176494,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1,170p' /testbed/django/db/models/lookups.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8fa29ebbdcc3c43d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5386228610004764,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"isnull.*Value\\|isnull.*[0-9]\\|isnull.*None\" /testbed/tests/ | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8b497089aaeb1501"
+        }
+      ],
+      "recorded_llm_wait_s": 2.526522041996941,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"isnull.*=.*[0-9]\\|isnull.*=.*['\\\"]\" /testbed/tests/ | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-929277a6f2d5ecc4"
+        }
+      ],
+      "recorded_llm_wait_s": 3.1410468090034556,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"isnull\" /testbed/tests/lookup/tests.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9c37fe15f950efa3"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0152961790154222,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git log --oneline -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8bdd3421edf40a79"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8495485559978988,
+      "step_idx": 10
+    }
+  ]
+}

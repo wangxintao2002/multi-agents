@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13158:latest",
+    "instance_id": "django__django-13158",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13158.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -5 && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f7da3693320846439295c657"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8168350030027796,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -r \"def none\" django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-91e361826c2b435a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.522930421982892,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"def none\\|def union\\|def _combinator_query\\|class QuerySet\" django/db/models/query.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9c3e03d6f876feba"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3570056849857792,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '919,940p' django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9901972328c300dc"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0640572469856124,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '988,1020p' django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9dc1efd0fb3f8119"
+        }
+      ],
+      "recorded_llm_wait_s": 1.1733585030015092,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"set_empty\\|is_empty\\|empty\" django/db/models/sql/query.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9c84def973a2b9a5"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9670172390178777,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1778,1810p' django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9681bbb69055130f"
+        }
+      ],
+      "recorded_llm_wait_s": 4.116899964021286,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"combined_queries\\|combinator\" django/db/models/sql/query.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9aa3b999ba2841f7"
+        }
+      ],
+      "recorded_llm_wait_s": 2.374629581987392,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"def as_sql\\|combinator\\|combined_queries\" django/db/models/sql/compiler.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ac9e34a3226c6e14"
+        }
+      ],
+      "recorded_llm_wait_s": 6.527023346017813,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '488,520p' django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bdf342392448133e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.254708157997811,
+      "step_idx": 10
+    }
+  ]
+}

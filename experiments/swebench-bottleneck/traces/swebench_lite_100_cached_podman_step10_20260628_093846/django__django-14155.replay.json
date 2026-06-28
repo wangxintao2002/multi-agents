@@ -1,0 +1,144 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-14155:latest",
+    "instance_id": "django__django-14155",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-14155.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class ResolverMatch\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d4aa5811b7e04d00b11721b1"
+        },
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"ResolverMatch\" 2>/dev/null | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_382b9593a35542b2a0a6e368"
+        }
+      ],
+      "recorded_llm_wait_s": 4.567501343990443,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class ResolverMatch\" /testbed/django/urls/resolvers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8c7a8150c3f74058910bd0c0"
+        }
+      ],
+      "recorded_llm_wait_s": 3.6743805120058823,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '32,100p' /testbed/django/urls/resolvers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_de9f053007d1488086b244a1"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4217307049839292,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "head -30 /testbed/django/urls/resolvers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8f421862fc0349f9b74f5876"
+        }
+      ],
+      "recorded_llm_wait_s": 4.668315415998222,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport functools\nfrom django.urls.resolvers import ResolverMatch\n\ndef my_view(request, extra_arg='default'):\n    pass\n\npartial_view = functools.partial(my_view, extra_arg='custom')\n\nmatch = ResolverMatch(partial_view, (), {})\nprint('repr:', repr(match))\nprint('func:', match.func)\nprint('_func_path:', match._func_path)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e43b97d973a044f4b97858fb"
+        }
+      ],
+      "recorded_llm_wait_s": 9.109806843014667,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"partial\" tests/urlpatterns_reverse/tests.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_87c413553a134249af445c29"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2446636770037003,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"\\.func\" /testbed/django/urls/resolvers.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4678b5b43932415987372b7e"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"match\\.func\\|resolver_match\\.func\\|resolved\\.func\" /testbed/django/ --include=\"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_16382391258e4ebe9f241d17"
+        }
+      ],
+      "recorded_llm_wait_s": 11.435583140992094,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '425,435p' /testbed/django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6f1936a68e9a4e8fbb35986f"
+        },
+        {
+          "command": "cd /testbed && sed -n '515,525p' /testbed/django/views/debug.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_726a8334d55d49f788145e1d"
+        },
+        {
+          "command": "cd /testbed && sed -n '70,80p' /testbed/django/middleware/common.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c1026980640e408a9a1b9687"
+        }
+      ],
+      "recorded_llm_wait_s": 3.786816030013142,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"partial\" /testbed/tests/urlpatterns_reverse/tests.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_67c79e46fbd44184b46f2acf"
+        }
+      ],
+      "recorded_llm_wait_s": 10.301109998981701,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git log --oneline -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ebf82b9ab9624482bc888adc"
+        }
+      ],
+      "recorded_llm_wait_s": 3.4095443920232356,
+      "step_idx": 10
+    }
+  ]
+}

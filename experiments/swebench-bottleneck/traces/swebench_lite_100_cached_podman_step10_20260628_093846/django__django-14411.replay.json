@@ -1,0 +1,139 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-14411:latest",
+    "instance_id": "django__django-14411",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-14411.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"ReadOnlyPasswordHashWidget\" 2>/dev/null",
+          "expected_returncode": 123,
+          "tool_call_id": "call_506ec29d6096479db59ee7a4"
+        },
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"ReadOnlyPasswordHash\" 2>/dev/null",
+          "expected_returncode": 123,
+          "tool_call_id": "call_5f44cfff58864118bf4ed75c"
+        }
+      ],
+      "recorded_llm_wait_s": 4.776115949993255,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/auth/forms.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bd78101df50c1d18"
+        },
+        {
+          "command": "cat /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-99e6c33c43a213e9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1172831830044743,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class AdminReadonlyField\" /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aca5ded63b44f097"
+        }
+      ],
+      "recorded_llm_wait_s": 4.3969226210028864,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '153,230p' /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b58d5522b0a4c78c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.656441575003555,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/auth/templates/*\" -name \"*.html\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1f291f69d9584b50897952bc"
+        },
+        {
+          "command": "find /testbed -name \"read_only_password_hash.html\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6eda69b037534881a518737d"
+        }
+      ],
+      "recorded_llm_wait_s": 18.397404573013773,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/auth/templates/auth/widgets/read_only_password_hash.html",
+          "expected_returncode": 0,
+          "tool_call_id": "call_29c388c5cd9341ffa9a24964"
+        }
+      ],
+      "recorded_llm_wait_s": 1.959121893014526,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '121,153p' /testbed/django/contrib/admin/helpers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-80ba2a24cd376443"
+        }
+      ],
+      "recorded_llm_wait_s": 6.992193088022759,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"readonly_fields\\|password\\|UserAdmin\\|class ModelAdmin\" /testbed/django/contrib/auth/admin.py 2>/dev/null || grep -rn \"readonly_fields\" /testbed/django/contrib/auth/ 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9f09e3f9d72c479891994483"
+        }
+      ],
+      "recorded_llm_wait_s": 5.552687938004965,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/auth/admin.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0cfb72de1bf0412ba0b2cc2c"
+        }
+      ],
+      "recorded_llm_wait_s": 3.157354620983824,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"id_for_label\\|def label_tag\" /testbed/django/forms/boundfield.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0e2e897ac14b4592b6b5a581"
+        }
+      ],
+      "recorded_llm_wait_s": 8.730106606992194,
+      "step_idx": 10
+    }
+  ]
+}

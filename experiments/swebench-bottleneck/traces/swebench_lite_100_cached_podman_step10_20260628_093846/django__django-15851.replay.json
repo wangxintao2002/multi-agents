@@ -1,0 +1,118 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15851:latest",
+    "instance_id": "django__django-15851",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15851.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"dbshell\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a18ec2bb90a7663d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.1870169359899592,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/tests\" -prune -o -type f -name \"*.py\" -print | xargs grep -l \"dbshell\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8fc151caadb22d95"
+        }
+      ],
+      "recorded_llm_wait_s": 2.846094973006984,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class.*dbshell\\|def.*dbshell\\|DatabaseClient\\|BaseCommand.*dbshell\" 2>/dev/null | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-894b792fd6e4d8a8"
+        }
+      ],
+      "recorded_llm_wait_s": 2.9838996610196773,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/db/backends/postgresql/client.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9ff0799610a7ab04"
+        },
+        {
+          "command": "cat /testbed/django/db/backends/base/client.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bfca3c6bbcdd27de"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5662863469915465,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/tests/dbshell/test_postgresql.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8e8bd44adc18d2e6"
+        }
+      ],
+      "recorded_llm_wait_s": 2.312284946005093,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/        if dbname:\\n            args += \\[dbname\\]\\n        args.extend(parameters)/        args.extend(parameters)\\n        if dbname:\\n            args += [dbname]/' django/db/backends/postgresql/client.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a54f5d2fb60a5b15"
+        }
+      ],
+      "recorded_llm_wait_s": 5.263952537003206,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\ncontent = open('django/db/backends/postgresql/client.py').read()\nold = '''        if dbname:\n            args += [dbname]\n        args.extend(parameters)'''\nnew = '''        args.extend(parameters)\n        if dbname:\n            args += [dbname]'''\ncontent = content.replace(old, new)\nopen('django/db/backends/postgresql/client.py', 'w').write(content)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-97c133cd93bdbae1"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9696095809922554,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/db/backends/postgresql/client.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-acd20ca2f0c3bf14"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0600553559779655,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.db.backends.postgresql.client import DatabaseClient\nargs, env = DatabaseClient.settings_to_cmd_args_env({'NAME': 'dbname'}, ['--help'])\nprint('Result:', args)\nprint('Expected: [\\\"psql\\\", \\\"--help\\\", \\\"dbname\\\"]')\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b44307167f142f46"
+        }
+      ],
+      "recorded_llm_wait_s": 9.040651618008269,
+      "step_idx": 9
+    }
+  ]
+}

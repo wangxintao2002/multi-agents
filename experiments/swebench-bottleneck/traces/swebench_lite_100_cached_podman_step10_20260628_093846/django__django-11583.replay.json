@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11583:latest",
+    "instance_id": "django__django-11583",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11583.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"autoreload.py\" | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9154e13c1e6668a1"
+        }
+      ],
+      "recorded_llm_wait_s": 7.8285631139879115,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_25a5e48e7e064ce5969a601e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.62537227399298,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '108,160p' /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8164a299399a4391"
+        }
+      ],
+      "recorded_llm_wait_s": 1.726136815996142,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/tests/*autoreload*\" -type f | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bd4fb137f46fb57f"
+        }
+      ],
+      "recorded_llm_wait_s": 11.00363087799633,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"iter_modules_and_files\\|resolve\\|ValueError\\|FileNotFoundError\" /testbed/tests/utils_tests/test_autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-857bbe066f8b39fe"
+        }
+      ],
+      "recorded_llm_wait_s": 8.071492598974146,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '143,152p' django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a1bc20682129f85c"
+        }
+      ],
+      "recorded_llm_wait_s": 4.028622598998481,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '135,148p' django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bb0da5d339b27b82"
+        }
+      ],
+      "recorded_llm_wait_s": 2.247200262005208,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/        except FileNotFoundError:/        except (FileNotFoundError, ValueError):/' django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8521b50705a1965e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7974108430207707,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '135,148p' django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-96d8613d53ffba73"
+        }
+      ],
+      "recorded_llm_wait_s": 2.066050246998202,
+      "step_idx": 9
+    }
+  ]
+}

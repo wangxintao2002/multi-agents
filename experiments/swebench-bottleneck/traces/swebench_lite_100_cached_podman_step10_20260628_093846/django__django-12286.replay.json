@@ -1,0 +1,118 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12286:latest",
+    "instance_id": "django__django-12286",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12286.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -r \"translation.E004\" /testbed --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "call_042ae62505a4475c88aa1a2f"
+        },
+        {
+          "command": "grep -r \"E004\" /testbed/django/core/checks/translation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_233622e6959c4c34ac1bc83c"
+        }
+      ],
+      "recorded_llm_wait_s": 3.8551256649952848,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/checks/translation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-be8f8d75205f0ec9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8735946569941007,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/tests/check_framework/test_translation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b10f2e9c2d995dfa"
+        }
+      ],
+      "recorded_llm_wait_s": 4.264636413019616,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"def get_language_from_path\\|def get_supported_language_variant\" /testbed/django/utils/translation/trans_real.py | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-883fe15a76642aa2"
+        }
+      ],
+      "recorded_llm_wait_s": 7.0132735400111414,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def get_supported_language_variant\" /testbed/django/utils/translation/trans_real.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e7c734a2dbd74df6befee67c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8245263469871134,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '395,430p' /testbed/django/utils/translation/trans_real.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e2f899892aba443c88bb09dc"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1644566689792555,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/checks/translation.py | grep -A 10 \"def check_language_settings_consistent\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aa1bf667fe277f91"
+        }
+      ],
+      "recorded_llm_wait_s": 9.849638565996429,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.LANGUAGE_CODE = 'de-at'\nsettings.LANGUAGES = [('de', 'German')]\nsettings.USE_I18N = True\nfrom django.core.checks.translation import check_language_settings_consistent\nresult = check_language_settings_consistent(None)\nprint('Result:', result)\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "call_8c2182d21f9747068e4c43ad"
+        }
+      ],
+      "recorded_llm_wait_s": 3.7449800110189244,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.configure(\n    LANGUAGE_CODE='de-at',\n    LANGUAGES=[('de', 'German')],\n    USE_I18N=True,\n)\ndjango.setup()\nfrom django.core.checks.translation import check_language_settings_consistent\nresult = check_language_settings_consistent(None)\nprint('Result:', result)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_44b65295423041409352c049"
+        }
+      ],
+      "recorded_llm_wait_s": 2.994286511995597,
+      "step_idx": 9
+    }
+  ]
+}

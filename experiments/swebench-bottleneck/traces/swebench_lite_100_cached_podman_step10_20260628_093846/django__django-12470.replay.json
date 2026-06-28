@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12470:latest",
+    "instance_id": "django__django-12470",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12470.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6daabc7ac9c44865a5277bfa"
+        }
+      ],
+      "recorded_llm_wait_s": 3.151372594991699,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"ordering\" /testbed/django/db/models/query.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-80a3be0313eaf73e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.534836108010495,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"pk\" /testbed/django/db/models/sql/compiler.py | grep -i \"order\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-89b2c71a3f31ffd2"
+        }
+      ],
+      "recorded_llm_wait_s": 4.977650735992938,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"\\\"pk\\\"\" /testbed/django/db/models/sql/compiler.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ad75277b1c1eea80"
+        }
+      ],
+      "recorded_llm_wait_s": 2.096083391981665,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"pk\" /testbed/django/db/models/sql/compiler.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8c59b21076fb7e7e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.857982543995604,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"ordering\" /testbed/django/db/models/sql/compiler.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-937620e59252a18e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9054105500108562,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '270,350p' /testbed/django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b64c5ea18704f8fe"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5401360830001067,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '699,740p' /testbed/django/db/models/sql/compiler.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2cb993b21a1f4349b99d71e2"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0941011990071274,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"def get_order_dir\" /testbed/django/db/models/sql/",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ae4bff4573624db98d608fb4"
+        }
+      ],
+      "recorded_llm_wait_s": 17.588191015995108,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '2256,2280p' /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6dc8c71d987a4ec2aae72ae8"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9479952639958356,
+      "step_idx": 10
+    }
+  ]
+}

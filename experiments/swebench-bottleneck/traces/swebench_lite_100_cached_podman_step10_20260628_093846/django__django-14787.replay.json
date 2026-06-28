@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-14787:latest",
+    "instance_id": "django__django-14787",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-14787.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -name \"*.py\" | head -30 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b195b6f67b785087"
+        }
+      ],
+      "recorded_llm_wait_s": 5.35892824397888,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"method_decorator\" /testbed/django/utils/decorators.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9dfcc8210d6f93a2"
+        }
+      ],
+      "recorded_llm_wait_s": 3.619808761985041,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/utils/decorators.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d1ec8a6a58db4c81b5dba297"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9162560990080237,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat > /testbed/test_issue.py << 'EOF'\nfrom functools import wraps, partial\nfrom django.utils.decorators import method_decorator\n\ndef logger(func):\n    @wraps(func)\n    def inner(*args, **kwargs):\n        try:\n            result = func(*args, **kwargs)\n        except Exception as e:\n            result = str(e)\n        finally:\n            print(f\"{func.__name__} called with args: {args} and kwargs: {kwargs} resulting: {result}\")\n        return result\n    return inner\n\nclass Test:\n    @method_decorator(logger)\n    def hello_world(self):\n        return \"hello\"\n\nTest().hello_world()\nEOF\npython /testbed/test_issue.py",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-88f44b284926f295"
+        }
+      ],
+      "recorded_llm_wait_s": 11.3700223150081,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git log --oneline -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_724f3ada5a8d4f2783043907"
+        }
+      ],
+      "recorded_llm_wait_s": 14.724018813023577,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/        bound_method = partial(method.__get__(self, type(self)))/        @wraps(method)\\n        def bound_method(*args, **kwargs):\\n            return method.__get__(self, type(self))(*args, **kwargs)/' django/utils/decorators.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ef52bf04b4744098b39793b3"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8114834729931317,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/utils/decorators.py | head -55",
+          "expected_returncode": 0,
+          "tool_call_id": "call_628fd3dab14845898611af0c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.996085334016243,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python test_issue.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_153e65297cbe435a8269f1ba"
+        }
+      ],
+      "recorded_llm_wait_s": 1.771922562009422,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test utils_tests.test_decorators --settings=tests.test_sqlite -v 2 2>&1",
+          "expected_returncode": 1,
+          "tool_call_id": "call_2e709585d519461d901e541e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6391427330090664,
+      "step_idx": 9
+    }
+  ]
+}

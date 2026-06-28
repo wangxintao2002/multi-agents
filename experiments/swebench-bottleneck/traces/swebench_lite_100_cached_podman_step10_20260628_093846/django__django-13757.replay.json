@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13757:latest",
+    "instance_id": "django__django-13757",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13757.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"KeyTransformIsNull\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_586d157b31a649cbbd8834d4"
+        }
+      ],
+      "recorded_llm_wait_s": 3.921360679989448,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"KeyTransformIsNull\" /testbed/django/db/models/fields/json.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b85e10c104fb03ab"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8447398990101647,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '360,420p' /testbed/django/db/models/fields/json.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9cfbdf5ce1b4c00f"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0373216769949067,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class HasKey\" /testbed/django/db/models/fields/json.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9f074e1cb85670c7"
+        }
+      ],
+      "recorded_llm_wait_s": 2.539505029999418,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '167,230p' /testbed/django/db/models/fields/json.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b06c8fb80aad2e45"
+        }
+      ],
+      "recorded_llm_wait_s": 6.717937249981333,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"test_isnull_key\" /testbed/tests/model_fields/test_jsonfield.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b6cfef5f54c34953"
+        }
+      ],
+      "recorded_llm_wait_s": 21.410617134999484,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '583,610p' /testbed/tests/model_fields/test_jsonfield.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-acb12a683619795c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9411284980014898,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def setUpTestData\\|objs\" /testbed/tests/model_fields/test_jsonfield.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a939fdc4d06bd87c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.713904372008983,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '265,305p' /testbed/tests/model_fields/test_jsonfield.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a9b7841a9486666e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1702000030199997,
+      "step_idx": 9
+    }
+  ]
+}

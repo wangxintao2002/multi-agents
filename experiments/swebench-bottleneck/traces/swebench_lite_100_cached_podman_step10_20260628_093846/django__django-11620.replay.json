@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11620:latest",
+    "instance_id": "django__django-11620",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11620.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "call_382b5febc2dc4f24b43d3fad"
+        }
+      ],
+      "recorded_llm_wait_s": 3.1993284600030165,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "git log --all --oneline -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ae10fc19f1cd2e49"
+        }
+      ],
+      "recorded_llm_wait_s": 2.203380457009189,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"to_python\\|path.*converter\" | grep -v test | grep -v __pycache__ | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7ec91398908c418cbafb063d"
+        }
+      ],
+      "recorded_llm_wait_s": 3.4683743369823787,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" -path \"*/urls/*\" | grep -v __pycache__ | grep -v test",
+          "expected_returncode": 1,
+          "tool_call_id": "call_e2232017067c4ed79433b36b"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6989296170067973,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"resolvers.py\" | grep -v __pycache__ | grep -v test",
+          "expected_returncode": 1,
+          "tool_call_id": "call_981b9ec31e654db0bacf9fbc"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5613088049867656,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" -path \"*/django/*\" | xargs grep -l \"class.*Converter\" 2>/dev/null | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a6f2788eff3b41eea4f3aa75"
+        }
+      ],
+      "recorded_llm_wait_s": 2.399343905999558,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed/django -type f -name \"*.py\" | xargs grep -l \"resolve\\|to_python\" 2>/dev/null | grep -v __pycache__ | grep -v test | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1c210765aa874735b560e6a3"
+        }
+      ],
+      "recorded_llm_wait_s": 2.106727377016796,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "ls /testbed/django/urls/",
+          "expected_returncode": 0,
+          "tool_call_id": "call_88c15cea0fcc490ba5543727"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0729732289910316,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/urls/resolvers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b68a8fe780c846568bcf6ff6"
+        }
+      ],
+      "recorded_llm_wait_s": 3.762978138984181,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"to_python\\|Http404\" /testbed/django/urls/resolvers.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ee2f509a17ef4779b0b99591"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0545622530044056,
+      "step_idx": 10
+    }
+  ]
+}

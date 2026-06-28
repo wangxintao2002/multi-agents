@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12983:latest",
+    "instance_id": "django__django-12983",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12983.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def slugify\" /testbed/django/utils/text.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-baa090d3f2a87f53"
+        }
+      ],
+      "recorded_llm_wait_s": 4.656147122004768,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '394,420p' /testbed/django/utils/text.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a2615d7a0cb1b58e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.650834031024715,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"from django.utils import text; print(repr(text.slugify('___This is a test ---')))\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-961e71ba1a83b1a2"
+        }
+      ],
+      "recorded_llm_wait_s": 39.062863718980225,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i \"s/return re.sub(r'\\[-\\\\s\\]+', '-', value)/return re.sub(r'[-\\\\s]+', '-', value).strip('-')/\" django/utils/text.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-94f5828e7b71c206"
+        }
+      ],
+      "recorded_llm_wait_s": 9.191065427992726,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '394,410p' django/utils/text.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-96524fcd076c2df2"
+        }
+      ],
+      "recorded_llm_wait_s": 2.484581092983717,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\ncontent = open('django/utils/text.py').read()\nold = \\\"    return re.sub(r'[-\\\\\\\\s]+', '-', value)\\\"\nnew = \\\"    return re.sub(r'[-\\\\\\\\s]+', '-', value).strip('-')\\\"\ncontent = content.replace(old, new)\nopen('django/utils/text.py', 'w').write(content)\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b998d839ea1821ab"
+        }
+      ],
+      "recorded_llm_wait_s": 2.873969947977457,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python3 -c \"\ncontent = open('django/utils/text.py', encoding='utf-8').read()\nold = \\\"    return re.sub(r'[-\\\\\\\\s]+', '-', value)\\\"\nnew = \\\"    return re.sub(r'[-\\\\\\\\s]+', '-', value).strip('-')\\\"\ncontent = content.replace(old, new)\nopen('django/utils/text.py', 'w', encoding='utf-8').write(content)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-80764008ff4e6fd2"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8870407540234737,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '404,406p' django/utils/text.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8cc88b5055aa679b"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9454066730104387,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"from django.utils import text; print(repr(text.slugify('___This is a test ---')))\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bcee5bd6b6edd127"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2774278249999043,
+      "step_idx": 9
+    }
+  ]
+}

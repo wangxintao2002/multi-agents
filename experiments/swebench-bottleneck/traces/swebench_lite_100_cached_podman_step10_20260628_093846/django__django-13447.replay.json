@@ -1,0 +1,139 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13447:latest",
+    "instance_id": "django__django-13447",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13447.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"_build_app_dict\" 2>/dev/null",
+          "expected_returncode": 123,
+          "tool_call_id": "call_0a5a72ed439c42f1a921a2cc"
+        },
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"app_list\" 2>/dev/null | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_49a8723a626143108ac52ff5"
+        }
+      ],
+      "recorded_llm_wait_s": 3.024615125003038,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a96a199acf3b57ab"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3043517819896806,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_build_app_dict\\|build_app_dict\" /testbed/django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8cb789eccbae189c"
+        },
+        {
+          "command": "grep -rn \"_build_app_dict\\|build_app_dict\" /testbed/tests/ 2>/dev/null",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-ab9a8923384e442b"
+        }
+      ],
+      "recorded_llm_wait_s": 2.696292695007287,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '430,500p' /testbed/django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-afbd01f0f2d47e7d"
+        }
+      ],
+      "recorded_llm_wait_s": 6.0853954649937805,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i \"s/def _build_app_dict/def build_app_dict/\" django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8f273848b9e8ff3e"
+        },
+        {
+          "command": "cd /testbed && sed -i \"s/self\\._build_app_dict/self.build_app_dict/g\" django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a6b9725fff8db488"
+        }
+      ],
+      "recorded_llm_wait_s": 6.919854816020234,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i \"/'object_name': model._meta.object_name,/a\\\\                'model': model,\" django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b108109f4660e30d"
+        }
+      ],
+      "recorded_llm_wait_s": 2.62888596902485,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '430,500p' /testbed/django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a14345af4ce6f4eb"
+        }
+      ],
+      "recorded_llm_wait_s": 1.635839605005458,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"build_app_dict\" /testbed/django/contrib/admin/sites.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-800adec1b06f6293"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1105879909882788,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"_build_app_dict\" /testbed/ 2>/dev/null",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b92d281e26f5b86d"
+        }
+      ],
+      "recorded_llm_wait_s": 2.009819958009757,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"build_app_dict\" /testbed/ 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9c1a742ac8254108"
+        }
+      ],
+      "recorded_llm_wait_s": 3.96875499500311,
+      "step_idx": 10
+    }
+  ]
+}

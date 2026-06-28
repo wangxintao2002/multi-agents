@@ -122,6 +122,42 @@ def _task_for_container(container_id, mapping: dict[str, str]) -> str | None:
     return None
 
 
+def _exec_intervals(evs: list[dict]) -> list[tuple[float, float]]:
+    """Return best-effort sandbox command intervals from exec_begin/exec_end."""
+    starts: dict[str, list[float]] = {}
+    intervals: list[tuple[float, float]] = []
+    for e in evs:
+        k = e.get("kind")
+        tid = e.get("task_id")
+        mono = _num(e.get("mono"))
+        if not tid or mono is None:
+            continue
+        if k == "exec_begin":
+            starts.setdefault(tid, []).append(mono)
+        elif k == "exec_end":
+            task_starts = starts.get(tid)
+            if not task_starts:
+                continue
+            start = task_starts.pop(0)
+            if mono >= start:
+                intervals.append((start, mono))
+    return intervals
+
+
+def _max_concurrent_intervals(intervals: list[tuple[float, float]]) -> int:
+    points: list[tuple[float, int]] = []
+    for start, end in intervals:
+        points.append((start, 1))
+        points.append((end, -1))
+    points.sort(key=lambda x: (x[0], x[1]))
+    cur = 0
+    peak = 0
+    for _t, delta in points:
+        cur += delta
+        peak = max(peak, cur)
+    return peak
+
+
 def analyze_cell(evs: list[dict]) -> dict:
     """Compute per-task time components and cell-level aggregates for an A1/A2 cell."""
     cell_meta = next((e for e in evs if e["kind"] == "cell_start"), {})
@@ -140,6 +176,7 @@ def analyze_cell(evs: list[dict]) -> dict:
             "lease_held": 0.0, "flow_s": None, "exit_status": None,
             "n_llm": 0, "n_llm_failed": 0, "n_exec": 0, "n_resume": 0,
             "total_tokens": 0, "n_429": 0,
+            "n_replay_mismatch": 0, "n_oom_actions": 0,
             "n_resource_samples": 0,
             "_mem_samples": [], "_cpu_samples": [],
             "_acq": {},  # acq_id -> granted mono (for held-time accounting)
@@ -179,6 +216,12 @@ def analyze_cell(evs: list[dict]) -> dict:
                 d["lease_held"] += e.get("mono") - g
         elif k == "task_done":
             d = t(tid); d["flow_s"] = e.get("flow_s"); d["exit_status"] = e.get("exit_status")
+        elif k == "replay_action_end":
+            d = t(tid)
+            if e.get("matched") is False:
+                d["n_replay_mismatch"] += 1
+            if e.get("returncode") == 137:
+                d["n_oom_actions"] += 1
 
     container_to_task = _container_task_map(evs)
     for e in evs:
@@ -251,6 +294,9 @@ def analyze_cell(evs: list[dict]) -> dict:
         "n_running_containers",
         end_mono=_num(cell_end.get("mono")),
     )
+    exec_intervals = _exec_intervals(evs)
+    active_exec_seconds = sum(end - start for start, end in exec_intervals)
+    makespan_num = _num(makespan)
     solved = sum(1 for r in rows if r["exit_status"] == "Submitted")
     n = len(rows)
     agg = {
@@ -258,6 +304,17 @@ def analyze_cell(evs: list[dict]) -> dict:
         "makespan_s": makespan,
         "throughput_per_hour": (n / (makespan / 3600.0)) if makespan else 0.0,
         "solved": solved,
+        "replay_clean_tasks": sum(
+            1 for r in rows
+            if r["exit_status"] in {"Completed", "Submitted"} and r["n_replay_mismatch"] == 0
+        ),
+        "replay_failed_tasks": sum(
+            1 for r in rows
+            if r["exit_status"] not in {"Completed", "Submitted"} or r["n_replay_mismatch"] > 0
+        ),
+        "oom_tasks": sum(1 for r in rows if r["n_oom_actions"] > 0),
+        "replay_mismatch_actions": sum(r["n_replay_mismatch"] for r in rows),
+        "oom_actions": sum(r["n_oom_actions"] for r in rows),
         "flow_p50": pctile(flows, 0.5), "flow_p95": pctile(flows, 0.95),
         "mean_llm_wait": statistics.mean([r["llm_wait"] for r in rows]) if rows else 0,
         "mean_sandbox_active": statistics.mean([r["sandbox_active"] for r in rows]) if rows else 0,
@@ -272,6 +329,9 @@ def analyze_cell(evs: list[dict]) -> dict:
         if container_sample_span_s else 0,
         "live_container_seconds": live_container_seconds,
         "container_sample_span_s": container_sample_span_s,
+        "active_exec_seconds": active_exec_seconds,
+        "mean_active_execs": (active_exec_seconds / makespan_num) if makespan_num else 0,
+        "max_active_execs": _max_concurrent_intervals(exec_intervals),
         "mean_host_cpu_pct": statistics.mean(host_cpu) if host_cpu else 0,
         "peak_host_cpu_pct": max(host_cpu) if host_cpu else 0,
         "peak_host_mem_used_gb": max(host_mem) if host_mem else 0,
@@ -459,8 +519,12 @@ def main() -> None:
               f"idle-held={a['mean_idle_held_frac']:.0%} "
               f"mean-live={a['mean_running_containers']:.1f} "
               f"live-sec={a['live_container_seconds']:.0f} "
+              f"mean-active-exec={a['mean_active_execs']:.1f} "
+              f"max-active-exec={a['max_active_execs']} "
               f"peak-mem={a['peak_total_container_mem_mb']:.0f}MB "
               f"peak-cgroup={a['peak_cgroup_memory_mb']:.0f}MB "
+              f"oom-tasks={a['oom_tasks']} "
+              f"mismatch-actions={a['replay_mismatch_actions']} "
               f"solved={a['solved']}/{a['n_tasks']}")
 
     if not cells:
@@ -474,6 +538,7 @@ def main() -> None:
         "sandbox_active", "lease_held", "sandbox_idle_held",
         "idle_held_frac", "slot_wait_initial", "slot_wait_midtask", "accounted_s",
         "n_llm", "n_llm_failed", "n_exec", "n_resume", "total_tokens", "n_429",
+        "n_replay_mismatch", "n_oom_actions",
         "n_resource_samples", "peak_mem_mb", "avg_mem_mb", "peak_cpu_pct", "avg_cpu_pct"])
     plot_attribution(cells, run_dir / "attribution.png")
     plot_throughput(cells, run_dir / "throughput.png")

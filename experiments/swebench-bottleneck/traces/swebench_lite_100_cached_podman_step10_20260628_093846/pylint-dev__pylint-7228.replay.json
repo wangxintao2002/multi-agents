@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7228:latest",
+    "instance_id": "pylint-dev__pylint-7228",
+    "repo": "pylint-dev/pylint"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/pylint-dev__pylint-7228.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ebf1af4fc8a74f48ad0346a4"
+        }
+      ],
+      "recorded_llm_wait_s": 5.1168478630133905,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"regex\" pylint/config/ --include=\"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_84d487d0eab649e889cb1220"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1122650250035804,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat pylint/config/option.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_dfa46a2c71ae43f69160b5f2"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9002976519986987,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat pylint/config/argument.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_54895607cd204432ab2b3630"
+        }
+      ],
+      "recorded_llm_wait_s": 2.596466346993111,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"import regex; print('regex available')\" 2>&1 || echo \"regex not available\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d998a56088e4419087106669"
+        }
+      ],
+      "recorded_llm_wait_s": 10.122392328979913,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && pip install regex -q",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ff788118415348e392c2058a"
+        }
+      ],
+      "recorded_llm_wait_s": 7.3131022680026945,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"re\\.compile\" pylint/config/ --include=\"*.py\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_393359d8e3da4f68ab58dc83"
+        }
+      ],
+      "recorded_llm_wait_s": 4.063682246021926,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"import re\" pylint/config/ --include=\"*.py\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_838a4803c786440da0865e20"
+        }
+      ],
+      "recorded_llm_wait_s": 4.699712069996167,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat pylint/config/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_64fc13d7b5dc47edad770f10"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4098800429783296,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"import re; re.compile(r'[\\p{Han}a-z_]')\" 2>&1",
+          "expected_returncode": 1,
+          "tool_call_id": "call_da161277549248c196a1173f"
+        }
+      ],
+      "recorded_llm_wait_s": 10.084225304017309,
+      "step_idx": 10
+    }
+  ]
+}

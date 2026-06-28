@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15695:latest",
+    "instance_id": "django__django-15695",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15695.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class RenameIndex\" 2>/dev/null",
+          "expected_returncode": 123,
+          "tool_call_id": "chatcmpl-tool-9405ca89f6c584ad"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6478647000039928,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"class RenameIndex\" django/db/migrations/operations/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a9b4abf4986571e6"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9798633409955073,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '879,1050p' django/db/migrations/operations/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d9fe8807943f4f3e8381745d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4380222379986662,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"new_pony_test_idx\" tests/migrations/test_operations.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a5340a8bddcfc7a3"
+        }
+      ],
+      "recorded_llm_wait_s": 16.563124965992756,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '2960,3010p' tests/migrations/test_operations.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aef4c589fb70daf0"
+        }
+      ],
+      "recorded_llm_wait_s": 2.489555512001971,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"def rename_index\" django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a7ac9b18e6d9f7d7"
+        }
+      ],
+      "recorded_llm_wait_s": 42.4312432250008,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '496,540p' django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d6580936bc984e9faeb103ec"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3527143179962877,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"_rename_index_sql\" django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6de19ab72ecf4f51bcf3fb16"
+        }
+      ],
+      "recorded_llm_wait_s": 3.026676409004722,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1375,1395p' django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_10c395ed762b4e12a7fc2e4a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.027946655987762,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep \"can_rename_index\" django/db/backends/postgresql/features.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_00aade833da24dc18ffcba02"
+        }
+      ],
+      "recorded_llm_wait_s": 7.911522759008221,
+      "step_idx": 10
+    }
+  ]
+}

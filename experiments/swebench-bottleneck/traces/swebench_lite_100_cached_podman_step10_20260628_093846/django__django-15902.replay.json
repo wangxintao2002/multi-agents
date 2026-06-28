@@ -1,0 +1,112 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15902:latest",
+    "instance_id": "django__django-15902",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15902.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a9ded3c328284daa"
+        },
+        {
+          "command": "grep -r \"ManagementForm\" /testbed --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9ea980082924f498"
+        },
+        {
+          "command": "grep -r \"deprec\" /testbed/django/forms --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a58b27c261b5a696"
+        }
+      ],
+      "recorded_llm_wait_s": 5.624543186015217,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"deprec\\|default.html\\|template_name\\|ManagementForm\" /testbed/django/forms/formsets.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ad0765b91cb513d9"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5391145879984833,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/forms/formsets.py | head -170",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-be949534236fc49f"
+        }
+      ],
+      "recorded_llm_wait_s": 14.740189299976919,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"default.html\\|deprecat\" /testbed/django/forms/renderers.py /testbed/django/forms/utils.py /testbed/django/forms/forms.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8a5f6760d77ae49a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5570417730195913,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/forms/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b30ba932c05a895c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1205905159877148,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"template_name\" /testbed/django/forms/forms.py | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-95f4caa2c99c1a8c"
+        }
+      ],
+      "recorded_llm_wait_s": 19.30945965499268,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "ls /testbed/django/forms/templates/django/forms/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ad2f0bc1ff977791"
+        }
+      ],
+      "recorded_llm_wait_s": 8.04644285197719,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '315,325p' /testbed/django/forms/forms.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b9335a45582b9f79"
+        }
+      ],
+      "recorded_llm_wait_s": 6.060182476998307,
+      "step_idx": 8
+    }
+  ]
+}

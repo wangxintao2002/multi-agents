@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13768:latest",
+    "instance_id": "django__django-13768",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13768.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -r \"send_robust\" /testbed/django/dispatch/ --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "call_88e41a5513b84066825bb380"
+        }
+      ],
+      "recorded_llm_wait_s": 4.130479313986143,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"send_robust\" /testbed/django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_84dadecced4a4c8992b36b7d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8651824609842151,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '182,230p' /testbed/django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c680300ceb9f4ea6b40228ff"
+        }
+      ],
+      "recorded_llm_wait_s": 2.691316487995209,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "head -20 /testbed/django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5dd70f6e42f74907be391ac6"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0178646049753297,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i '1s/^/import logging\\n/' django/dispatch/dispatcher.py && sed -i '/^import logging$/a\\\\nlogger = logging.getLogger(\"django.dispatch\")' django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_33b862cde28a4b86903c01b9"
+        }
+      ],
+      "recorded_llm_wait_s": 3.498058418976143,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "head -25 /testbed/django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e61c70c1211b4702ac952e9a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.7260649490053765,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat -n django/dispatch/dispatcher.py | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_75a1f0a46d7f4681a70d3d71"
+        }
+      ],
+      "recorded_llm_wait_s": 1.98669529001927,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git checkout -- django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_90b17ece935a418a8ddb45ed"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0473270749789663,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i '1i import logging' django/dispatch/dispatcher.py && sed -i '/^from django.utils.inspect import func_accepts_kwargs$/a\\\\nlogger = logging.getLogger(\"django.dispatch\")' django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6bad01eebcec4ca286830419"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5864412029914092,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "head -15 /testbed/django/dispatch/dispatcher.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e5612c3f79614bbeb320fc0d"
+        }
+      ],
+      "recorded_llm_wait_s": 3.767556565988343,
+      "step_idx": 10
+    }
+  ]
+}

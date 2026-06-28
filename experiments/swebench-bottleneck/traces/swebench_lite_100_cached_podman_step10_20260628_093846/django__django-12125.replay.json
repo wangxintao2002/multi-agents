@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12125:latest",
+    "instance_id": "django__django-12125",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12125.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a4c463a7470ca535"
+        }
+      ],
+      "recorded_llm_wait_s": 3.87593055999605,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"deconstruct\" /testbed/django/db/models/fields/__init__.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-81dff4c80cdf405a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1457690270035528,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def deconstruct\" /testbed/django/db/models/fields/__init__.py | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8418ba0ce80c17de"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4233742469805293,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '410,470p' /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b915fd461b486d2c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6024533630115911,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '470,530p' /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b014e064f1d82579"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7819619909860194,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"__name__\\|__qualname__\" /testbed/django/db/models/fields/__init__.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b26ee172d8ed9fa8"
+        }
+      ],
+      "recorded_llm_wait_s": 15.349659444007557,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"qualname\\|__name__\" /testbed/django/db/migrations/serializer.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8ad80921f8a2b14b"
+        }
+      ],
+      "recorded_llm_wait_s": 4.188204545003828,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-89a54c8eedcc0407"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4193426519923378,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '258,273p' /testbed/django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aab2bcc648774980"
+        }
+      ],
+      "recorded_llm_wait_s": 108.93534930300666,
+      "step_idx": 9
+    }
+  ]
+}

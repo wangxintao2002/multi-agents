@@ -1,0 +1,129 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.pallets_1776_flask-5063:latest",
+    "instance_id": "pallets__flask-5063",
+    "repo": "pallets/flask"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/pallets__flask-5063.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -50",
+          "expected_returncode": 0,
+          "tool_call_id": "call_531c51968ce84d59a963de10"
+        },
+        {
+          "command": "ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c2d29fa28a80489c913349fa"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0677188569970895,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"routes\" /testbed/src/flask/cli.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b191c198bb82013e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0414692159974948,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '988,1060p' /testbed/src/flask/cli.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bde135245a42771c"
+        }
+      ],
+      "recorded_llm_wait_s": 9.868079623003723,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "python3 -c \"from werkzeug.routing import Rule; r = Rule('/test', subdomain='admin'); print(dir(r))\" 2>&1 | tr ',' '\\n' | grep -i sub",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ac65bdc8c3c0e838"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0890823939989787,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "python3 -c \"\nfrom werkzeug.routing import Rule\nr = Rule('/test', subdomain='admin')\nprint('subdomain:', repr(r.subdomain))\nr2 = Rule('/test2')\nprint('subdomain2:', repr(r2.subdomain))\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bc11ca3eb686cc99"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4766153229866177,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "python3 -c \"\nfrom flask import Flask\napp = Flask(__name__)\napp.config['SERVER_NAME'] = 'test.local'\nprint(app.config.get('SERVER_NAME'))\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-83d84ff1aef891e0"
+        }
+      ],
+      "recorded_llm_wait_s": 2.319576015986968,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"routes_command\\|routes\" /testbed/tests/ | grep -i \"route\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b9b909bdefa88cf1"
+        }
+      ],
+      "recorded_llm_wait_s": 14.580404806998558,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '440,510p' /testbed/tests/test_cli.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-acc6010bfb830ecb"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5234296649869066,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "python3 -c \"\nfrom werkzeug.routing import Map, Rule\nm = Map([\n    Rule('/home', subdomain='admin', endpoint='admin.home'),\n    Rule('/home', subdomain='test', endpoint='test.home'),\n    Rule('/static/<path:filename>', endpoint='static'),\n], server_name='test.local')\nfor rule in m.iter_rules():\n    print(f'endpoint={rule.endpoint}, subdomain={rule.subdomain}, rule={rule.rule}')\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-98102eb536e5dee6"
+        }
+      ],
+      "recorded_llm_wait_s": 14.317491709982278,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '988,1045p' /testbed/src/flask/cli.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b1ac56effcc4f8d4"
+        }
+      ],
+      "recorded_llm_wait_s": 2.926914329000283,
+      "step_idx": 10
+    }
+  ]
+}

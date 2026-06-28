@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13964:latest",
+    "instance_id": "django__django-13964",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13964.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-82d3b114a7d898a1"
+        }
+      ],
+      "recorded_llm_wait_s": 4.732869017985649,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"ForwardManyToOneDescriptor\\|class ForeignKey\\|def __set__\" /testbed/django/db/models/fields/related.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8ce36905140e585a"
+        }
+      ],
+      "recorded_llm_wait_s": 5.067449043999659,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class ForwardManyToOneDescriptor\" /testbed/django/db/models/fields/related_descriptors.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-805ae7d29fcf8166"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0130387480021454,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '82,200p' /testbed/django/db/models/fields/related_descriptors.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-91e730fa0bdee74e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0195697660092264,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '200,280p' /testbed/django/db/models/fields/related_descriptors.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bc017e39005d1799"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3426290180068463,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"pre_save\\|get_prep_value\\|get_db_prep_save\" /testbed/django/db/models/fields/related.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-99958f00ba4ba9de"
+        }
+      ],
+      "recorded_llm_wait_s": 7.157826089998707,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '950,1000p' /testbed/django/db/models/fields/related.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8e7c1aeeb75d15e3"
+        }
+      ],
+      "recorded_llm_wait_s": 1.533853683999041,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def save\\|def _save_table\\|pre_save\" /testbed/django/db/models/base.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b37fc08306d67b8f"
+        }
+      ],
+      "recorded_llm_wait_s": 8.937741075002123,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '740,770p' /testbed/django/db/models/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ac2dfae5035fdad2"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7412891800049692,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_save_parents\" /testbed/django/db/models/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a40bf0b713feceed"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5953555339947343,
+      "step_idx": 10
+    }
+  ]
+}

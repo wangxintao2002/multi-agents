@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-2848:latest",
+    "instance_id": "mwaskom__seaborn-2848",
+    "repo": "mwaskom/seaborn"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/mwaskom__seaborn-2848.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-beeb687fedc20c65"
+        }
+      ],
+      "recorded_llm_wait_s": 5.73392643299303,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport seaborn as sns\niris = sns.load_dataset('iris')\nsns.pairplot(iris, hue='species', hue_order=['setosa', 'versicolor'])\n\" 2>&1 | tail -30",
+          "expected_returncode": -1,
+          "tool_call_id": "call_23e7eca090104675ab7abbb9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0802345350093674,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && MPLBACKEND=Agg python -c \"\nimport seaborn as sns\niris = sns.load_dataset('iris')\nsns.pairplot(iris, hue='species', hue_order=['setosa', 'versicolor'])\nprint('SUCCESS')\n\" 2>&1",
+          "expected_returncode": -1,
+          "tool_call_id": "call_ab673a9fbbfc41aabdb2b2f5"
+        }
+      ],
+      "recorded_llm_wait_s": 2.442714971024543,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat > /tmp/test_issue.py << 'EOF'\nimport matplotlib\nmatplotlib.use('Agg')\nimport seaborn as sns\nimport sys\n\niris = sns.load_dataset('iris')\ntry:\n    sns.pairplot(iris, hue='species', hue_order=['setosa', 'versicolor'])\n    print('SUCCESS')\nexcept Exception as e:\n    print(f'ERROR: {type(e).__name__}: {e}')\n    import traceback\n    traceback.print_exc()\nsys.exit(0)\nEOF\ntimeout 30 python /tmp/test_issue.py 2>&1",
+          "expected_returncode": 124,
+          "tool_call_id": "call_1b11db8df7564072833cc0b0"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5837608780129813,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat > /tmp/test_issue2.py << 'EOF'\nimport matplotlib\nmatplotlib.use('Agg')\nimport seaborn as sns\nimport sys\nimport os\n\nos.environ['MPLBACKEND'] = 'Agg'\n\niris = sns.load_dataset('iris')\nprint(\"Loaded iris dataset\", flush=True)\nprint(f\"Hue values: {iris['species'].unique()}\", flush=True)\nprint(f\"Hue order requested: ['setosa', 'versicolor']\", flush=True)\n\n# Try to trace the issue\nfrom seaborn._core import plot as core_plot\nprint(f\"Module loaded\", flush=True)\n\n# Let's just try the filtering logic directly\nimport pandas as pd\nhue = \"species\"\nhue_order = [\"setosa\", \"versicolor\"]\n\n# Check what pairplot does\nimport inspect\nsource = inspect.getsource(sns.pairplot)\nprint(\"pairplot source loaded\", flush=True)\nsys.exit(0)\nEOF\ntimeout 15 python /tmp/test_issue2.py 2>&1",
+          "expected_returncode": 124,
+          "tool_call_id": "call_e35cc01393684abc9b29ff6d"
+        }
+      ],
+      "recorded_llm_wait_s": 5.7479959610209335,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && timeout 10 python -c \"import matplotlib; matplotlib.use('Agg'); print('matplotlib ok')\" 2>&1",
+          "expected_returncode": 0,
+          "tool_call_id": "call_501cc982f1354c7bb039e030"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1214070770074613,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && timeout 10 python -c \"import matplotlib; matplotlib.use('Agg'); import seaborn; print('seaborn ok')\" 2>&1",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0d331341288c4c6cb28c9e6b"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5578162599995267,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && timeout 10 python -c \"\nimport matplotlib; matplotlib.use('Agg')\nimport seaborn as sns\niris = sns.load_dataset('iris')\nprint('loaded')\n\" 2>&1",
+          "expected_returncode": 124,
+          "tool_call_id": "call_14d36bbb1ef549cc863af8be"
+        }
+      ],
+      "recorded_llm_wait_s": 2.412944340991089,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && timeout 10 python -c \"\nimport matplotlib; matplotlib.use('Agg')\nimport seaborn as sns\nimport pandas as pd\nimport numpy as np\n\n# Create sample data manually\nnp.random.seed(0)\niris = pd.DataFrame({\n    'sepal_length': np.concatenate([np.random.normal(5, 0.5, 50), np.random.normal(6, 0.5, 50), np.random.normal(7, 0.5, 50)]),\n    'sepal_width': np.concatenate([np.random.normal(3.5, 0.5, 50), np.random.normal(3, 0.5, 50), np.random.normal(3.2, 0.5, 50)]),\n    'petal_length': np.concatenate([np.random.normal(1.5, 0.5, 50), np.random.normal(4, 0.5, 50), np.random.normal(5.5, 0.5, 50)]),\n    'petal_width': np.concatenate([np.random.normal(0.2, 0.1, 50), np.random.normal(1.3, 0.3, 50), np.random.normal(2, 0.3, 50)]),\n    'species': ['setosa']*50 + ['versicolor']*50 + ['virginica']*50\n})\nprint('Data created')\ntry:\n    sns.pairplot(iris, hue='species', hue_order=['setosa', 'versicolor'])\n    print('SUCCESS')\nexcept Exception as e:\n    print(f'ERROR: {type(e).__name__}: {e}')\n\" 2>&1",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d5820b71dc0a4487a673cb39"
+        }
+      ],
+      "recorded_llm_wait_s": 6.923743120976724,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && timeout 10 python -c \"\nimport matplotlib; matplotlib.use('Agg')\nimport seaborn as sns\nprint(sns.__version__)\n\" 2>&1",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3e1612cc486a4697b727d44c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.600514644989744,
+      "step_idx": 10
+    }
+  ]
+}

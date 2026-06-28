@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11133:latest",
+    "instance_id": "django__django-11133",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11133.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class HttpResponse\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-98b18fac8b2dc12f"
+        }
+      ],
+      "recorded_llm_wait_s": 3.527841144008562,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/http/response.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_710b88d565ad4f42ab2551b0"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8757717700209469,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class HttpResponse\" /testbed/django/http/response.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8ce1dfbd44f4ed07"
+        }
+      ],
+      "recorded_llm_wait_s": 2.7110667710076086,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '278,340p' /testbed/django/http/response.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_88c5d7367f9145789a5d364a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.194265844998881,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"make_bytes\" /testbed/django/http/response.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f670ac2de78340748a5d5feb"
+        }
+      ],
+      "recorded_llm_wait_s": 1.563093288015807,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '223,260p' /testbed/django/http/response.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bb279433ac264698a227f24f"
+        }
+      ],
+      "recorded_llm_wait_s": 1.677790128014749,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.http import HttpResponse\nresponse = HttpResponse(memoryview(b'My Content'))\nprint('Result:', response.content)\nprint('Expected:', b'My Content')\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "call_faa9b7fae46e415394d2703e"
+        }
+      ],
+      "recorded_llm_wait_s": 19.693983177974587,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.configure()\ndjango.setup()\n\nfrom django.http import HttpResponse\nresponse = HttpResponse(memoryview(b'My Content'))\nprint('Result:', response.content)\nprint('Expected:', b'My Content')\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_545aca86a5ec44a39c7e1d72"
+        }
+      ],
+      "recorded_llm_wait_s": 3.4046264209900983,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '223,235p' django/http/response.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a1e59a92a40c4b6a98b519a1"
+        }
+      ],
+      "recorded_llm_wait_s": 4.141571094980463,
+      "step_idx": 9
+    }
+  ]
+}

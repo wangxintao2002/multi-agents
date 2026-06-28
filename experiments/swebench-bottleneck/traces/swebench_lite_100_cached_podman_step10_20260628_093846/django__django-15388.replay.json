@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15388:latest",
+    "instance_id": "django__django-15388",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15388.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bca2fdd675e785db"
+        }
+      ],
+      "recorded_llm_wait_s": 8.047199182008626,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"TEMPLATES\" /testbed/django/conf/global_settings.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-97b6f079f5e5a7f1"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2377948919893242,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/django/utils/autoreload.py\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a42ae9e4a9187b53"
+        }
+      ],
+      "recorded_llm_wait_s": 3.3880219440034125,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-957f4d70c0fae45d"
+        }
+      ],
+      "recorded_llm_wait_s": 2.869291472976329,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/utils/autoreload.py | head -200",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8ad4e5fd9cad1bea"
+        }
+      ],
+      "recorded_llm_wait_s": 4.782901840022532,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"sys_path_directories\\|get_watchman_watched_roots\\|def watched_files\\|def _get_watch\\|def _watch_glob\\|def _subscribe_dir\\|def _update_watches\" /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a519d75da6c769cc"
+        }
+      ],
+      "recorded_llm_wait_s": 2.929626943980111,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '196,320p' /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-afd7999ab344be90"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8943457450077403,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '280,350p' /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b08ea3683e617c20"
+        }
+      ],
+      "recorded_llm_wait_s": 3.790778238995699,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '350,450p' /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ac48e939b2106599"
+        }
+      ],
+      "recorded_llm_wait_s": 6.424248068011366,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '450,600p' /testbed/django/utils/autoreload.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-81a80cb46bbfdae3"
+        }
+      ],
+      "recorded_llm_wait_s": 5.31888863799395,
+      "step_idx": 10
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13230:latest",
+    "instance_id": "django__django-13230",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13230.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"syndication\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-abb14023e91050ae"
+        },
+        {
+          "command": "find /testbed -path \"*/syndication/*\" -type f",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-be47a2fac598bf45"
+        }
+      ],
+      "recorded_llm_wait_s": 3.3413993830035906,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/syndication/views.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5247eaefa0204e6d8d3cb00b"
+        },
+        {
+          "command": "cat /testbed/django/utils/feedgenerator.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_fe1fe93412e14b899eb10ec4"
+        }
+      ],
+      "recorded_llm_wait_s": 3.8138254430086818,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"comments\" /testbed/django/utils/feedgenerator.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_af684605481048e5a152a2ba"
+        },
+        {
+          "command": "grep -n \"comments\" /testbed/django/contrib/syndication/views.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_119a5fa189624c77b1e7d7a2"
+        }
+      ],
+      "recorded_llm_wait_s": 5.586881254013861,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"comments\" /testbed/tests/syndication_tests/tests.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d867ed6028f14617a1a9fc14"
+        },
+        {
+          "command": "grep -n \"comments\" /testbed/tests/syndication_tests/feeds.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_52b68fd0937c44e9869c1d88"
+        }
+      ],
+      "recorded_llm_wait_s": 5.859902414988028,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '170,185p' django/contrib/syndication/views.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_24413c52a90942a1b38807a0"
+        }
+      ],
+      "recorded_llm_wait_s": 2.238330616004532,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '190,215p' django/contrib/syndication/views.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3c217353330b4dd9b2754193"
+        }
+      ],
+      "recorded_llm_wait_s": 2.238448194024386,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i '/item_copyright=self._get_dynamic_attr/a\\                comments=self._get_dynamic_attr('\\''item_comments'\\'', item),' django/contrib/syndication/views.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bcca4ea650554b7d9be3b079"
+        }
+      ],
+      "recorded_llm_wait_s": 3.1448317660251632,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '200,215p' django/contrib/syndication/views.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8be58e165f7940498ef5747d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.694767001987202,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '215,225p' django/contrib/syndication/views.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_54255666d9d2441b82b8f119"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7204655699897557,
+      "step_idx": 9
+    }
+  ]
+}

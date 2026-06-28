@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10297:latest",
+    "instance_id": "scikit-learn__scikit-learn-10297",
+    "repo": "scikit-learn/scikit-learn"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/scikit-learn__scikit-learn-10297.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/linear_model*\" -name \"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a10eb2f507c04196a682a468"
+        }
+      ],
+      "recorded_llm_wait_s": 5.031865341006778,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed/sklearn/linear_model -name \"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6f6a555e2ac3460bb498447c"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2933613329951186,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class Ridge\" /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f8eb7a13a4ac410fab94c332"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2041426519863307,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class _BaseRidgeCV\\|class RidgeCV\\|class RidgeClassifierCV\\|store_cv_values\\|cv_values_\" /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3d3c58ac2aad4a69ac2209c2"
+        }
+      ],
+      "recorded_llm_wait_s": 2.858265906019369,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1087,1145p' /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3ec03796dab14c8985dfdf8c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9135580840229522,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1147,1350p' /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_421b3fdb42a54262adffd9d5"
+        }
+      ],
+      "recorded_llm_wait_s": 3.1947506309952587,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1340,1420p' /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_492a9914e2a94ff596de8232"
+        }
+      ],
+      "recorded_llm_wait_s": 4.184058829996502,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def __init__\" /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_24217defec0c417f9984644d"
+        }
+      ],
+      "recorded_llm_wait_s": 8.721092291001696,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/    def __init__(self, alphas=(0.1, 1.0, 10.0), fit_intercept=True,\\n                 normalize=False, scoring=None, cv=None, class_weight=None):/\\n    def __init__(self, alphas=(0.1, 1.0, 10.0), fit_intercept=True,\\n                 normalize=False, scoring=None, cv=None, class_weight=None,\\n                 store_cv_values=False):/' sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a96ca74f895949b4b1ce1701"
+        }
+      ],
+      "recorded_llm_wait_s": 3.363551112008281,
+      "step_idx": 9
+    }
+  ]
+}

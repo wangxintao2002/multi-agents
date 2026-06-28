@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12856:latest",
+    "instance_id": "django__django-12856",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12856.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"E012\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-925c8d7eff0efde5"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8458533930242993,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"E012\" /testbed/django/db/models/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bc506b5b44a48ef2"
+        }
+      ],
+      "recorded_llm_wait_s": 1.427568840997992,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1640,1700p' /testbed/django/db/models/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a226bae63ee54a9a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.440995117998682,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"unique_together\" /testbed/django/db/models/base.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9d59ee030b68a460"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3104357970005367,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"UniqueConstraint\\|_check_constraints\\|constraints\" /testbed/django/db/models/base.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-aed7528ae80dd750"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6555864310066681,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1867,1930p' /testbed/django/db/models/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b8c60f1bb903e24c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6210830690106377,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1562,1590p' /testbed/django/db/models/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9e00d12b3948f171"
+        }
+      ],
+      "recorded_llm_wait_s": 5.033370757009834,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/db/models/constraints.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b3838f92aafd6288"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3894435789843556,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"UniqueConstraint\" /testbed/tests/invalid_models_tests/test_models.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bef553a5acb087ba"
+        }
+      ],
+      "recorded_llm_wait_s": 2.818081142002484,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1410,1510p' /testbed/tests/invalid_models_tests/test_models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-86231853d3236c70"
+        }
+      ],
+      "recorded_llm_wait_s": 1.604808473988669,
+      "step_idx": 10
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-14580:latest",
+    "instance_id": "django__django-14580",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-14580.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/db/migrations/writer.py\" | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_734aa23e8c3240a0945e105e"
+        },
+        {
+          "command": "find /testbed -path \"*/db/migrations/serializer.py\" | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bb8a89b7fef1470d886e13b8"
+        }
+      ],
+      "recorded_llm_wait_s": 5.35337812799844,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"bases\" django/db/migrations/writer.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a53c20be205eb679"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0375878880149685,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/db/migrations/writer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_aaa3e83210024a96ae9d7455"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9614433000097051,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5e0746aca05541db974bfee6"
+        }
+      ],
+      "recorded_llm_wait_s": 4.442687090020627,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"special_cases\" django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4e5e5a8b320c4f1eb06e4748"
+        }
+      ],
+      "recorded_llm_wait_s": 10.555354596988764,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '270,290p' django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c46d9e8f563340748dc79921"
+        }
+      ],
+      "recorded_llm_wait_s": 1.810204954992514,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.db.migrations.serializer import TypeSerializer, serializer_factory\nfrom django.db import models\n\n# Simulate what happens when models.Model is in the bases\nts = TypeSerializer(models.Model)\nresult_string, result_imports = ts.serialize()\nprint('String:', result_string)\nprint('Imports:', result_imports)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7e5db515321241f1b7013287"
+        }
+      ],
+      "recorded_llm_wait_s": 3.9663033279939555,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/(models.Model, \"models.Model\", \\[\\]),/(models.Model, \"models.Model\", [\"from django.db import models\"]),/' django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e9a3fc35c73547d5b1850859"
+        }
+      ],
+      "recorded_llm_wait_s": 3.1409316189819947,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '274,278p' django/db/migrations/serializer.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4d3b3625731341df809ec1e7"
+        }
+      ],
+      "recorded_llm_wait_s": 3.680586295988178,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.db.migrations.serializer import TypeSerializer\nfrom django.db import models\n\n# Test models.Model\nts = TypeSerializer(models.Model)\nresult_string, result_imports = ts.serialize()\nprint('String:', result_string)\nprint('Imports:', result_imports)\n\n# Test type(None)\nts2 = TypeSerializer(type(None))\nresult_string2, result_imports2 = ts2.serialize()\nprint('String:', result_string2)\nprint('Imports:', result_imports2)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9939e8f74715433d8bc245f9"
+        }
+      ],
+      "recorded_llm_wait_s": 3.327270147012314,
+      "step_idx": 10
+    }
+  ]
+}

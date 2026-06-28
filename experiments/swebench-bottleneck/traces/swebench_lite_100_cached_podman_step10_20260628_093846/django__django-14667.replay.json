@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-14667:latest",
+    "instance_id": "django__django-14667",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-14667.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a30f088ea4aef970"
+        }
+      ],
+      "recorded_llm_wait_s": 7.508852186001604,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def defer\\|def only\" /testbed/django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_24209c58d7784f93ac707476"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5981876890000422,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1200,1280p' /testbed/django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-87f6ab6aee052853"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1582569839956705,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def add_deferred_loading\\|def add_immediate_loading\\|def clear_deferred_loading\" /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bbb79f9e5bc676a5"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0781079820008017,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '2067,2130p' /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-afbd611f96085dd9"
+        }
+      ],
+      "recorded_llm_wait_s": 1.2868540899944492,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '2120,2180p' /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b09cc4f34776ccd7"
+        }
+      ],
+      "recorded_llm_wait_s": 7.808195100020384,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"deferred_loading\" /testbed/django/db/models/sql/query.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b7cd5c431cf3ca9a"
+        }
+      ],
+      "recorded_llm_wait_s": 10.251307111990172,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '665,710p' /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9d73cd2145709c5c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6519175559806172,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '665,730p' /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b1537c1d8e2f4402a4a7809d"
+        }
+      ],
+      "recorded_llm_wait_s": 31.954838820005534,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '730,760p' /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d30742b97e354cc3bc9b414e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2515311029856093,
+      "step_idx": 10
+    }
+  ]
+}

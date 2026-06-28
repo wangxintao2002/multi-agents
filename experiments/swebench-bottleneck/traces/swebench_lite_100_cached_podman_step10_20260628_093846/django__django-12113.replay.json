@@ -1,0 +1,102 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12113:latest",
+    "instance_id": "django__django-12113",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12113.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"test_multidb.py\" | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8d4852935368b4d3"
+        }
+      ],
+      "recorded_llm_wait_s": 6.365041672979714,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/tests/admin_views/test_multidb.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a4b5ae39bc428bd9"
+        }
+      ],
+      "recorded_llm_wait_s": 1.966472439991776,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"setUpClass\\|setUpTestData\\|_rollback\\|_fixture_setup\\|setup_databases\\|savepoint\" django/test/testcases.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9bc868a8fc3551ef"
+        }
+      ],
+      "recorded_llm_wait_s": 26.445319177990314,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/test/testcases.py | sed -n '1088,1165p'",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a1f96ef8624cd016"
+        }
+      ],
+      "recorded_llm_wait_s": 6.7365382950229105,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"_enter_atomics\" django/test/testcases.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ad1decefe6158a32"
+        }
+      ],
+      "recorded_llm_wait_s": 4.773023271991406,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/test/testcases.py | sed -n '1079,1095p'",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9a7214d49e74105c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.907922045997111,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"keepdb\\|can_clone\\|_prepare\\|_give_name\\|test_db\" django/test/utils.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_efbbd36dfbf24445b0b07ab2"
+        }
+      ],
+      "recorded_llm_wait_s": 6.554453184973681,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"can_clone\\|clone_test_db\" django/db/backends/sqlite3/creation.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bd902a60994b0956"
+        }
+      ],
+      "recorded_llm_wait_s": 6.552874966000672,
+      "step_idx": 8
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-11400:latest",
+    "instance_id": "sympy__sympy-11400",
+    "repo": "sympy/sympy"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/sympy__sympy-11400.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"ccode\\|CCodePrinter\\|codegen\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_77df5d0ab4f24bb2bb86c70d"
+        }
+      ],
+      "recorded_llm_wait_s": 4.812793739984045,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/sympy/printing/ccode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b4f8ad3730f249efafa97ae0"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3775578079803381,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"sinc\" sympy/printing/ccode.py sympy/printing/codeprinter.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_8818ebf19bd54e4d9f71c032"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2974760349898133,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"class sinc\\|def sinc\\|_print_sinc\\|_print_Sinc\\|'sinc'\" sympy/ --include=\"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4ba87be4a5f24b668bdf1b61"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8447058289893903,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1620,1680p' sympy/functions/elementary/trigonometric.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5d402d2953c64a5cba89e54f"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9190066700102761,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '390,410p' sympy/printing/octave.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d02a58f079334957b4a4bd1b"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9018102019908838,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"_print_Piecewise\\|_print_Function\\|_print_not_supported\" sympy/printing/ccode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d815a575ace146f3b850cef3"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8072329800052103,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '184,220p' sympy/printing/ccode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_65236aa2093d4d708805737a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2711882359872106,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"sinc\" sympy/printing/fcode.py sympy/printing/jscode.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_95228f0f93644a99b66d40a7"
+        }
+      ],
+      "recorded_llm_wait_s": 3.9129020869731903,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom sympy import sinc, sin, Piecewise, Ne, Symbol, S\nx = Symbol('x')\n# Check if sinc has a rewrite method for piecewise\nprint(sinc(x).rewrite(Piecewise))\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_85dfe53e50ff4d36a6f92a6d"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2569827219995204,
+      "step_idx": 10
+    }
+  ]
+}

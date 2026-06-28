@@ -1,0 +1,91 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest",
+    "instance_id": "astropy__astropy-12907",
+    "repo": "astropy/astropy"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/astropy__astropy-12907.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/modeling/separable.py\" -type f",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f84c13ebb3b74687b009ace2"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8216674879950006,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/astropy/modeling/separable.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ab8deb79b8dc843d"
+        }
+      ],
+      "recorded_llm_wait_s": 0.9743849389778916,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom astropy.modeling import models as m\nfrom astropy.modeling.separable import separability_matrix\n\ncm = m.Linear1D(10) & m.Linear1D(5)\nprint('cm separability:')\nprint(separability_matrix(cm))\n\nprint()\nprint('Pix2Sky_TAN() & Linear1D(10) & Linear1D(5):')\nprint(separability_matrix(m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5)))\n\nprint()\nprint('Pix2Sky_TAN() & cm (nested):')\nprint(separability_matrix(m.Pix2Sky_TAN() & cm))\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9ddcb237ba1e991a"
+        }
+      ],
+      "recorded_llm_wait_s": 18.452626544982195,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/cright\\[-right.shape\\[0\\]:, -right.shape\\[1\\]:\\] = 1/cright[-right.shape[0]:, -right.shape[1]:] = right/' astropy/modeling/separable.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bf6999b8b288d645"
+        }
+      ],
+      "recorded_llm_wait_s": 13.847332070989069,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom astropy.modeling import models as m\nfrom astropy.modeling.separable import separability_matrix\n\ncm = m.Linear1D(10) & m.Linear1D(5)\nprint('Pix2Sky_TAN() & cm (nested):')\nprint(separability_matrix(m.Pix2Sky_TAN() & cm))\nprint()\nprint('Expected: diagonal for last two')\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a78d2d2a7ef60816"
+        }
+      ],
+      "recorded_llm_wait_s": 2.9847956899902783,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- astropy/modeling/separable.py > patch.txt && cat patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9498ca64f62ca943"
+        }
+      ],
+      "recorded_llm_wait_s": 10.117200759006664,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat patch.txt",
+          "expected_returncode": null,
+          "tool_call_id": "chatcmpl-tool-a26c40f17cb83417"
+        }
+      ],
+      "recorded_llm_wait_s": 2.907266563997837,
+      "step_idx": 7
+    }
+  ]
+}

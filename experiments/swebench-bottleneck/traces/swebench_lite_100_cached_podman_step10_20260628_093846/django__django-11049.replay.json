@@ -1,0 +1,91 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11049:latest",
+    "instance_id": "django__django-11049",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11049.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -r \"DD.*HH.*MM.*ss\" --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-ac591bb3f26005ab"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3395622140087653,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"DD.*HH.*MM.*ss\" django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-993deab284224229"
+        }
+      ],
+      "recorded_llm_wait_s": 2.44436635702732,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1580,1600p' django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b8d34a9ee830e394"
+        }
+      ],
+      "recorded_llm_wait_s": 1.533460319013102,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i \"s/\\[DD\\] \\[HH:\\[MM:\\]\\]ss\\[.uuuuuu\\]/[DD] [[HH:]MM:]ss[.uuuuuu]/\" django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-980790b66aa27bc7"
+        }
+      ],
+      "recorded_llm_wait_s": 3.171277449000627,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1588,1592p' django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-96741baf4ed89239"
+        }
+      ],
+      "recorded_llm_wait_s": 1.693785008013947,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- django/db/models/fields/__init__.py > patch.txt && cat patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a65d47c1d255a55a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5698381800029892,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat patch.txt",
+          "expected_returncode": null,
+          "tool_call_id": "chatcmpl-tool-b4f61b6a4289bc9e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.7526050430024043,
+      "step_idx": 7
+    }
+  ]
+}

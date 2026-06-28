@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11964:latest",
+    "instance_id": "django__django-11964",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11964.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "call_372dc84f375b47a8aa8b6c62"
+        }
+      ],
+      "recorded_llm_wait_s": 5.931425386981573,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -r \"TextChoices\\|IntegerChoices\" /testbed/django --include=\"*.py\" -l",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0ec1b02f863e4f94955c4f93"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7657558480277658,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/db/models/enums.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c7fec6ad553245f281e8d55a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9830464190163184,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def to_python\\|def get_prep_value\\|def from_db_value\\|def contribute_to_class\\|choices\" /testbed/django/db/models/fields/__init__.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_263f098dc93e42718590b6c4"
+        }
+      ],
+      "recorded_llm_wait_s": 11.039752279000822,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '749,800p' /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5c05a730af57438da5b815d8"
+        }
+      ],
+      "recorded_llm_wait_s": 7.8058207310095895,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"descriptor_class\\|class DeferredAttribute\\|class FileField\" /testbed/django/db/models/fields/__init__.py | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5c8442ec78f0486d8f2260b7"
+        }
+      ],
+      "recorded_llm_wait_s": 3.9948684129922185,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class DeferredAttribute\" /testbed/django/db/models/fields/deferred.py 2>/dev/null || grep -rn \"class DeferredAttribute\" /testbed/django/db/models/ --include=\"*.py\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d93062808295409e92b25f70"
+        }
+      ],
+      "recorded_llm_wait_s": 2.919183015008457,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '114,160p' /testbed/django/db/models/query_utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a4a5fc1cf5eb464185c09134"
+        }
+      ],
+      "recorded_llm_wait_s": 2.56351174597512,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"from_db_value\" /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7c660e49f24c4eab9d013898"
+        }
+      ],
+      "recorded_llm_wait_s": 5.051679344003787,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class CharField\\|class IntegerField\\|class TextField\" /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f990237689dc4d4abe44a811"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8212570650212,
+      "step_idx": 10
+    }
+  ]
+}

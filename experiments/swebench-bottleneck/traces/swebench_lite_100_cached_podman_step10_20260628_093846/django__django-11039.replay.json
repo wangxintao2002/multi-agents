@@ -1,0 +1,118 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11039:latest",
+    "instance_id": "django__django-11039",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11039.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"output_transaction\" /testbed/django/core/management/commands/sqlmigrate.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a85a4689a4390168"
+        },
+        {
+          "command": "grep -rn \"can_rollback_ddl\" /testbed/django/db/backends/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-965041f156c9737a"
+        }
+      ],
+      "recorded_llm_wait_s": 5.420442155998899,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/management/commands/sqlmigrate.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b33907d275e04b399df06bba"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2913725980033632,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '90,100p' /testbed/django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f55d47dcaad84fb78aaef67c"
+        }
+      ],
+      "recorded_llm_wait_s": 3.3359462399967015,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/self.output_transaction = migration.atomic/self.output_transaction = migration.atomic and connection.features.can_rollback_ddl/' django/core/management/commands/sqlmigrate.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d9095028ceb643e099918ad5"
+        }
+      ],
+      "recorded_llm_wait_s": 2.9851634980004746,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/core/management/commands/sqlmigrate.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9f0b6947764f4424a589a14e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.963480783975683,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test migrations.test_commands -v2 --settings=tests.test_sqlite 2>&1 | tail -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_650efbfea2b54abead8f12a4"
+        }
+      ],
+      "recorded_llm_wait_s": 3.256125162995886,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed/tests && python -m django test migrations.test_commands -v2 --settings=test_sqlite 2>&1 | tail -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c9775f50670547c3a615250a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.588859012001194,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python tests/runtests.py migrations.test_commands -v2 2>&1 | tail -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3778db95de2b411996e047c7"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6701485759986099,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- django/core/management/commands/sqlmigrate.py > patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "call_107362ad3c684edfa561eee4"
+        }
+      ],
+      "recorded_llm_wait_s": 2.014333961997181,
+      "step_idx": 9
+    }
+  ]
+}

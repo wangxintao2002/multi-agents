@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12284:latest",
+    "instance_id": "django__django-12284",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12284.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9ff24b88ac3ffa3b"
+        }
+      ],
+      "recorded_llm_wait_s": 5.867034908995265,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"get_display\" django/db/models/fields/__init__.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_aa93e9fb60474c319a457db0"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8753127140225843,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"get_display\\|_display\\|choices\" django/db/models/fields/__init__.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8b4226a3bf236af3"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8970115419942886,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '760,780p' django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bccb53d3457f59b9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3556213520059828,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"_get_FIELD_display\" django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9b0794f4bb15a6cd"
+        }
+      ],
+      "recorded_llm_wait_s": 9.091341883002315,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"_get_FIELD_display\" django/db/models/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b5ef8c1f54c76b1d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5927911910112016,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '940,960p' django/db/models/base.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b85209bb48c93507"
+        }
+      ],
+      "recorded_llm_wait_s": 1.2173093629826326,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '750,775p' django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-97278b52e46cc229"
+        }
+      ],
+      "recorded_llm_wait_s": 3.9171989760070574,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\n\n settings.configure(\nINSTALLED_APPS = ['testapp']\nINSTALLEDATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': 'test.db'}}\ndjango.setup()\n\nfrom django.db import models\n\nclass A(models.Model):\n    foo_choice = [('A','output1'),('B','output2')]\n    field_foo = models.CharFieldField(max_length=254, choices=foo_choice)\n    class Meta:\n        abstract = True\n        app_label = 'testapp'\n\nclass B(A):\n    foo_choice = [('A','output1'),('B','output2'),('C','output3')]\n    field_foo = models.CharField(max_length=254, choices=foo_choice)\n\nb = B(field_foo='A')\nprint('A:', b.get_field_foo_display())\nb = B(field_foo='B')\nprint('B:', b.get_field_foo_display())\nb = B(field_foo='C')\nprint('C:', b.get_field_foo_display())\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b08c643e12180481"
+        }
+      ],
+      "recorded_llm_wait_s": 19.515890775976004,
+      "step_idx": 9
+    }
+  ]
+}

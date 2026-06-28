@@ -1,0 +1,143 @@
+# Trace collection only: run real mini-swe-agent on 100 SWE-bench Lite
+# instances whose images are already present in the local Podman store, then
+# extract the resulting tool-call traces for deterministic replay.
+#
+# This is intentionally not a scheduling benchmark:
+# - one C=inf task_lease cell only
+# - no memory cap
+# - no pre-pull during the run
+# - moderate offered concurrency to avoid making API limits the experiment
+
+model:
+  name: "openrouter/xiaomi/mimo-v2.5-pro"
+  cost_tracking: "ignore_errors"
+  model_kwargs:
+    drop_params: true
+    parallel_tool_calls: true
+    temperature: 0.0
+    timeout: 120
+
+dataset:
+  subset: "lite"
+  split: "test"
+  n_instances: 100
+  selection: "stratified"
+  seed: 42
+  include_instance_ids:
+    - "astropy__astropy-7746"
+    - "django__django-12497"
+    - "matplotlib__matplotlib-25433"
+    - "mwaskom__seaborn-2848"
+    - "pallets__flask-5063"
+    - "pydata__xarray-4094"
+    - "pylint-dev__pylint-7228"
+    - "pytest-dev__pytest-9359"
+    - "scikit-learn__scikit-learn-10297"
+    - "sphinx-doc__sphinx-8721"
+    - "sympy__sympy-11400"
+    - "astropy__astropy-12907"
+    - "django__django-12308"
+    - "scikit-learn__scikit-learn-10508"
+    - "astropy__astropy-6938"
+    - "django__django-11815"
+    - "astropy__astropy-14365"
+    - "django__django-15819"
+    - "astropy__astropy-14182"
+    - "django__django-11620"
+    - "astropy__astropy-14995"
+    - "django__django-15400"
+    - "django__django-14608"
+    - "django__django-11564"
+    - "django__django-14855"
+    - "django__django-13660"
+    - "django__django-11039"
+    - "django__django-11019"
+    - "django__django-15781"
+    - "django__django-12286"
+    - "django__django-12453"
+    - "django__django-14238"
+    - "django__django-14997"
+    - "django__django-15790"
+    - "django__django-14672"
+    - "django__django-12184"
+    - "django__django-15789"
+    - "django__django-13658"
+    - "django__django-15902"
+    - "django__django-13768"
+    - "django__django-12747"
+    - "django__django-10914"
+    - "django__django-11910"
+    - "django__django-15695"
+    - "django__django-13220"
+    - "django__django-14752"
+    - "django__django-11905"
+    - "django__django-15347"
+    - "django__django-15213"
+    - "django__django-15814"
+    - "django__django-15388"
+    - "django__django-12125"
+    - "django__django-11099"
+    - "django__django-11999"
+    - "django__django-14667"
+    - "django__django-13964"
+    - "django__django-12915"
+    - "django__django-11797"
+    - "django__django-13551"
+    - "django__django-11001"
+    - "django__django-13315"
+    - "django__django-15320"
+    - "django__django-12708"
+    - "django__django-11133"
+    - "django__django-14017"
+    - "django__django-11049"
+    - "django__django-14580"
+    - "django__django-11848"
+    - "django__django-13028"
+    - "django__django-12983"
+    - "django__django-12113"
+    - "django__django-12856"
+    - "django__django-11583"
+    - "django__django-15498"
+    - "django__django-13933"
+    - "django__django-11630"
+    - "django__django-14915"
+    - "django__django-13401"
+    - "django__django-14787"
+    - "django__django-14016"
+    - "django__django-13447"
+    - "django__django-15851"
+    - "django__django-13590"
+    - "django__django-15061"
+    - "django__django-12284"
+    - "django__django-14155"
+    - "django__django-13158"
+    - "django__django-15738"
+    - "django__django-15996"
+    - "django__django-13710"
+    - "django__django-11964"
+    - "django__django-11179"
+    - "django__django-14382"
+    - "django__django-12470"
+    - "django__django-13230"
+    - "django__django-14411"
+    - "django__django-12589"
+    - "django__django-13448"
+    - "django__django-12908"
+    - "django__django-13757"
+
+limits:
+  step_limit: 10
+  cost_limit: 1.5
+  wall_time_limit_seconds: 900
+
+run:
+  offered_concurrency: 16
+  slot_capacities: ["inf"]
+  inf_capacity: 256
+  lease_mode: "task_lease"
+  pre_pull_images: false
+  docker_executable: "podman"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 2.0

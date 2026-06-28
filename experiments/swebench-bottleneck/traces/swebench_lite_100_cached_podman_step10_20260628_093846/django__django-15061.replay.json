@@ -1,0 +1,129 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15061:latest",
+    "instance_id": "django__django-15061",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15061.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class MultiWidget\" 2>/dev/null",
+          "expected_returncode": 123,
+          "tool_call_id": "call_c375ff9db6b4466699a315eb"
+        },
+        {
+          "command": "grep -rn \"id_for_label\" /testbed/django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_af8d3c642f0c4c6ea936b916"
+        }
+      ],
+      "recorded_llm_wait_s": 4.3135431130067445,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class MultiWidget\" /testbed/django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-96eb2cfd5e5a3b41"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3092355789849535,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '793,900p' /testbed/django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b793f9e159e2ef1b"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8626895170018543,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '260,275p' /testbed/django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9f9fe546dd5bc44c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.872524856997188,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"id_for_label\" /testbed/tests/forms_tests/widget_tests/test_multiwidget.py",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-9900bf9ffdd0d243"
+        }
+      ],
+      "recorded_llm_wait_s": 3.984199238999281,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"id_for_label\" /testbed/tests/ | grep -i multi",
+          "expected_returncode": 0,
+          "tool_call_id": "call_224e6ad9d12f454888fbf640"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2177993560035247,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"id_for_label\" /testbed/django/forms/ | grep -v \"__pycache__\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4fc596f3c0fd4df79545ff9d"
+        }
+      ],
+      "recorded_llm_wait_s": 8.251921743998537,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"id_for_label\" /testbed/django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_055f3398e35a4130964b0b7d"
+        }
+      ],
+      "recorded_llm_wait_s": 6.212595715973293,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1055,1070p' /testbed/django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_fecf59a50b454edda3834607"
+        }
+      ],
+      "recorded_llm_wait_s": 4.966883315995801,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '848,856p' /testbed/django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c5de070806454f8bb220c49d"
+        }
+      ],
+      "recorded_llm_wait_s": 3.672124172997428,
+      "step_idx": 10
+    }
+  ]
+}

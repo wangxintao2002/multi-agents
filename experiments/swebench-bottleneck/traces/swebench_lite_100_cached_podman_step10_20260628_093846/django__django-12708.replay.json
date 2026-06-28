@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12708:latest",
+    "instance_id": "django__django-12708",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12708.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && cat /testbed/django/db/backends/base/schema.py | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f564802a9ddd4773906484e6"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8562605989864096,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_delete_composed_index\" /testbed/django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a3e922452521489485318756"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0885825569857843,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '370,430p' /testbed/django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8daa560131c84be0a1f7d59f"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6759226839931216,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_constraint_names\" /testbed/django/db/backends/base/schema.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_72fbc0ebe8e64b43bfed9757"
+        }
+      ],
+      "recorded_llm_wait_s": 4.062381511990679,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1142,1180p' /testbed/django/db/backends/base/schema.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d056bed3b1f94a4f92c7f07e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7594615459966008,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"get_constraints\" /testbed/django/db/backends/sqlite3/introspection.py | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_873ab227af87407e902ea186"
+        }
+      ],
+      "recorded_llm_wait_s": 9.051849890995072,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '342,400p' /testbed/django/db/backends/sqlite3/introspection.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_583ae2fcb588453d8d300bd9"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6557588330178987,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -A 20 \"def get_constraints\" /testbed/django/db/backends/postgresql/introspection.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e3313cdcba4646bc86c6f988"
+        }
+      ],
+      "recorded_llm_wait_s": 15.09740658197552,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def get_constraints\" /testbed/django/db/backends/postgresql/introspection.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9adc3b8b6e71401c8ee99b8b"
+        }
+      ],
+      "recorded_llm_wait_s": 2.9976162220118567,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '137,220p' /testbed/django/db/backends/postgresql/introspection.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3f440a0112fe4cac895a754e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4563428410037886,
+      "step_idx": 10
+    }
+  ]
+}

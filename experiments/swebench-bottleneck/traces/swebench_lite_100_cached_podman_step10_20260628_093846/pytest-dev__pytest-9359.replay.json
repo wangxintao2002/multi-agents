@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-9359:latest",
+    "instance_id": "pytest-dev__pytest-9359",
+    "repo": "pytest-dev/pytest"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/pytest-dev__pytest-9359.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -30 && echo \"---\" && ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b4b39e0b50eb39a7"
+        }
+      ],
+      "recorded_llm_wait_s": 4.4856010130024515,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-93c10d799045b97c"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6601597819826566,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"visit_Assert\\|end_lineno\\|lineno\\|extra_lines\\|end\\|statement\\|_check_if_assertion\\|read_source\\|_get_assertion_expr\" /testbed/src/_pytest/assertion/rewrite.py | head -60",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a97471d8449743428bb3b544"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5835640910081565,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '558,612p' /testbed/src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d40d3f95d6424b82901a217e"
+        }
+      ],
+      "recorded_llm_wait_s": 4.574560009990819,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"extra_lines\\|getsource\\|source_line\\|read_source\\|get_example\" /testbed/src/_pytest/assertion/rewrite.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bc89863abf66466cafca849b"
+        }
+      ],
+      "recorded_llm_wait_s": 4.130694087012671,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '680,780p' /testbed/src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_80683e7128bd4da48e193502"
+        }
+      ],
+      "recorded_llm_wait_s": 3.6282159900001716,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '846,920p' /testbed/src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_be48addde4c74bd98b6efc57"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3196242919948418,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '920,980p' /testbed/src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4faf8ac9113c41308b99598a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0368953839933965,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"extraline\\|extra_line\\|extra lines\\|end_lineno\\|numlines\\|source.*line\" /testbed/src/_pytest/_code/ | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_392d59743e7243e8be39d275"
+        }
+      ],
+      "recorded_llm_wait_s": 5.630592179019004,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/src/_pytest/_code/source.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0a372f51ad8741a08749c8bd"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0299759159970563,
+      "step_idx": 10
+    }
+  ]
+}

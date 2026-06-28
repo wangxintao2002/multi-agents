@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-14365:latest",
+    "instance_id": "astropy__astropy-14365",
+    "repo": "astropy/astropy"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/astropy__astropy-14365.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/ascii/qdp.py\" -o -path \"*/ascii/qdp*\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_63ba0da9cc954953ba3a86f4"
+        }
+      ],
+      "recorded_llm_wait_s": 1.722586859978037,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n -i \"upper\\|case\\|READ\\|SERR\\|VERR\\|command\" /testbed/astropy/io/ascii/qdp.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a07d672afd20440397894c47"
+        }
+      ],
+      "recorded_llm_wait_s": 2.103888844983885,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '60,100p' /testbed/astropy/io/ascii/qdp.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4b35cfb7ba96451488f477ef"
+        }
+      ],
+      "recorded_llm_wait_s": 4.193698502989719,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '260,310p' /testbed/astropy/io/ascii/qdp.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0c468ae1762e4fcd931ea017"
+        }
+      ],
+      "recorded_llm_wait_s": 3.7390925280051306,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '71p' /testbed/astropy/io/ascii/qdp.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a50713f5e46b4866a026c0b0"
+        }
+      ],
+      "recorded_llm_wait_s": 9.339352656010306,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i '71s/_line_type_re = re.compile(_type_re)/_line_type_re = re.compile(_type_re, re.IGNORECASE)/' astropy/io/ascii/qdp.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0f256536e6464fb8a2cb2e08"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3135332629899494,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom astropy.table import Table\nimport tempfile, os\n\n# Create a QDP file with lowercase commands\nwith tempfile.NamedTemporaryFile(mode='w', suffix='.qdp', delete=False) as f:\n    f.write('read serr 1 2\\n')\n    f.write('1 0.5 1 0.5\\n')\n    fname = f.name\n\ntry:\n    t = Table.read(fname, format='ascii.qdp')\n    print('Success! Table:')\n    print(t)\n    print('Columns:', t.colnames)\nfinally:\n    os.unlink(fname)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c76ba188e0704d6c9457e53e"
+        }
+      ],
+      "recorded_llm_wait_s": 4.31819582398748,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom astropy.table import Table\nimport tempfile, os\n\n# Test mixed case\nwith tempfile.NamedTemporaryFile(mode='w', suffix='.qdp', delete=False) as f:\n    f.write('Read Serr 1 2\\n')\n    f.write('1 0.5 1 0.5\\n')\n    fname = f.name\n\ntry:\n    t = Table.read(fname, format='ascii.qdp')\n    print('Mixed case success!')\n    print(t)\nfinally:\n    os.unlink(fname)\n\n# Test uppercase (original behavior)\nwith tempfile.NamedTemporaryFile(mode='w', suffix='.qdp', delete=False) as f:\n    f.write('READ SERR 1 2\\n')\n    f.write('1 0.5 1 0.5\\n')\n    fname = f.name\n\ntry:\n    t = Table.read(fname, format='ascii.qdp')\n    print('Uppercase success!')\n    print(t)\nfinally:\n    os.unlink(fname)\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b58743a6fc6c4b2f82545cab"
+        }
+      ],
+      "recorded_llm_wait_s": 5.972280354006216,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m pytest astropy/io/ascii/tests/test_qdp.py -v 2>&1 | tail -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_767225d21c984eb0b8106a7a"
+        }
+      ],
+      "recorded_llm_wait_s": 3.9182828460179735,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- astropy/io/ascii/qdp.py > patch.txt && cat patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7a82f0af8bb94f9ba47071ad"
+        }
+      ],
+      "recorded_llm_wait_s": 3.097519490023842,
+      "step_idx": 10
+    }
+  ]
+}

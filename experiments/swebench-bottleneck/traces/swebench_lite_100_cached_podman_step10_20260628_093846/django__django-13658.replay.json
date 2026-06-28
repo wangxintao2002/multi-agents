@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13658:latest",
+    "instance_id": "django__django-13658",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13658.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -r \"CommandParser\" /testbed/django/core/management/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e3453dd853974a68bc5cad8e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.322092429996701,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"CommandParser(usage\" /testbed/django/core/management/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0d822342050040b39babcb75"
+        }
+      ],
+      "recorded_llm_wait_s": 1.997748274996411,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -i \"s/parser = CommandParser(usage='%(prog)s subcommand \\[options\\] \\[args\\]', add_help=False, allow_abbrev=False)/parser = CommandParser(\\n            prog=self.prog_name,\\n            usage='%(prog)s subcommand [options] [args]',\\n            add_help=False,\\n            allow_abbrev=False)/\" /testbed/django/core/management/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_38a95fb069fe4eecb4abd2fa"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5458437030029017,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '345,355p' /testbed/django/core/management/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5c116bd73d84449e901e0c29"
+        }
+      ],
+      "recorded_llm_wait_s": 1.924080711993156,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.core.management import ManagementUtility\n# Simulate passing custom argv where sys.argv[0] would differ\nutility = ManagementUtility(['custom_prog', 'help'])\n# Check that prog_name is set correctly\nprint('prog_name:', utility.prog_name)\n# Run execute_from_command_line to ensure no exceptions\nimport sys\noriginal_argv = sys.argv\nsys.argv = [None, 'help']  # Simulate broken sys.argv[0]\ntry:\n    # This should use self.prog_name, not sys.argv[0]\n    utility.execute_from_command_line()\nexcept SystemExit:\n    pass\nfinally:\n    sys.argv = original_argv\nprint('SUCCESS')\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "call_936de89ccef04cbf8fe64aaa"
+        }
+      ],
+      "recorded_llm_wait_s": 4.558227269997587,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.core.management import ManagementUtility\nutility = ManagementUtility(['custom_prog', 'help'])\nprint('prog_name:', utility.prog_name)\nutility.execute()\n\" 2>&1 | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5cb72468401842dbb5cbbe30"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4008540849899873,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m pytest tests/admin_scripts/tests.py -x -q 2>&1 | tail -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_059a53db21ad4c6084315d29"
+        }
+      ],
+      "recorded_llm_wait_s": 3.150879483000608,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test admin_scripts.tests.ManageSettingsWithSettingsErrors --settings=test_sqlite 2>&1 | tail -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_39874892ed544aed9adeac54"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3761167520133313,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python tests/runtests.py admin_scripts -v0 2>&1 | tail -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_66620d7cb65c42489d348bcd"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4654247549769934,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python tests/runtests.py admin_scripts -v2 2>&1 | grep -E \"FAIL|ERROR\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_910fbce0a1b94582920523a6"
+        }
+      ],
+      "recorded_llm_wait_s": 2.155187794007361,
+      "step_idx": 10
+    }
+  ]
+}

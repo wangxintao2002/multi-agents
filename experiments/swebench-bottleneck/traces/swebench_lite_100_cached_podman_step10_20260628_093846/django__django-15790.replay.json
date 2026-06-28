@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15790:latest",
+    "instance_id": "django__django-15790",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15790.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"check_for_template_tags_with_the_same_name\" 2>/dev/null",
+          "expected_returncode": 123,
+          "tool_call_id": "chatcmpl-tool-bbeb99d7006a0c1c"
+        }
+      ],
+      "recorded_llm_wait_s": 4.62220926801092,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/checks/templates.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_69efcadcea674b9d9ab68064"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3639367739961017,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/template/backends/django.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2afac19c768843e68c852fbb"
+        }
+      ],
+      "recorded_llm_wait_s": 1.78320063900901,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/tests/check_framework/test_templates.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f8c9bbb381024c999c2944e7"
+        }
+      ],
+      "recorded_llm_wait_s": 8.709318751993123,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/libraries = defaultdict(list)/libraries = defaultdict(set)/' django/core/checks/templates.py && sed -i 's/libraries\\[module_name\\].append(module_path)/libraries[module_name].add(module_path)/' django/core/checks/templates.py && cat django/core/checks/templates.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c2a1ac7ca9cd497a91556589"
+        }
+      ],
+      "recorded_llm_wait_s": 5.987863321002806,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test check_framework.test_templates --settings=tests.test_sqlite -v2 2>&1",
+          "expected_returncode": 1,
+          "tool_call_id": "call_e9440e5bdea7495a86fc4c5e"
+        }
+      ],
+      "recorded_llm_wait_s": 4.2827725220122375,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test check_framework.test_templates --settings=tests.test_sqlite -v2 2>&1 || python tests/runtests.py check_framework.test_templates -v2 2>&1",
+          "expected_returncode": 1,
+          "tool_call_id": "call_c8e7928635f04eea9572132f"
+        }
+      ],
+      "recorded_llm_wait_s": 2.911188526020851,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/\", \".join(repr(item) for item in items)/\", \".join(repr(item) for item in sorted(items))/' django/core/checks/templates.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c1f05199c14d461a9449a9ae"
+        }
+      ],
+      "recorded_llm_wait_s": 5.8754801019968,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python tests/runtests.py check_framework.test_templates -v2 2>&1",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b79e2fe02bb6fa51"
+        }
+      ],
+      "recorded_llm_wait_s": 8.449193790002028,
+      "step_idx": 9
+    }
+  ]
+}

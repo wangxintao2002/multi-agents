@@ -1,0 +1,27 @@
+# Replay memory pressure sanity check for the 100 cached SWE-bench Lite traces.
+#
+# Before running, create the slice:
+#   systemd-run --user --unit ma-replay-mem-anchor --slice ma-replay-mem.slice sleep infinity
+#   systemctl --user set-property --runtime ma-replay-mem.slice MemoryMax=128M MemorySwapMax=0 CPUQuota=1600%
+
+trace:
+  trace_dir: "traces/swebench_lite_100_cached_podman_step10_20260628_093846"
+  delay_mode: "fixed"
+  fixed_delay_s: 0.0
+  delay_scale: 1.0
+  duplicate_factor: 1
+
+limits:
+  command_timeout_s: 120
+
+run:
+  offered_concurrency: 16
+  slot_capacities: ["inf"]
+  inf_capacity: 256
+  lease_mode: "task_lease"
+  docker_executable: "podman"
+  cgroup_parent: "/user.slice/user-1005.slice/user@1005.service/ma.slice/ma-replay.slice/ma-replay-mem.slice"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 1.0

@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11019:latest",
+    "instance_id": "django__django-11019",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11019.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"MediaOrderConflictWarning\\|merge\\|_media\" django/forms/widgets.py | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-beb459e8888ea342"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0488094149914104,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '110,155p' django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-af57f418a036bd83"
+        }
+      ],
+      "recorded_llm_wait_s": 0.862466922000749,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '155,185p' django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9bf9495bbf923579"
+        }
+      ],
+      "recorded_llm_wait_s": 1.495573082996998,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '55,100p' django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a920a80be6431531"
+        }
+      ],
+      "recorded_llm_wait_s": 39.492011895024916,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python3 -c \"\nfrom django.forms.widgets import Media\nimport warnings\nwarnings.simplefilter('always')\n\n# ColorPicker: ['color-picker.js']\n# SimpleTextWidget: ['text-editor.js']  \n# FancyTextWidget: ['text-editor.js', 'text-editor-extras.js', 'color-picker.js']\n\nm1 = Media(js=['color-picker.js'])\nm2 = Media(js=['text-editor.js'])\nm3 = Media(js=['text-editor.js', 'text-editor-extras.js', 'color-picker.js'])\n\nresult = m1 + m2 + m3\nprint('Result:', result)\nprint('JS:', result._js)\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-96c49db353ba9120"
+        }
+      ],
+      "recorded_llm_wait_s": 47.46105153099052,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git log --oneline -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bbe15ebcd0012b12"
+        }
+      ],
+      "recorded_llm_wait_s": 54.42994398000883,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && find . -name \"*.py\" -exec grep -l \"topological\" {} \\;",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9cdd6253a0a4f3fb"
+        }
+      ],
+      "recorded_llm_wait_s": 31.784355678013526,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/utils/topological_sort.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a26932629745531f"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9748850839969236,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1,10p' django/forms/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a6caf0fb36783f43"
+        }
+      ],
+      "recorded_llm_wait_s": 8.466537684987998,
+      "step_idx": 9
+    }
+  ]
+}

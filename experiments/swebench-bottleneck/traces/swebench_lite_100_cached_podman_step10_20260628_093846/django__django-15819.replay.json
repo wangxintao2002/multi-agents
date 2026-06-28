@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15819:latest",
+    "instance_id": "django__django-15819",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15819.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"inspectdb\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5aabb4406f0f4532bfed9dd0"
+        }
+      ],
+      "recorded_llm_wait_s": 3.947432757995557,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"inspectdb\" | grep -v test | grep -v __pycache__",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b68f9f79ee9ad926"
+        }
+      ],
+      "recorded_llm_wait_s": 3.898705157014774,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" -path \"*/management/commands/inspectdb.py\" | grep -v gis",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9d22f8480d6ef87f"
+        }
+      ],
+      "recorded_llm_wait_s": 1.943419355986407,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/management/commands/inspectdb.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8bdbad10cb01695c"
+        }
+      ],
+      "recorded_llm_wait_s": 1.0445024679938797,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/core/management/commands/inspectdb.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b2078f1f844ca77a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4888010090216994,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '110,200p' /testbed/django/core/management/commands/inspectdb.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-857712a135979a5b"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3385853149811737,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '200,250p' /testbed/django/core/management/commands/inspectdb.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8c5bfeb72f327c18"
+        }
+      ],
+      "recorded_llm_wait_s": 2.155033453978831,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/tests/inspectdb/tests.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bc2f0a554e7c2392"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4673934720049147,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"related_name\" /testbed/tests/inspectdb/tests.py",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b54ce611ae7af5c1"
+        }
+      ],
+      "recorded_llm_wait_s": 1.2468077640223783,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/tests/inspectdb/models.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-89d884e48b05408a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.2958913710026536,
+      "step_idx": 10
+    }
+  ]
+}

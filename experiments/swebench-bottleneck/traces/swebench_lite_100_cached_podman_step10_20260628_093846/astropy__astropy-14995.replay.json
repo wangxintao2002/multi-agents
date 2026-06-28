@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-14995:latest",
+    "instance_id": "astropy__astropy-14995",
+    "repo": "astropy/astropy"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/astropy__astropy-14995.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -path \"*/nddata*\" -name \"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_228df1193f72476c98e31897"
+        }
+      ],
+      "recorded_llm_wait_s": 1.80818595198798,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/astropy/nddata/mixins/ndarithmetic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6b05a6afefd1459e9314bf59"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0147783149732277,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_arithmetic_mask\\|handle_mask\\|_arithmetic \" /testbed/astropy/nddata/mixins/ndarithmetic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4a654b8d6fbb47539763ba01"
+        }
+      ],
+      "recorded_llm_wait_s": 2.794510506995721,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '485,540p' /testbed/astropy/nddata/mixins/ndarithmetic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_cc3425b6edba4b8e8b5caad7"
+        }
+      ],
+      "recorded_llm_wait_s": 2.784568243980175,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '270,440p' /testbed/astropy/nddata/mixins/ndarithmetic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_11b1ad9d99574ca2a0d5993d"
+        }
+      ],
+      "recorded_llm_wait_s": 15.200609246996464,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '485,530p' /testbed/astropy/nddata/mixins/ndarithmetic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8abfec19453a4777aacdae3f"
+        }
+      ],
+      "recorded_llm_wait_s": 8.59919210197404,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport numpy as np\nfrom astropy.nddata import NDDataRef\n\narray = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])\nmask = np.array([[0, 1, 64], [8, 0, 1], [2, 1, 0]])\n\nnref_nomask = NDDataRef(array)\nnref_mask = NDDataRef(array, mask=mask)\n\ntry:\n    result = nref_mask.multiply(1., handle_mask=np.bitwise_or).mask\n    print('Success:', result)\nexcept TypeError as e:\n    print('Error:', e)\n\ntry:\n    result = nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask\n    print('Success:', result)\nexcept TypeError as e:\n    print('Error:', e)\n\"\n",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ffcf57a0f64a45b2bb1ef09a"
+        }
+      ],
+      "recorded_llm_wait_s": 18.086627574986778,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '518,528p' /testbed/astropy/nddata/mixins/ndarithmetic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_39c8d03722cf417bbe9fd499"
+        }
+      ],
+      "recorded_llm_wait_s": 13.861003131984035,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '516,528p' astropy/nddata/mixins/ndarithmetic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b6a027a623ca4987ad71e876"
+        }
+      ],
+      "recorded_llm_wait_s": 3.001125385024352,
+      "step_idx": 9
+    }
+  ]
+}

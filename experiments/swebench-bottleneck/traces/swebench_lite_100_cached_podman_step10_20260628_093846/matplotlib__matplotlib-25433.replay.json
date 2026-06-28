@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-25433:latest",
+    "instance_id": "matplotlib__matplotlib-25433",
+    "repo": "matplotlib/matplotlib"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/matplotlib__matplotlib-25433.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class RangeSlider\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bf2cebf21f9e4683a201f140"
+        }
+      ],
+      "recorded_llm_wait_s": 4.15447298399522,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"class RangeSlider\" lib/matplotlib/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a9f5650a037e474494f51c83"
+        }
+      ],
+      "recorded_llm_wait_s": 3.9709121880005114,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"class SliderBase\\|class Slider\\|class RangeSlider\\|class Button\\|def on_changed\\|def on_clicked\\|def _update\\|def set_val\\|_active\" lib/matplotlib/widgets.py | head -80",
+          "expected_returncode": 0,
+          "tool_call_id": "call_10a153e26c8e4c6891d47a5e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6029028199845925,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '606,980p' lib/matplotlib/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f409969283be41d2aeb933ed"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3408939660002943,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '530,600p' lib/matplotlib/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7520bbfdcf724db0a707e72e"
+        }
+      ],
+      "recorded_llm_wait_s": 4.392864769994048,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"grab_mouse\\|release_mouse\" lib/matplotlib/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f19ff612369544a5991baa99"
+        }
+      ],
+      "recorded_llm_wait_s": 11.789567075000377,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"grab_mouse\\|release_mouse\" lib/matplotlib/backend_bases.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_dd1d38e5d041435bbd1f2bd5"
+        }
+      ],
+      "recorded_llm_wait_s": 6.336923766997643,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '2041,2070p' lib/matplotlib/backend_bases.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_176931a8942a45888b447e5a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8072805620031431,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '153,260p' lib/matplotlib/widgets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5e3c70500216442586c0788e"
+        }
+      ],
+      "recorded_llm_wait_s": 7.202182604989503,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"def clf\\|def clear\" lib/matplotlib/figure.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ef2019a0827f47caa4771d0e"
+        }
+      ],
+      "recorded_llm_wait_s": 20.197598447004566,
+      "step_idx": 10
+    }
+  ]
+}

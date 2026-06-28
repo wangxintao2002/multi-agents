@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-14608:latest",
+    "instance_id": "django__django-14608",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-14608.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3c7c25882f6f4e49bb381d3d"
+        }
+      ],
+      "recorded_llm_wait_s": 2.7829147489974275,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"nonfield\" /testbed/django/ --include=\"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-bf0e22cc528391d1"
+        }
+      ],
+      "recorded_llm_wait_s": 1.583709936006926,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"non_form_errors\\|nonform\\|non.form\" /testbed/django/forms/ --include=\"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8c6ddb23481cefe5"
+        }
+      ],
+      "recorded_llm_wait_s": 1.2672759540146217,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/django/forms/formsets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a4eeadf9eba093b2"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5098472170066088,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '280,395p' /testbed/django/forms/formsets.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-86af9243cf5c6cfe"
+        }
+      ],
+      "recorded_llm_wait_s": 1.542197283997666,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '310,365p' /testbed/django/forms/forms.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9279c91b14f23112"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4179199780046474,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class ErrorList\" /testbed/django/forms/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-be346eb52ad68477"
+        }
+      ],
+      "recorded_llm_wait_s": 10.810184111993294,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '80,130p' /testbed/django/forms/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b1e2733aa6a0e010"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0520733339944854,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"nonform\\|non_form_errors\\|nonfield\" /testbed/tests/ --include=\"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9e621de717cfa7ab"
+        }
+      ],
+      "recorded_llm_wait_s": 5.622010443999898,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.forms import formset_factory, Form\n\nclass MyForm(Form):\n    pass\n\nFormSet = formset_factory(MyForm)\nfs = FormSet(data={})\nfs.is_valid()\nprint('non_form_errors:', fs.non_form_errors())\nprint('error_class:', fs.non_form_errors().error_class)\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-9ef16cbc58c82def"
+        }
+      ],
+      "recorded_llm_wait_s": 4.319377050996991,
+      "step_idx": 10
+    }
+  ]
+}

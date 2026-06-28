@@ -1,0 +1,144 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-14182:latest",
+    "instance_id": "astropy__astropy-14182",
+    "repo": "astropy/astropy"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/astropy__astropy-14182.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class RST\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1a26f4c2ac27440f994716c6"
+        },
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"header_rows\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5098880d7ac94637830405c2"
+        }
+      ],
+      "recorded_llm_wait_s": 3.707429479021812,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/astropy/io/ascii/rst.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a4f149e981434f5ba813e246"
+        },
+        {
+          "command": "cat /testbed/astropy/io/ascii/fixedwidth.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_80e69d2b954e433388fb6160"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9644608739763498,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def write\" /testbed/astropy/io/ascii/fixedwidth.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_022c20a397f54991843f33d7"
+        },
+        {
+          "command": "grep -n \"def write\" /testbed/astropy/io/ascii/core.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e0f5f36500a1403fbc0dcd85"
+        }
+      ],
+      "recorded_llm_wait_s": 6.431434211001033,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '240,300p' /testbed/astropy/io/ascii/fixedwidth.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_84fcfc4a5e8e40ed9915a681"
+        }
+      ],
+      "recorded_llm_wait_s": 1.814799760992173,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class FixedWidth\" /testbed/astropy/io/ascii/fixedwidth.py | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_153560b1953a4be9b883e6bf"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2157192149898037,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '306,380p' /testbed/astropy/io/ascii/fixedwidth.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5219fd0a27cb4194993eaa1a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.665347867005039,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1525,1570p' /testbed/astropy/io/ascii/core.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0494803dc475433aa52fd69b"
+        }
+      ],
+      "recorded_llm_wait_s": 16.903687849990092,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1570,1620p' /testbed/astropy/io/ascii/core.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5719171e2d684463871fd263"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3617377229966223,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def write\" /testbed/astropy/io/ascii/fixedwidth.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_de45cf9c2cff46899b1d5995"
+        },
+        {
+          "command": "grep -n \"def write\" /testbed/astropy/io/ascii/basic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2384523e3ee04ad6b40ba37a"
+        }
+      ],
+      "recorded_llm_wait_s": 13.619609972985927,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '378,410p' /testbed/astropy/io/ascii/basic.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7190612081d149759d6ad3b1"
+        }
+      ],
+      "recorded_llm_wait_s": 2.319900422997307,
+      "step_idx": 10
+    }
+  ]
+}

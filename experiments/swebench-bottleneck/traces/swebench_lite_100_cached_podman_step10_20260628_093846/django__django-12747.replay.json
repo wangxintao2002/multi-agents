@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12747:latest",
+    "instance_id": "django__django-12747",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-12747.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"def delete\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_57848a78a8a44e3386edf400"
+        }
+      ],
+      "recorded_llm_wait_s": 2.961419148981804,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def delete\" /testbed/django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9eecf0d774624fe9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.44228494798881,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '700,750p' /testbed/django/db/models/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a00b4f8f52603aed"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8235191220010165,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8a27ea050050b1dc"
+        }
+      ],
+      "recorded_llm_wait_s": 2.595063784014201,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def collect\" /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9328ec08fcb15065"
+        }
+      ],
+      "recorded_llm_wait_s": 7.349541996023618,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '214,320p' /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b80ff37912814e4591a7c73a"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1103296320070513,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def can_fast_delete\" /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_7ec6aff6dad1423588e7fef1"
+        }
+      ],
+      "recorded_llm_wait_s": 6.242880058998708,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '165,215p' /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_98700909fe154e938deefe3b"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0416048009938095,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '305,355p' /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5192c269fd2a4972b0ae7c67"
+        }
+      ],
+      "recorded_llm_wait_s": 29.46294399301405,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"def delete\" /testbed/django/db/models/deletion.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_00c1250d27074f23adbae5e2"
+        }
+      ],
+      "recorded_llm_wait_s": 2.355778709985316,
+      "step_idx": 10
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13660:latest",
+    "instance_id": "django__django-13660",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13660.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/core/management/commands/shell.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ed2f89f19cd644ba83e7c4af"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0602208730124403,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/            exec(options\\[.command.\\])/            exec(options[\"command\"], {})/' django/core/management/commands/shell.py && sed -i 's/            exec(sys.stdin.read())/            exec(sys.stdin.read(), {})/' django/core/management/commands/shell.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_cce45b3fc87b424a97eaa054"
+        }
+      ],
+      "recorded_llm_wait_s": 4.47212355301599,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '78,90p' django/core/management/commands/shell.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4929d1ec51c44bf38ed6d623"
+        }
+      ],
+      "recorded_llm_wait_s": 1.946645649994025,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '90,95p' django/core/management/commands/shell.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_13ca300bde324610b4d4a003"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8577231009840034,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nexec('''\nimport django\ndef f():\n    print(django.__version__)\nf()\n''', {})\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_85fba525c30b4f179ab264ca"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4127540389890783,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test shell.tests -v 2 2>&1 || python -m pytest tests/shell/ -v 2>&1 || find . -path '*/tests/*shell*' -name '*.py' 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e9dfc1ae4e564305942ac26d"
+        }
+      ],
+      "recorded_llm_wait_s": 2.561715132003883,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m django test shell.tests --settings=tests.test_sqlite -v 2 2>&1 | tail -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4236fb8fc77348ffa26805d0"
+        }
+      ],
+      "recorded_llm_wait_s": 2.4389000320225023,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed/tests && python -m django test shell --settings=test_sqlite -v 2 2>&1 | tail -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d4b4be050f0d4132b7be3b91"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8174421549774706,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && echo '\nimport django\ndef f():\n    print(django.__version__)\nf()' | DJANGO_SETTINGS_MODULE=tests.test_sqlite python -m django shell -c \"import django; print(django.__version__)\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9d8ba0fef9e8474f8a94784a"
+        }
+      ],
+      "recorded_llm_wait_s": 3.8525110149930697,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && DJANGO_SETTINGS_MODULE=tests.test_sqlite python -m django shell -c \"\nimport django\ndef f():\n    print(django.__version__)\nf()\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_10fe9a27197148e29db3f83e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9090804110164754,
+      "step_idx": 10
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13551:latest",
+    "instance_id": "django__django-13551",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13551.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"PasswordResetTokenGenerator\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-91543d740adccbbe"
+        },
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"_make_hash_value\" 2>/dev/null",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-8b7bf0a21fc36c8b"
+        }
+      ],
+      "recorded_llm_wait_s": 5.490057688002707,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/auth/tokens.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9660f362bf4262fc"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4664269799832255,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/tests/auth_tests/test_tokens.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-af3e14098a55c502"
+        }
+      ],
+      "recorded_llm_wait_s": 2.552303385018604,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class AbstractBaseUser\" /testbed/django/contrib/auth/models.py",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-bd7fd29367871863"
+        }
+      ],
+      "recorded_llm_wait_s": 3.3091037970152684,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"class AbstractBaseUser\" /testbed/django/contrib/auth/",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-afcf7e275894179f"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9052673949918244,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/auth/base_user.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9358a2d730aa74f8"
+        }
+      ],
+      "recorded_llm_wait_s": 1.281662168999901,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"email\" /testbed/django/contrib/auth/models.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b92d7c4da287f896"
+        }
+      ],
+      "recorded_llm_wait_s": 4.880257343000267,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"email\" /testbed/tests/auth_tests/test_tokens.py",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b6dc3ad166cca6aa"
+        }
+      ],
+      "recorded_llm_wait_s": 4.469389394012978,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cat > /testbed/test_email_invalidation.py << 'EOF'\n\"\"\"\nTest script to verify that changing a user's email invalidates password reset tokens.\n\"\"\"\nimport os\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tests.test_sqlite')\n\nimport django\ndjango.setup()\n\nfrom datetime import datetime\nfrom django.contrib.auth.models import User\nfrom django.contrib.auth.tokens import PasswordResetTokenGenerator\n\n# Create a user\nuser = User.objects.create_user('testuser', 'foo@example.com', 'testpw')\n\n# Generate a password reset token\np0 = PasswordResetTokenGenerator()\ntoken = p0.make_token(user)\nprint(f\"Token generated: {token}\")\nprint(f\"Token valid before email change: {p0.check_token(user, token)}\")\n\n# Change the user's email\nuser.email = 'bar@example.com'\nuser.save()\n\n# Check if the token is still valid (it should NOT be)\nis_valid = p0.check_token(user, token)\nprint(f\"Token valid after email change: {is_valid}\")\n\nif is_valid:\n    print(\"BUG: Token should be invalid after email change!\")\nelse:\n    print(\"FIXED: Token is correctly invalidated after email change!\")\n\n# Cleanup\nuser.delete()\nEOF\ncd /testbed && python test_email_invalidation.py",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-baccec45179f2e52"
+        }
+      ],
+      "recorded_llm_wait_s": 11.110141575016314,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -name \"test_sqlite*\" -o -name \"settings.py\" | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b0dd6b88f16c8bb8"
+        }
+      ],
+      "recorded_llm_wait_s": 2.28569834298105,
+      "step_idx": 10
+    }
+  ]
+}

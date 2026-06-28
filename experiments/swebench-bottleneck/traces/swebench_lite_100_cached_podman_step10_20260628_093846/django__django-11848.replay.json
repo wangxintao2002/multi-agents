@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11848:latest",
+    "instance_id": "django__django-11848",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11848.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"parse_http_date\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_22713c58e0b14f67801946b3"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9049242720066104,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"parse_http_date\\|two.digit\\|year.*69\\|year.*70\\|2000\\|1970\\|rfc850\" /testbed/django/utils/http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_36964228436d4a7b8a2a3c45"
+        }
+      ],
+      "recorded_llm_wait_s": 2.9147962679853663,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '158,195p' /testbed/django/utils/http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_607d608c8bd7415b8980d20e"
+        }
+      ],
+      "recorded_llm_wait_s": 1.3321223640232347,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "head -20 /testbed/django/utils/http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_cb57a539838e46d9be2f36ca"
+        }
+      ],
+      "recorded_llm_wait_s": 22.38736478998908,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"parse_http_date\" /testbed/tests/utils_tests/test_http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ea720a16a734436ea98adddc"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3745550659950823,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '312,340p' /testbed/tests/utils_tests/test_http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_07dc7bf8c744405b8f985c76"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5901631739980076,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cat > /testbed/test_fix.py << 'EOF'\nimport datetime\nfrom django.utils.http import parse_http_date\n\n# Test the RFC850 date parsing with two-digit years\n# Current year is approximately 2024\n\n# Year 94 should be 1994 (2094 would be >50 years in the future from 2024)\nparsed = parse_http_date('Sunday, 06-Nov-94 08:49:37 GMT')\ndt = datetime.datetime.utcfromtimestamp(parsed)\nprint(f\"Year 94: {dt.year} (expected 1994)\")\nassert dt.year == 1994, f\"Expected 1994 but got {dt.year}\"\n\n# Year 37 should be 2037 (2037 is NOT >50 years in the future from 2024)\nparsed = parse_http_date('Sun Nov  6 08:49:37 0037')\ndt = datetime.datetime.utcfromtimestamp(parsed)\nprint(f\"Year 0037: {dt.year} (expected 2037)\")\nassert dt.year == 2037, f\"Expected 2037 but got {dt.year}\"\n\n# Now test the edge case: year 68 with RFC850 format\n# From 2024, 2068 is 44 years in the future (<50), so should be 2068\nparsed = parse_http_date('Sunday, 06-Nov-68 08:49:37 GMT')\ndt = datetime.datetime.utcfromtimestamp(parsed)\nprint(f\"Year 68: {dt.year} (expected 2068)\")\nassert dt.year == 2068, f\"Expected 2068 but got {dt.year}\"\n\n# Year 69 with RFC850 format  \n# From 2024, 2069 is 45 years in the future (<50), so should be 2069\nparsed = parse_http_date('Sunday, 06-Nov-69 08:49:37 GMT')\ndt = datetime.datetime.utcfromtimestamp(parsed)\nprint(f\"Year 69: {dt.year} (expected 2069)\")\nassert dt.year == 2069, f\"Expected 2069 but got {dt.year}\"\n\n# Year 70 with RFC850 format  \n# From 2024, 2070 is 46 years in the future (<50), so should be 2070\n# But current code would give 1970!\nparsed = parse_http_date('Sunday, 06-Nov-70 08:49:37 GMT')\ndt = datetime.datetime.utcfromtimestamp(parsed)\nprint(f\"Year 70: {dt.year} (expected 2070)\")\nassert dt.year == 2070, f\"Expected 2070 but got {dt.year}\"\n\nprint(\"All tests passed!\")\nEOF\npython /testbed/test_fix.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_922083a08d8e414fb4eeb67f"
+        }
+      ],
+      "recorded_llm_wait_s": 20.681860326003516,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cat > /tmp/fix.py << 'PYEOF'\nimport re\n\nwith open('/testbed/django/utils/http.py', 'r') as f:\n    content = f.read()\n\nold = \"\"\"        year = int(m.group('year'))\n        if year < 100:\n            if year < 70:\n                year += 2000\n            else:\n                year += 1900\"\"\"\n\nnew = \"\"\"        year = int(m.group('year'))\n        if year < 100:\n            current_year = datetime.datetime.now(datetime.timezone.utc).year\n            current_century = current_year // 100 * 100\n            year += current_century\n            if year > current_year + 50:\n                year -= 100\"\"\"\n\ncontent = content.replace(old, new)\n\nwith open('/testbed/django/utils/http.py', 'w') as f:\n    f.write(content)\n\nprint(\"Done\")\nPYEOF\npython /tmp/fix.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f4f964226a02438dbb77163c"
+        }
+      ],
+      "recorded_llm_wait_s": 5.7582159619778395,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '158,195p' /testbed/django/utils/http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_52b3c049989b4a109452bb50"
+        }
+      ],
+      "recorded_llm_wait_s": 2.677774080017116,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "python /testbed/test_fix.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6e43bb8bd7c9412ab64def27"
+        }
+      ],
+      "recorded_llm_wait_s": 2.001357344997814,
+      "step_idx": 10
+    }
+  ]
+}

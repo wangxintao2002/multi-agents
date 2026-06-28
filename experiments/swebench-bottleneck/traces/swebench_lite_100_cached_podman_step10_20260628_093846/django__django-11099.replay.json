@@ -1,0 +1,80 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-11099:latest",
+    "instance_id": "django__django-11099",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-11099.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/auth/validators.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-85967547fb1adaa1"
+        }
+      ],
+      "recorded_llm_wait_s": 3.4225733320054132,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i \"s/r'\\^\\[\\\\\\w\\.@+-\\]+\\$'/r'\\\\\\A[\\\\\\w.@+-]+\\\\\\\\Z'/\" django/contrib/auth/validators.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_be77f14443de4d55bfee2c22"
+        }
+      ],
+      "recorded_llm_wait_s": 2.439862836006796,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/django/contrib/auth/validators.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_73e15050242745eb8a353705"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6399312219873536,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nfrom django.contrib.auth.validators import ASCIIUsernameValidator, UnicodeUsernameValidator\n\nv = ASCIIUsernameValidator()\n\n# Should pass\ntry:\n    v('validuser')\n    print('PASS: validuser accepted')\nexcept Exception as e:\n    print(f'FAIL: validuser rejected: {e}')\n\n# Should fail - trailing newline\ntry:\n    v('validuser\\n')\n    print('FAIL: validuser with newline was accepted')\nexcept Exception as e:\n    print(f'PASS: validuser with newline rejected')\n\n# Should fail - leading newline\ntry:\n    v('\\nvaliduser')\n    print('FAIL: leading newline was accepted')\nexcept Exception as e:\n    print(f'PASS: leading newline rejected')\n\n# Should fail - empty\ntry:\n    v('')\n    print('FAIL: empty string accepted')\nexcept Exception as e:\n    print(f'PASS: empty string rejected')\n\n# Same for Unicode validator\nv2 = UnicodeUsernameValidator()\ntry:\n    v2('validuser\\n')\n    print('FAIL: Unicode - validuser with newline was accepted')\nexcept Exception as e:\n    print(f'PASS: Unicode - validuser with newline rejected')\n\"\n",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2583516ec0bd4360b1d601ae"
+        }
+      ],
+      "recorded_llm_wait_s": 6.543180417007534,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- django/contrib/auth/validators.py > patch.txt && cat patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "call_fbf3122281af458a9686c9fa"
+        }
+      ],
+      "recorded_llm_wait_s": 2.158590891980566,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat patch.txt",
+          "expected_returncode": null,
+          "tool_call_id": "call_47f84f3725414e8a9b7c96fb"
+        }
+      ],
+      "recorded_llm_wait_s": 3.035140689025866,
+      "step_idx": 6
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15320:latest",
+    "instance_id": "django__django-15320",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15320.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"class Subquery\" 2>/dev/null",
+          "expected_returncode": 123,
+          "tool_call_id": "call_c479754baf214818a3f664fe"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1811142149963416,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class Subquery\" /testbed/django/db/models/expressions.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_98cd331c9221462ea37817d6"
+        }
+      ],
+      "recorded_llm_wait_s": 2.56040575899533,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1141,1200p' /testbed/django/db/models/expressions.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0af291b5277e40ccb2d5b3bd"
+        }
+      ],
+      "recorded_llm_wait_s": 1.4869783189787995,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"subquery\" /testbed/django/db/models/sql/compiler.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a6072d3cae1642b2b4a3b4d8"
+        }
+      ],
+      "recorded_llm_wait_s": 5.978970076015685,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"subquery\" /testbed/django/db/models/sql/query.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_cea2694c70234e58bc1490a1"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8035587659978773,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1080,1100p' /testbed/django/db/models/sql/query.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bbfa9a80f38c4574884f7508"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0336774770112243,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1150,1153p' django/db/models/expressions.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_038f5910b80d41b68bb427e5"
+        }
+      ],
+      "recorded_llm_wait_s": 4.14449418199365,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/        self.query = getattr(queryset, '\\''query'\\'', queryset)\\n        self.extra = extra/        self.query = getattr(queryset, '\\''query'\\'', queryset)\\n        self.query.subquery = True\\n        self.extra = extra/' django/db/models/expressions.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5fe62a17c5dc455b943d5769"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5922082900069654,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1150,1155p' django/db/models/expressions.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_49705aed4381470ea2911398"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8676509550132323,
+      "step_idx": 9
+    }
+  ]
+}

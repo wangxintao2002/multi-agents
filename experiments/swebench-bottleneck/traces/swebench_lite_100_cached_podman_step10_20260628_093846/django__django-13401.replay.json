@@ -1,0 +1,129 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-13401:latest",
+    "instance_id": "django__django-13401",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-13401.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"creation_counter\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a595b7dad4cec209"
+        },
+        {
+          "command": "find /testbed -type f -name \"fields.py\" | grep -v test | grep -v migration | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9c3e7b5d5f3b29a0"
+        }
+      ],
+      "recorded_llm_wait_s": 10.792601647990523,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"__eq__\\|__hash__\\|__lt__\\|__gt__\\|__le__\\|__ge__\" /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b947644b0bfaec96"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5669269670033827,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '510,540p' /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9f8a347ca1d0b99b"
+        }
+      ],
+      "recorded_llm_wait_s": 3.456069842999568,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"model\" /testbed/django/db/models/fields/__init__.py | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-9ed9e2304c5895cc"
+        }
+      ],
+      "recorded_llm_wait_s": 11.806094351020874,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"contribute_to_class\" /testbed/django/db/models/fields/__init__.py | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-b22577171d5e581f"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2074082829931285,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '755,790p' /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a4ee935f0de882e9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.107258117001038,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.configure(\n    DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}},\n    INSTALLED_APPS=['django.contrib.contenttypes'],\n)\ndjango.setup()\n\nfrom django.db import models\n\nclass A(models.Model):\n    class Meta:\n        abstract = True\n    myfield = models.IntegerField()\n\nclass B(A):\n    pass\n\nclass C(A):\n    pass\n\nfield_b = B._meta.get_field('myfield')\nfield_c = C._meta.get_field('myfield')\n\nprint('field_b.model:', field_b.model)\nprint('field_c.model:', field_c.model)\nprint('field_b == field_c:', field_b == field_c)\nprint('len of set:', len({field_b, field_c}))\nprint('Expected: 2, Got:', len({field_b, field_c}))\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-a9d03e6a3c09493b"
+        }
+      ],
+      "recorded_llm_wait_s": 10.501666127005592,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.configure(\n    DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}},\n    INSTALLED_APPS=['django.contrib.contenttypes', 'testapp'],\n    DEFAULT_AUTO_FIELD='django.db.models.AutoField',\n)\nimport sys\nimport types\n# Create a fake app module\ntestapp = types.ModuleType('testapp')\ntestapp.__path__ = []\nsys.modules['testapp'] = testapp\n\nfrom django.db import models\n\nclass A(models.Model):\n    class Meta:\n        abstract = True\n        app_label = 'testapp'\n    myfield = models.IntegerField()\n\nclass B(A):\n    class Meta:\n        app_label = 'testapp'\n\nclass C(A):\n    class Meta:\n        app_label = 'testapp'\n\nfield_b = B._meta.get_field('myfield')\nfield_c = C._meta.get_field('myfield')\n\nprint('field_b.model:', field_b.model)\nprint('field_c.model:', field_c.model)\nprint('field_b == field_c:', field_b == field_c)\nprint('len of set:', len({field_b, field_c}))\nprint('Expected: 2, Got:', len({field_b, field_c}))\n\"",
+          "expected_returncode": 1,
+          "tool_call_id": "chatcmpl-tool-b99588e2f8a7d5db"
+        }
+      ],
+      "recorded_llm_wait_s": 5.458793631987646,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport django\nfrom django.conf import settings\nsettings.configure(\n    DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}},\n    INSTALLED_APPS=['django.contrib.contenttypes'],\n    DEFAULT_AUTO_FIELD='django.db.models.AutoField',\n)\ndjango.setup()\n\nfrom django.db import models\n\nclass A(models.Model):\n    class Meta:\n        abstract = True\n        app_label = 'contenttypes'\n    myfield = models.IntegerField()\n\nclass B(A):\n    class Meta:\n        app_label = 'contenttypes'\n\nclass C(A):\n    class Meta:\n        app_label = 'contenttypes'\n\nfield_b = B._meta.get_field('myfield')\nfield_c = C._meta.get_field('myfield')\n\nprint('field_b.model:', field_b.model)\nprint('field_c.model:', field_c.model)\nprint('field_b == field_c:', field_b == field_c)\nprint('len of set:', len({field_b, field_c}))\nprint('Expected: 2, Got:', len({field_b, field_c}))\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a767e4337b9e542b"
+        }
+      ],
+      "recorded_llm_wait_s": 4.8576319179846905,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '516,530p' /testbed/django/db/models/fields/__init__.py",
+          "expected_returncode": 0,
+          "tool_call_id": "chatcmpl-tool-a5e753fa87a9593b"
+        }
+      ],
+      "recorded_llm_wait_s": 5.210221543995431,
+      "step_idx": 10
+    }
+  ]
+}

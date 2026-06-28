@@ -1,0 +1,122 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-15498:latest",
+    "instance_id": "django__django-15498",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/trajs/django__django-15498.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git log --oneline -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8af243e0104741128a818cd8"
+        },
+        {
+          "command": "cd /testbed && git show d6aff369ad3 --stat 2>/dev/null || echo \"commit not found\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f0e74b7e3442496caf0538b7"
+        }
+      ],
+      "recorded_llm_wait_s": 3.990649057988776,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git show d6aff369ad3 -- django/utils/http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1cdc6387adf445c992bcf8e8"
+        }
+      ],
+      "recorded_llm_wait_s": 2.799528644012753,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/utils/http.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1995d30c15b74037b932d770"
+        },
+        {
+          "command": "cd /testbed && grep -rn \"If-Modified-Since\\|if_modified_since\\|parse_http_date\" --include=\"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1761057de62b4a859f06d3fc"
+        }
+      ],
+      "recorded_llm_wait_s": 6.141951241996139,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && cat django/views/static.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ec9a96dddcd345ca92f6fbc3"
+        },
+        {
+          "command": "cd /testbed && cat django/utils/cache.py | head -220",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f97f742d3974431a9b1ea8f3"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8020682299975306,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python3 -c \"\nfrom django.views.static import was_modified_since\ntry:\n    result = was_modified_since('', 0, 0)\n    print('Result:', result)\nexcept Exception as e:\n    print(f'Exception: {type(e).__name__}: {e}')\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_044881d2e91147f1881edeb2"
+        },
+        {
+          "command": "cd /testbed && grep -n \"was_modified_since\\|empty.*If-Modified\\|empty.*if_modified\" tests/view_tests/tests/test_static.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2c50d04ee49449a1b7151dec"
+        }
+      ],
+      "recorded_llm_wait_s": 26.209574611013522,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -i 's/        if header is None:/        if not header:/' django/views/static.py && python3 -c \"\nfrom django.views.static import was_modified_since\nprint('None:', was_modified_since(None, 0, 0))\nprint('Empty:', was_modified_since('', 0, 0))\nprint('Bogus:', was_modified_since('bogus', 0, 0))\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_44ee6a7cc05d499a98e8d23f"
+        }
+      ],
+      "recorded_llm_wait_s": 3.6519168829836417,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && git diff -- django/views/static.py > patch.txt && cat patch.txt",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c6ced89a3f2b466fbeb9d004"
+        }
+      ],
+      "recorded_llm_wait_s": 3.063580941990949,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat patch.txt",
+          "expected_returncode": null,
+          "tool_call_id": "call_ce38803689974feb8d2c0fcc"
+        }
+      ],
+      "recorded_llm_wait_s": 2.2274219050013926,
+      "step_idx": 8
+    }
+  ]
+}

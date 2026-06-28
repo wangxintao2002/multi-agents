@@ -1,0 +1,708 @@
+{
+  "events_path": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease/events.jsonl",
+  "schema_version": 1,
+  "source": "experiments/swebench-bottleneck/results/trace_collection_100_cached_podman_step10_20260628_093846/Cinf_task_lease",
+  "traces": [
+    {
+      "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest",
+      "instance_id": "astropy__astropy-12907",
+      "n_actions": 7,
+      "n_steps": 7,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/astropy__astropy-12907.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-14182:latest",
+      "instance_id": "astropy__astropy-14182",
+      "n_actions": 14,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/astropy__astropy-14182.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-14365:latest",
+      "instance_id": "astropy__astropy-14365",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/astropy__astropy-14365.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-14995:latest",
+      "instance_id": "astropy__astropy-14995",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/astropy__astropy-14995.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-6938:latest",
+      "instance_id": "astropy__astropy-6938",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/astropy__astropy-6938.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-7746:latest",
+      "instance_id": "astropy__astropy-7746",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/astropy__astropy-7746.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-10914:latest",
+      "instance_id": "django__django-10914",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-10914.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11001:latest",
+      "instance_id": "django__django-11001",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11001.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11019:latest",
+      "instance_id": "django__django-11019",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11019.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11039:latest",
+      "instance_id": "django__django-11039",
+      "n_actions": 10,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11039.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11049:latest",
+      "instance_id": "django__django-11049",
+      "n_actions": 7,
+      "n_steps": 7,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11049.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11099:latest",
+      "instance_id": "django__django-11099",
+      "n_actions": 6,
+      "n_steps": 6,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11099.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11133:latest",
+      "instance_id": "django__django-11133",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11133.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11179:latest",
+      "instance_id": "django__django-11179",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11179.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11564:latest",
+      "instance_id": "django__django-11564",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11564.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11583:latest",
+      "instance_id": "django__django-11583",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11583.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11620:latest",
+      "instance_id": "django__django-11620",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11620.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11630:latest",
+      "instance_id": "django__django-11630",
+      "n_actions": 14,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11630.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11797:latest",
+      "instance_id": "django__django-11797",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11797.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11815:latest",
+      "instance_id": "django__django-11815",
+      "n_actions": 14,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11815.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11848:latest",
+      "instance_id": "django__django-11848",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11848.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11905:latest",
+      "instance_id": "django__django-11905",
+      "n_actions": 12,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11905.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11910:latest",
+      "instance_id": "django__django-11910",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11910.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11964:latest",
+      "instance_id": "django__django-11964",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11964.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11999:latest",
+      "instance_id": "django__django-11999",
+      "n_actions": 8,
+      "n_steps": 8,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-11999.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12113:latest",
+      "instance_id": "django__django-12113",
+      "n_actions": 8,
+      "n_steps": 8,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12113.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12125:latest",
+      "instance_id": "django__django-12125",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12125.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12184:latest",
+      "instance_id": "django__django-12184",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12184.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12284:latest",
+      "instance_id": "django__django-12284",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12284.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12286:latest",
+      "instance_id": "django__django-12286",
+      "n_actions": 10,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12286.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12308:latest",
+      "instance_id": "django__django-12308",
+      "n_actions": 13,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12308.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12453:latest",
+      "instance_id": "django__django-12453",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12453.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12470:latest",
+      "instance_id": "django__django-12470",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12470.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12497:latest",
+      "instance_id": "django__django-12497",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12497.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12589:latest",
+      "instance_id": "django__django-12589",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12589.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12708:latest",
+      "instance_id": "django__django-12708",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12708.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12747:latest",
+      "instance_id": "django__django-12747",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12747.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12856:latest",
+      "instance_id": "django__django-12856",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12856.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12908:latest",
+      "instance_id": "django__django-12908",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12908.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12915:latest",
+      "instance_id": "django__django-12915",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12915.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12983:latest",
+      "instance_id": "django__django-12983",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-12983.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13028:latest",
+      "instance_id": "django__django-13028",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13028.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13158:latest",
+      "instance_id": "django__django-13158",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13158.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13220:latest",
+      "instance_id": "django__django-13220",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13220.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13230:latest",
+      "instance_id": "django__django-13230",
+      "n_actions": 13,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13230.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13315:latest",
+      "instance_id": "django__django-13315",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13315.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13401:latest",
+      "instance_id": "django__django-13401",
+      "n_actions": 11,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13401.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13447:latest",
+      "instance_id": "django__django-13447",
+      "n_actions": 13,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13447.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13448:latest",
+      "instance_id": "django__django-13448",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13448.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13551:latest",
+      "instance_id": "django__django-13551",
+      "n_actions": 11,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13551.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13590:latest",
+      "instance_id": "django__django-13590",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13590.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13658:latest",
+      "instance_id": "django__django-13658",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13658.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13660:latest",
+      "instance_id": "django__django-13660",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13660.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13710:latest",
+      "instance_id": "django__django-13710",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13710.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13757:latest",
+      "instance_id": "django__django-13757",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13757.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13768:latest",
+      "instance_id": "django__django-13768",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13768.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13933:latest",
+      "instance_id": "django__django-13933",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13933.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-13964:latest",
+      "instance_id": "django__django-13964",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-13964.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14016:latest",
+      "instance_id": "django__django-14016",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14016.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14017:latest",
+      "instance_id": "django__django-14017",
+      "n_actions": 13,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14017.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14155:latest",
+      "instance_id": "django__django-14155",
+      "n_actions": 14,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14155.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14238:latest",
+      "instance_id": "django__django-14238",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14238.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14382:latest",
+      "instance_id": "django__django-14382",
+      "n_actions": 7,
+      "n_steps": 7,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14382.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14411:latest",
+      "instance_id": "django__django-14411",
+      "n_actions": 13,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14411.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14580:latest",
+      "instance_id": "django__django-14580",
+      "n_actions": 11,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14580.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14608:latest",
+      "instance_id": "django__django-14608",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14608.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14667:latest",
+      "instance_id": "django__django-14667",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14667.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14672:latest",
+      "instance_id": "django__django-14672",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14672.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14752:latest",
+      "instance_id": "django__django-14752",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14752.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14787:latest",
+      "instance_id": "django__django-14787",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14787.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14855:latest",
+      "instance_id": "django__django-14855",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14855.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14915:latest",
+      "instance_id": "django__django-14915",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14915.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-14997:latest",
+      "instance_id": "django__django-14997",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-14997.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15061:latest",
+      "instance_id": "django__django-15061",
+      "n_actions": 11,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15061.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15213:latest",
+      "instance_id": "django__django-15213",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15213.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15320:latest",
+      "instance_id": "django__django-15320",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15320.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15347:latest",
+      "instance_id": "django__django-15347",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15347.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15388:latest",
+      "instance_id": "django__django-15388",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15388.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15400:latest",
+      "instance_id": "django__django-15400",
+      "n_actions": 10,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15400.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15498:latest",
+      "instance_id": "django__django-15498",
+      "n_actions": 12,
+      "n_steps": 8,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15498.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15695:latest",
+      "instance_id": "django__django-15695",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15695.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15738:latest",
+      "instance_id": "django__django-15738",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15738.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15781:latest",
+      "instance_id": "django__django-15781",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15781.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15789:latest",
+      "instance_id": "django__django-15789",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15789.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15790:latest",
+      "instance_id": "django__django-15790",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15790.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15814:latest",
+      "instance_id": "django__django-15814",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15814.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15819:latest",
+      "instance_id": "django__django-15819",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15819.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15851:latest",
+      "instance_id": "django__django-15851",
+      "n_actions": 10,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15851.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15902:latest",
+      "instance_id": "django__django-15902",
+      "n_actions": 10,
+      "n_steps": 8,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15902.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15996:latest",
+      "instance_id": "django__django-15996",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/django__django-15996.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-25433:latest",
+      "instance_id": "matplotlib__matplotlib-25433",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/matplotlib__matplotlib-25433.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-2848:latest",
+      "instance_id": "mwaskom__seaborn-2848",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/mwaskom__seaborn-2848.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.pallets_1776_flask-5063:latest",
+      "instance_id": "pallets__flask-5063",
+      "n_actions": 11,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/pallets__flask-5063.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4094:latest",
+      "instance_id": "pydata__xarray-4094",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/pydata__xarray-4094.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7228:latest",
+      "instance_id": "pylint-dev__pylint-7228",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/pylint-dev__pylint-7228.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-9359:latest",
+      "instance_id": "pytest-dev__pytest-9359",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/pytest-dev__pytest-9359.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10297:latest",
+      "instance_id": "scikit-learn__scikit-learn-10297",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/scikit-learn__scikit-learn-10297.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10508:latest",
+      "instance_id": "scikit-learn__scikit-learn-10508",
+      "n_actions": 8,
+      "n_steps": 8,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/scikit-learn__scikit-learn-10508.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8721:latest",
+      "instance_id": "sphinx-doc__sphinx-8721",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/sphinx-doc__sphinx-8721.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-11400:latest",
+      "instance_id": "sympy__sympy-11400",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/swebench_lite_100_cached_podman_step10_20260628_093846/sympy__sympy-11400.replay.json"
+    }
+  ],
+  "warnings": []
+}
