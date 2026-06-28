@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-9359:latest",
+    "instance_id": "pytest-dev__pytest-9359",
+    "repo": "pytest-dev/pytest"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/trajs/pytest-dev__pytest-9359.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c2cab4970e664315994491df"
+        }
+      ],
+      "recorded_llm_wait_s": 3.875470555998618,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "python3 --version",
+          "expected_returncode": 0,
+          "tool_call_id": "call_df2b37a0ec854ca38eecc880"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3546177509997506,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat > /testbed/test_repro.py << 'EOF'\nfrom pytest import fixture\n\n\ndef t(foo):\n    return foo\n\n\n@fixture\ndef foo():\n    return 1\n\n\ndef test_right_statement(foo):\n    assert foo == (3 + 2) * (6 + 9)\n\n    @t\n    def inner():\n        return 2\n\n    assert 2 == inner\n\n\n@t\ndef outer():\n    return 2\nEOF\ncd /testbed && python -m pytest test_repro.py -v 2>&1",
+          "expected_returncode": 1,
+          "tool_call_id": "call_28ff0c03c1e545ce81db81bd"
+        }
+      ],
+      "recorded_llm_wait_s": 3.0705489169922657,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "wc -l /testbed/src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6c491587c0f84a8f8abaa149"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8436126679880545,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"lineno\\|line_number\\|lines\\|source\\|stmt\\|statement\" src/_pytest/assertion/rewrite.py | head -60",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4d7252def38b4a268e8a26f5"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5042330129945185,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"visit_Assert\\|end_lineno\\|end_col_offset\" src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1be7475119394c87b0265134"
+        }
+      ],
+      "recorded_llm_wait_s": 2.90508912698715,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '846,950p' src/_pytest/assertion/rewrite.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_90754bd8eb2c49de9cb61c19"
+        }
+      ],
+      "recorded_llm_wait_s": 2.109680143999867,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -rn \"getsource\\|get_source\\|source_lines\\|getfullargspec\\|getcode\\|getlines\\|linecache\" src/_pytest/ --include=\"*.py\" | grep -v \".pyc\" | head -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_11c7ce22112c4173b5e1045e"
+        }
+      ],
+      "recorded_llm_wait_s": 4.11057721398538,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '700,830p' src/_pytest/_code/code.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d9614eb0806944ca8381aa80"
+        }
+      ],
+      "recorded_llm_wait_s": 2.1879806559882127,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && grep -n \"getfirstlinesource\\|getsource\" src/_pytest/_code/code.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_dd15c8020581411f82acb69e"
+        }
+      ],
+      "recorded_llm_wait_s": 2.078488401020877,
+      "step_idx": 10
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7228:latest",
+    "instance_id": "pylint-dev__pylint-7228",
+    "repo": "pylint-dev/pylint"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/trajs/pylint-dev__pylint-7228.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20 && echo \"---\" && ls /testbed",
+          "expected_returncode": 0,
+          "tool_call_id": "call_01d7bbb8d9c74a75a3b5f27f"
+        }
+      ],
+      "recorded_llm_wait_s": 2.782876580982702,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"re.compile\\|re\\.compile\\|regex\\|_regex\\|regexp\" /testbed/pylint/config/ --include=\"*.py\" | head -40",
+          "expected_returncode": 0,
+          "tool_call_id": "call_81a98c2a832f4149abec1fd5"
+        }
+      ],
+      "recorded_llm_wait_s": 2.821028638019925,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/pylint/config/argument.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_3da0629813094e53a0c3451b"
+        }
+      ],
+      "recorded_llm_wait_s": 3.567273243010277,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/pylint/config/option.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_fe6e99e359764e1b8ca87cf1"
+        }
+      ],
+      "recorded_llm_wait_s": 2.198772664007265,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"import regex\" /testbed/pylint/ --include=\"*.py\"",
+          "expected_returncode": 1,
+          "tool_call_id": "call_709151ad51ff41908eaca77b"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5745592449966352,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"re\\.compile\" /testbed/pylint/ --include=\"*.py\" | grep -v test | grep -v __pycache__",
+          "expected_returncode": 1,
+          "tool_call_id": "call_8c7fbbff844d4a6aa7fee856"
+        }
+      ],
+      "recorded_llm_wait_s": 6.1306817999866325,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"re.compile\" /testbed/pylint/ --include=\"*.py\" | grep -v __pycache__",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ef165999db264a9da251e17b"
+        }
+      ],
+      "recorded_llm_wait_s": 1.5719455160142388,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"import re; re.compile(r'[\\p{Han}a-z_]')\"",
+          "expected_returncode": 1,
+          "tool_call_id": "call_12c53f1f994f4a8f99675fb5"
+        }
+      ],
+      "recorded_llm_wait_s": 6.102415911998833,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "python -c \"import regex; print(regex.compile(r'[\\p{Han}a-z_]').pattern)\"",
+          "expected_returncode": 1,
+          "tool_call_id": "call_de12918eb40a4b28947f1a3b"
+        }
+      ],
+      "recorded_llm_wait_s": 3.5517458189860918,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "pip install regex -q",
+          "expected_returncode": 0,
+          "tool_call_id": "call_b686352bc9a04f0886fde85f"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0856167580059264,
+      "step_idx": 10
+    }
+  ]
+}

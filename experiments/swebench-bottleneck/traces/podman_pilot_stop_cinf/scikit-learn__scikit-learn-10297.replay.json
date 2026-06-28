@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10297:latest",
+    "instance_id": "scikit-learn__scikit-learn-10297",
+    "repo": "scikit-learn/scikit-learn"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/trajs/scikit-learn__scikit-learn-10297.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"RidgeClassifierCV\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6fddca8f8cdc48109b05569b"
+        }
+      ],
+      "recorded_llm_wait_s": 3.531661116023315,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class RidgeClassifierCV\" /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0baa35022f3e4ddf9c268abb"
+        }
+      ],
+      "recorded_llm_wait_s": 2.301970144995721,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1200,1400p' /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_658b39bcf5c149c6966fc2d0"
+        }
+      ],
+      "recorded_llm_wait_s": 2.147032245004084,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class _BaseRidgeCV\" /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_aa7b3ac1a856496aba87ba02"
+        }
+      ],
+      "recorded_llm_wait_s": 2.3751381910115015,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1087,1250p' /testbed/sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9724a342f24c4cc08b8bfb27"
+        }
+      ],
+      "recorded_llm_wait_s": 1.928960637014825,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"store_cv_values\" /testbed/sklearn/linear_model/tests/test_ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_bcacd56e0c504602940052cb"
+        }
+      ],
+      "recorded_llm_wait_s": 5.379648164001992,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"RidgeClassifierCV\" /testbed/sklearn/linear_model/tests/test_ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_10a7f849249b4eec915d35bc"
+        }
+      ],
+      "recorded_llm_wait_s": 1.700861379998969,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -c \"\nimport numpy as np\nfrom sklearn import linear_model as lm\n\nn = 100\nx = np.random.randn(n, 30)\ny = np.random.normal(size=n)\n\ntry:\n    rr = lm.RidgeClassifierCV(alphas=np.arange(0.1, 10, 0.5), store_cv_values=True).fit(x, y)\n    print('SUCCESS')\nexcept TypeError as e:\n    print(f'ERROR: {e}')\n\"",
+          "expected_returncode": 0,
+          "tool_call_id": "call_0f797e41ca1243ed88e3f95c"
+        }
+      ],
+      "recorded_llm_wait_s": 4.002987755986396,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1370,1380p' sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_15d8288846d0433a91e76f76"
+        }
+      ],
+      "recorded_llm_wait_s": 2.0320825389935635,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && sed -n '1348,1355p' sklearn/linear_model/ridge.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_f57d52646d424f3a8f4212af"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9704483349923976,
+      "step_idx": 10
+    }
+  ]
+}

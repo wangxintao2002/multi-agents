@@ -1,0 +1,113 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8721:latest",
+    "instance_id": "sphinx-doc__sphinx-8721",
+    "repo": "sphinx-doc/sphinx"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/trajs/sphinx-doc__sphinx-8721.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -name \"viewcode*\" -type f",
+          "expected_returncode": 0,
+          "tool_call_id": "call_49d4c4dd4c644b4ca812cd63"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5550379469932523,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/sphinx/ext/viewcode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e17094a2f8b94b0386603812"
+        }
+      ],
+      "recorded_llm_wait_s": 1.1841978290176485,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"should_generate_module_page\" /testbed/sphinx/ext/viewcode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5b0c2e9a88cf4a5f80dd09d4"
+        }
+      ],
+      "recorded_llm_wait_s": 4.906350894016214,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '155,270p' /testbed/sphinx/ext/viewcode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_94f52fb653864171a8009e0d"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9215151880052872,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '187,192p' /testbed/sphinx/ext/viewcode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_46bfa1bb46cc4a4cab33df35"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2879826569987927,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "cat -n /testbed/sphinx/ext/viewcode.py | head -185 | tail -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_a9d98ad979604916a6766f38"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9566187360032927,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -i '184a\\    if app.builder.name.startswith(\"epub\") and not env.config.viewcode_enable_epub:\\n        return' /testbed/sphinx/ext/viewcode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_ed093fd195ee473a87fffb42"
+        }
+      ],
+      "recorded_llm_wait_s": 2.248444882017793,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '180,190p' /testbed/sphinx/ext/viewcode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d5d2fa42d407441090fee029"
+        }
+      ],
+      "recorded_llm_wait_s": 2.5944296910020057,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "cd /testbed && python -m pytest tests/test_ext_viewcode.py -x -v 2>&1 | tail -30",
+          "expected_returncode": 0,
+          "tool_call_id": "call_2d5279e215c94ec89e0490ce"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6041021200071555,
+      "step_idx": 9
+    }
+  ]
+}

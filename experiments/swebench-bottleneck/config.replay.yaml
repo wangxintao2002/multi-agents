@@ -1,0 +1,33 @@
+# Deterministic replay harness config.
+#
+# First extract traces, for example:
+#   .venv-swebench/bin/python experiments/swebench-bottleneck/extract_replay_trace.py \
+#     --source experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop \
+#     --out-dir experiments/swebench-bottleneck/traces/podman_pilot_stop_cinf
+#
+# Then run:
+#   cd experiments/swebench-bottleneck
+#   ../../.venv-swebench/bin/python run_replay.py --config config.replay.yaml --lease task_lease --delay 10
+#   ../../.venv-swebench/bin/python run_replay.py --config config.replay.yaml --lease exec_lease_stop --delay 10
+
+trace:
+  trace_dir: "traces/podman_pilot_stop_cinf"
+  delay_mode: "fixed"
+  fixed_delay_s: 10.0
+  delay_scale: 1.0
+  duplicate_factor: 1
+
+limits:
+  command_timeout_s: 120
+
+run:
+  offered_concurrency: 6
+  slot_capacities: ["inf"]
+  inf_capacity: 64
+  lease_mode: "task_lease"
+  docker_executable: "podman"
+  cgroup_parent: null
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 2.0

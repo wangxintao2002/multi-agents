@@ -1,0 +1,50 @@
+{
+  "events_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/events.jsonl",
+  "schema_version": 1,
+  "source": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop",
+  "traces": [
+    {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-12308:latest",
+      "instance_id": "django__django-12308",
+      "n_actions": 14,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/podman_pilot_stop_cinf/django__django-12308.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7228:latest",
+      "instance_id": "pylint-dev__pylint-7228",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/podman_pilot_stop_cinf/pylint-dev__pylint-7228.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-9359:latest",
+      "instance_id": "pytest-dev__pytest-9359",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/podman_pilot_stop_cinf/pytest-dev__pytest-9359.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10297:latest",
+      "instance_id": "scikit-learn__scikit-learn-10297",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/podman_pilot_stop_cinf/scikit-learn__scikit-learn-10297.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8721:latest",
+      "instance_id": "sphinx-doc__sphinx-8721",
+      "n_actions": 9,
+      "n_steps": 9,
+      "path": "experiments/swebench-bottleneck/traces/podman_pilot_stop_cinf/sphinx-doc__sphinx-8721.replay.json"
+    },
+    {
+      "image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-11400:latest",
+      "instance_id": "sympy__sympy-11400",
+      "n_actions": 10,
+      "n_steps": 10,
+      "path": "experiments/swebench-bottleneck/traces/podman_pilot_stop_cinf/sympy__sympy-11400.replay.json"
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,124 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-11400:latest",
+    "instance_id": "sympy__sympy-11400",
+    "repo": "sympy/sympy"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/trajs/sympy__sympy-11400.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_6495347d05bc4cc69426529b"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2829708360077348,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "find /testbed -type f -name \"*.py\" | xargs grep -l \"ccode\" 2>/dev/null | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1978b5264739402795c91c99"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6845354350225534,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "cat /testbed/sympy/printing/ccode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_de99d047c7494026bfe8f55f"
+        }
+      ],
+      "recorded_llm_wait_s": 1.293058099981863,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"sinc\" /testbed/sympy/printing/ccode.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_2a3a02ee10034dceb04c271b"
+        }
+      ],
+      "recorded_llm_wait_s": 2.101114807999693,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"class sinc\" /testbed/sympy/ --include=\"*.py\" | head -10",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8d3b296b2e3548b2ba8e6afc"
+        }
+      ],
+      "recorded_llm_wait_s": 1.7703972170129418,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1620,1700p' /testbed/sympy/functions/elementary/trigonometric.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_78d9ea59da224c85ab38581a"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6928076120093465,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_print_Function\\|_print_not_supported\\|_print_Piecewise\" /testbed/sympy/printing/ccode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_1b10f088e98c45a5944692e9"
+        }
+      ],
+      "recorded_llm_wait_s": 2.8330418939876836,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_print_Function\\|_print_not_supported\\|_get_supported\" /testbed/sympy/printing/codeprinter.py | head -20",
+          "expected_returncode": 0,
+          "tool_call_id": "call_9e7cbbb34f7a4ec691b29446"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9108529539953452,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '309,370p' /testbed/sympy/printing/codeprinter.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_fd75110875714ba996eb13c9"
+        }
+      ],
+      "recorded_llm_wait_s": 1.8643771889910568,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"_print_sinc\\|_print_Piecewise\\|_print_Min\\|_print_Max\\|_print_Abs\" /testbed/sympy/printing/ccode.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c8cc44cad73c4fc7b38c5248"
+        }
+      ],
+      "recorded_llm_wait_s": 3.763801325985696,
+      "step_idx": 10
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+# Podman hard memory.max sanity test.
+#
+# Before running, create and cap the user slice:
+#   systemd-run --user --unit ma-podman-mem-anchor --slice ma-podman-mem.slice sleep infinity
+#   systemctl --user set-property --runtime ma-podman-mem.slice MemoryMax=1G MemorySwapMax=0
+#
+# The full cgroup path is used because rootless Podman places containers under
+# the user manager cgroup; passing this path works for Podman and lets the
+# sampler read the same aggregate cgroup memory files.
+
+model:
+  name: "openrouter/xiaomi/mimo-v2.5-pro"
+  cost_tracking: "ignore_errors"
+  model_kwargs:
+    drop_params: true
+    parallel_tool_calls: true
+    temperature: 0.0
+    timeout: 120
+
+dataset:
+  subset: "lite"
+  split: "test"
+  n_instances: 6
+  selection: "stratified"
+  seed: 42
+  include_instance_ids:
+    - "django__django-12308"
+    - "sympy__sympy-11400"
+    - "scikit-learn__scikit-learn-10297"
+    - "pytest-dev__pytest-9359"
+    - "pylint-dev__pylint-7228"
+    - "sphinx-doc__sphinx-8721"
+
+limits:
+  step_limit: 10
+  cost_limit: 1.5
+  wall_time_limit_seconds: 900
+
+run:
+  offered_concurrency: 6
+  slot_capacities: ["inf"]
+  inf_capacity: 64
+  lease_mode: "task_lease"
+  pre_pull_images: false
+  docker_executable: "podman"
+  cgroup_parent: "/user.slice/user-1005.slice/user@1005.service/ma.slice/ma-podman.slice/ma-podman-mem.slice"
+
+sampler:
+  fast_interval: 1.0
+  slow_interval: 2.0

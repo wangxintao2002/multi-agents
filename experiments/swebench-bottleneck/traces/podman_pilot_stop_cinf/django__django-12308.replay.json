@@ -1,0 +1,144 @@
+{
+  "instance": {
+    "image": "swebench/sweb.eval.x86_64.django_1776_django-12308:latest",
+    "instance_id": "django__django-12308",
+    "repo": "django/django"
+  },
+  "schema_version": 1,
+  "source": {
+    "events_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/events.jsonl",
+    "traj_path": "experiments/swebench-bottleneck/results/podman_pilot_exec_lease_stop_20260628/Cinf_exec_lease_stop/trajs/django__django-12308.traj.json"
+  },
+  "steps": [
+    {
+      "actions": [
+        {
+          "command": "grep -n \"display_for_field\" /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_33ece49be39c43ac8c99597a"
+        },
+        {
+          "command": "grep -rn \"JSONField\" /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_5767b2aa20a342319497b1e4"
+        }
+      ],
+      "recorded_llm_wait_s": 4.363257732009515,
+      "step_idx": 1
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '375,420p' /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_21198023602146ec92cd82bc"
+        }
+      ],
+      "recorded_llm_wait_s": 1.227401041018311,
+      "step_idx": 2
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"class JSONField\" /testbed/django/db/models/fields/json.py | head -5",
+          "expected_returncode": 0,
+          "tool_call_id": "call_8b0b72a1d86d421080f95d01"
+        },
+        {
+          "command": "grep -rn \"prepare_value\" /testbed/django/db/models/fields/json.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_2e02eb256b9b4bbbbe271b97"
+        }
+      ],
+      "recorded_llm_wait_s": 2.6971863500075415,
+      "step_idx": 3
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"prepare_value\" /testbed/django/forms/fields.py | grep -i json",
+          "expected_returncode": 1,
+          "tool_call_id": "call_d30b5e56658a447d8256dbf3"
+        },
+        {
+          "command": "grep -rn \"class JSONField\" /testbed/django/forms/fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_d2c3d0d4acb54c23a1f2365b"
+        }
+      ],
+      "recorded_llm_wait_s": 1.9306055920023937,
+      "step_idx": 4
+    },
+    {
+      "actions": [
+        {
+          "command": "sed -n '1226,1300p' /testbed/django/forms/fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_5d892aeb1aae4283bef7db27"
+        }
+      ],
+      "recorded_llm_wait_s": 3.262872148974566,
+      "step_idx": 5
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"class JSONField\" /testbed/django/db/models/fields/json.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_c7b2715e49c94910b298694d"
+        }
+      ],
+      "recorded_llm_wait_s": 3.2145859579904936,
+      "step_idx": 6
+    },
+    {
+      "actions": [
+        {
+          "command": "head -20 /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_4f93b9c7e00143e49b0e3433"
+        }
+      ],
+      "recorded_llm_wait_s": 1.6732569969899487,
+      "step_idx": 7
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -rn \"InvalidJSONInput\" /testbed/django/forms/fields.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_93a37af0e83240698dfebcbf"
+        },
+        {
+          "command": "grep -rn \"class InvalidJSONInput\" /testbed/django/",
+          "expected_returncode": 0,
+          "tool_call_id": "call_af194ac80e434f43926de502"
+        }
+      ],
+      "recorded_llm_wait_s": 6.786660440004198,
+      "step_idx": 8
+    },
+    {
+      "actions": [
+        {
+          "command": "grep \"import json\" /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 1,
+          "tool_call_id": "call_d7cce33dec2a413bbf6ba903"
+        }
+      ],
+      "recorded_llm_wait_s": 2.496764276002068,
+      "step_idx": 9
+    },
+    {
+      "actions": [
+        {
+          "command": "grep -n \"display_for_field\\|display_for_value\" /testbed/django/contrib/admin/utils.py",
+          "expected_returncode": 0,
+          "tool_call_id": "call_e4584f532c794765a178ce3f"
+        }
+      ],
+      "recorded_llm_wait_s": 5.557381783990422,
+      "step_idx": 10
+    }
+  ]
+}
