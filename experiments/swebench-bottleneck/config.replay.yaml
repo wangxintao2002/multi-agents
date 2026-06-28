@@ -27,6 +27,10 @@ run:
   lease_mode: "task_lease"
   docker_executable: "podman"
   cgroup_parent: null
+  # On OOM (rc==137) re-queue and replay the whole trace from scratch, up to
+  # max_retries extra attempts. 0 = original single-attempt behaviour. This is
+  # what surfaces wasted tokens and naive retry-amplified congestion collapse.
+  max_retries: 0
 
 sampler:
   fast_interval: 1.0

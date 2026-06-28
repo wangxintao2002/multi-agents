@@ -89,7 +89,7 @@ def _trace_image(trace: dict, docker_exe: str) -> str:
     return normalize_image_for_runtime(image, docker_exe)
 
 
-def run_one_trace(
+def _run_trace_attempt(
     trace: dict,
     *,
     cfg: dict,
@@ -97,13 +97,20 @@ def run_one_trace(
     pool: SlotPool,
     bus: EventBus,
     lease_mode: str,
+    attempt: int,
 ) -> dict:
+    """Replay a trace exactly once (one container lifecycle, all steps).
+
+    A single attempt re-runs the *whole* trace from scratch: a fresh container,
+    every step and action in order. OOM (rc==137) is detected and surfaced via
+    the returned ``saw_oom`` so the outer ``run_one_trace`` retry loop can decide
+    whether to start another attempt. ``attempt`` (1-based) is stamped on every
+    emitted event so analyze.py can attribute work (and wasted work) per attempt.
+    """
     from minisweagent.exceptions import Submitted
 
     task_id = trace["task_id"]
     base_instance_id = trace["instance"]["instance_id"]
-    bus.emit("task_submit", task_id=task_id, base_instance_id=base_instance_id,
-             repo=trace["instance"].get("repo"), replay=True)
     t_start = time.perf_counter()
     env = None
     exit_status = "Completed"
@@ -127,11 +134,11 @@ def run_one_trace(
             call_idx = int(step["step_idx"])
             delay_s = _delay_for_step(step, cfg)
             t0 = time.perf_counter()
-            bus.emit("llm_query_start", task_id=task_id, call_idx=call_idx,
+            bus.emit("llm_query_start", task_id=task_id, call_idx=call_idx, attempt=attempt,
                      synthetic=True, delay_mode=cfg["trace"].get("delay_mode", "fixed"))
             if delay_s > 0:
                 time.sleep(delay_s)
-            bus.emit("llm_query_end", task_id=task_id, call_idx=call_idx,
+            bus.emit("llm_query_end", task_id=task_id, call_idx=call_idx, attempt=attempt,
                      wall_s=time.perf_counter() - t0, ok=True, synthetic=True,
                      configured_delay_s=delay_s)
 
@@ -144,7 +151,7 @@ def run_one_trace(
                 except Submitted as e:
                     exit_status = "Submitted"
                     bus.emit("replay_action_submitted", task_id=task_id, call_idx=call_idx,
-                             action_idx=action_idx)
+                             action_idx=action_idx, attempt=attempt)
                     raise e
                 rc = result.get("returncode")
                 matched = expected is None or rc == expected
@@ -153,7 +160,7 @@ def run_one_trace(
                 if not matched:
                     saw_mismatch = True
                 bus.emit("replay_action_end", task_id=task_id, call_idx=call_idx,
-                         action_idx=action_idx, returncode=rc,
+                         action_idx=action_idx, returncode=rc, attempt=attempt,
                          expected_returncode=expected, matched=matched)
     except Submitted:
         pass
@@ -172,18 +179,87 @@ def run_one_trace(
             except Exception:
                 pass
         flow = time.perf_counter() - t_start
-        bus.emit("task_done", task_id=task_id, base_instance_id=base_instance_id,
-                 exit_status=exit_status, flow_s=flow, err=err, n_replay_actions=n_actions,
-                 saw_oom=saw_oom, saw_mismatch=saw_mismatch)
+        bus.emit("attempt_done", task_id=task_id, base_instance_id=base_instance_id,
+                 attempt=attempt, exit_status=exit_status, flow_s=flow, err=err,
+                 n_replay_actions=n_actions, saw_oom=saw_oom, saw_mismatch=saw_mismatch)
     return {
         "task_id": task_id,
         "base_instance_id": base_instance_id,
+        "attempt": attempt,
         "exit_status": exit_status,
         "flow_s": flow,
         "err": err,
         "n_replay_actions": n_actions,
         "saw_oom": saw_oom,
         "saw_mismatch": saw_mismatch,
+    }
+
+
+def run_one_trace(
+    trace: dict,
+    *,
+    cfg: dict,
+    templates: dict,
+    pool: SlotPool,
+    bus: EventBus,
+    lease_mode: str,
+) -> dict:
+    """Replay a trace with an OOM-driven retry loop.
+
+    Models a real agent scaffold: if an attempt is killed by the OOM-killer
+    (rc==137), the whole task is re-queued and replayed from scratch, re-spending
+    every step (= every LLM call) it had already done. This is how naive
+    over-subscription turns into *wasted tokens* and, under no admission control,
+    a retry-amplified congestion collapse (kill -> retry -> more pressure -> kill).
+
+    Only OOM triggers a retry. Submitted/Completed/ReplayMismatch are terminal:
+    a mismatch is a correctness signal we must surface, not paper over by retrying.
+
+    ``max_retries`` (cfg['run'].get('max_retries', 0)) bounds the extra attempts;
+    0 preserves the original single-attempt behaviour.
+    """
+    task_id = trace["task_id"]
+    base_instance_id = trace["instance"]["instance_id"]
+    max_retries = int(cfg["run"].get("max_retries", 0))
+    bus.emit("task_submit", task_id=task_id, base_instance_id=base_instance_id,
+             repo=trace["instance"].get("repo"), replay=True, max_retries=max_retries)
+
+    t_start = time.perf_counter()
+    attempts: list[dict] = []
+    wasted_actions = 0  # actions burned on attempts that ended in OOM
+    result = None
+    for attempt in range(1, max_retries + 2):  # at least one attempt
+        result = _run_trace_attempt(
+            trace, cfg=cfg, templates=templates, pool=pool, bus=bus,
+            lease_mode=lease_mode, attempt=attempt,
+        )
+        attempts.append(result)
+        if not result["saw_oom"]:
+            break  # success / submitted / mismatch are all terminal
+        wasted_actions += result["n_replay_actions"]
+
+    total_flow = time.perf_counter() - t_start
+    n_attempts = len(attempts)
+    final_status = result["exit_status"]
+    exhausted = result["saw_oom"]  # still OOM on the last allowed attempt
+    bus.emit("task_done", task_id=task_id, base_instance_id=base_instance_id,
+             exit_status=final_status, flow_s=total_flow, err=result["err"],
+             n_attempts=n_attempts, wasted_actions=wasted_actions,
+             retry_exhausted=exhausted, replay=True,
+             n_replay_actions=result["n_replay_actions"],
+             saw_oom=result["saw_oom"], saw_mismatch=result["saw_mismatch"])
+    return {
+        "task_id": task_id,
+        "base_instance_id": base_instance_id,
+        "exit_status": final_status,
+        "flow_s": total_flow,
+        "err": result["err"],
+        "n_attempts": n_attempts,
+        "wasted_actions": wasted_actions,
+        "retry_exhausted": exhausted,
+        "n_replay_actions": result["n_replay_actions"],
+        "saw_oom": result["saw_oom"],
+        "saw_mismatch": result["saw_mismatch"],
     }
 
 
@@ -234,8 +310,17 @@ def run_cell(
     sampler.join(timeout=5)
     bus.emit("cell_end", cell=cell_name, makespan_s=makespan)
     n_events = bus.write_jsonl(cell_dir / "events.jsonl")
-    n_completed = sum(1 for r in results if r["exit_status"] in {"Completed", "Submitted"})
-    print(f"  makespan={makespan:.1f}s  completed={n_completed}/{len(results)}  events={n_events}")
+    # goodput counts only tasks that finished cleanly (no OOM/mismatch); naive
+    # over-subscription fails fast, so counting "completed" would let failures
+    # masquerade as throughput. Retries/wasted work are reported alongside.
+    n_solved = sum(1 for r in results if r["exit_status"] in {"Completed", "Submitted"})
+    total_attempts = sum(r.get("n_attempts", 1) for r in results)
+    total_wasted = sum(r.get("wasted_actions", 0) for r in results)
+    n_exhausted = sum(1 for r in results if r.get("retry_exhausted"))
+    goodput_per_hr = (n_solved / makespan * 3600) if makespan > 0 else 0.0
+    print(f"  makespan={makespan:.1f}s  solved={n_solved}/{len(results)}  "
+          f"goodput={goodput_per_hr:.1f}/hr  attempts={total_attempts} "
+          f"(retried_exhausted={n_exhausted}, wasted_actions={total_wasted})  events={n_events}")
     print(f"  -> {cell_dir}")
 
 
@@ -251,6 +336,8 @@ def main() -> None:
                     help="Override run.offered_concurrency.")
     ap.add_argument("--cgroup-parent", default=None,
                     help="Override run.cgroup_parent.")
+    ap.add_argument("--max-retries", type=int, default=None,
+                    help="Override run.max_retries (extra attempts on OOM).")
     ap.add_argument("--run-id", default=None)
     args = ap.parse_args()
 
@@ -264,6 +351,8 @@ def main() -> None:
         cfg["run"]["offered_concurrency"] = args.offered_concurrency
     if args.cgroup_parent is not None:
         cfg["run"]["cgroup_parent"] = args.cgroup_parent
+    if args.max_retries is not None:
+        cfg["run"]["max_retries"] = args.max_retries
     lease_mode = cfg["run"]["lease_mode"]
     docker_exe = cfg["run"]["docker_executable"]
 
