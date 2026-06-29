@@ -177,6 +177,7 @@ def analyze_cell(evs: list[dict]) -> dict:
             "n_llm": 0, "n_llm_failed": 0, "n_exec": 0, "n_resume": 0,
             "total_tokens": 0, "n_429": 0,
             "n_replay_mismatch": 0, "n_oom_actions": 0,
+            "n_attempts": 0, "wasted_actions": 0, "retry_exhausted": False,
             "n_resource_samples": 0,
             "_mem_samples": [], "_cpu_samples": [],
             "_acq": {},  # acq_id -> granted mono (for held-time accounting)
@@ -215,12 +216,17 @@ def analyze_cell(evs: list[dict]) -> dict:
             if g is not None:
                 d["lease_held"] += e.get("mono") - g
         elif k == "task_done":
-            d = t(tid); d["flow_s"] = e.get("flow_s"); d["exit_status"] = e.get("exit_status")
+            d = t(tid)
+            d["flow_s"] = e.get("flow_s")
+            d["exit_status"] = e.get("exit_status")
+            d["n_attempts"] = e.get("n_attempts") or 1
+            d["wasted_actions"] = e.get("wasted_actions") or 0
+            d["retry_exhausted"] = bool(e.get("retry_exhausted"))
         elif k == "replay_action_end":
             d = t(tid)
-            if e.get("matched") is False:
+            if e.get("matched") is False and not e.get("oom"):
                 d["n_replay_mismatch"] += 1
-            if e.get("returncode") == 137:
+            if e.get("returncode") == 137 or e.get("oom"):
                 d["n_oom_actions"] += 1
 
     container_to_task = _container_task_map(evs)
@@ -313,6 +319,10 @@ def analyze_cell(evs: list[dict]) -> dict:
             if r["exit_status"] not in {"Completed", "Submitted"} or r["n_replay_mismatch"] > 0
         ),
         "oom_tasks": sum(1 for r in rows if r["n_oom_actions"] > 0),
+        "retried_tasks": sum(1 for r in rows if r["n_attempts"] > 1),
+        "retry_exhausted_tasks": sum(1 for r in rows if r["retry_exhausted"]),
+        "total_attempts": sum(r["n_attempts"] for r in rows),
+        "wasted_actions": sum(r["wasted_actions"] for r in rows),
         "replay_mismatch_actions": sum(r["n_replay_mismatch"] for r in rows),
         "oom_actions": sum(r["n_oom_actions"] for r in rows),
         "flow_p50": pctile(flows, 0.5), "flow_p95": pctile(flows, 0.95),
@@ -524,6 +534,9 @@ def main() -> None:
               f"peak-mem={a['peak_total_container_mem_mb']:.0f}MB "
               f"peak-cgroup={a['peak_cgroup_memory_mb']:.0f}MB "
               f"oom-tasks={a['oom_tasks']} "
+              f"retried={a['retried_tasks']} "
+              f"exhausted={a['retry_exhausted_tasks']} "
+              f"wasted-actions={a['wasted_actions']} "
               f"mismatch-actions={a['replay_mismatch_actions']} "
               f"solved={a['solved']}/{a['n_tasks']}")
 
@@ -539,6 +552,7 @@ def main() -> None:
         "idle_held_frac", "slot_wait_initial", "slot_wait_midtask", "accounted_s",
         "n_llm", "n_llm_failed", "n_exec", "n_resume", "total_tokens", "n_429",
         "n_replay_mismatch", "n_oom_actions",
+        "n_attempts", "wasted_actions", "retry_exhausted",
         "n_resource_samples", "peak_mem_mb", "avg_mem_mb", "peak_cpu_pct", "avg_cpu_pct"])
     plot_attribution(cells, run_dir / "attribution.png")
     plot_throughput(cells, run_dir / "throughput.png")

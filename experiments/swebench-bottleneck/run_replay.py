@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import subprocess
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -34,6 +35,28 @@ from run_experiment import (  # noqa: E402
 )
 
 HERE = Path(__file__).resolve().parent
+
+
+class _ReplayOOMDetected(Exception):
+    """Internal control-flow exception to abort the current replay attempt."""
+
+
+_OOM_TEXT_MARKERS = (
+    "oom",
+    "out of memory",
+    "memory cgroup out of memory",
+    "cannot allocate memory",
+    "signal: killed",
+    "exit status 137",
+)
+
+_CONTAINER_GONE_MARKERS = (
+    "container is not running",
+    "container state improper",
+    "can only create exec sessions on running containers",
+    "cannot exec into a container that is not running",
+    "no such container",
+)
 
 
 def _load_traces(trace_dir: Path) -> list[dict]:
@@ -87,6 +110,77 @@ def _trace_image(trace: dict, docker_exe: str) -> str:
     if not image:
         raise ValueError(f"trace has no image: {trace.get('_trace_path')}")
     return normalize_image_for_runtime(image, docker_exe)
+
+
+def _result_text(result: dict | None) -> str:
+    if not result:
+        return ""
+    parts = [
+        str(result.get("output") or ""),
+        str(result.get("exception_info") or ""),
+    ]
+    extra = result.get("extra")
+    if isinstance(extra, dict):
+        parts.extend(str(extra.get(k) or "") for k in ("exception", "exception_type"))
+    return "\n".join(parts).lower()
+
+
+def _looks_like_oom_text(text: str) -> bool:
+    lowered = text.lower()
+    return any(marker in lowered for marker in _OOM_TEXT_MARKERS)
+
+
+def _looks_like_container_gone_text(text: str) -> bool:
+    lowered = text.lower()
+    return any(marker in lowered for marker in _CONTAINER_GONE_MARKERS)
+
+
+def _inspect_container_state(env: InstrumentedDockerEnvironment | None) -> dict:
+    if env is None or not getattr(env, "container_id", None):
+        return {}
+    try:
+        proc = subprocess.run(
+            [env.config.executable, "inspect", env.container_id, "--format", "{{json .State}}"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except Exception:
+        return {}
+    if proc.returncode != 0:
+        return {}
+    try:
+        parsed = json.loads(proc.stdout.strip())
+    except json.JSONDecodeError:
+        return {}
+    return parsed if isinstance(parsed, dict) else {}
+
+
+def _state_indicates_oom(state: dict) -> bool:
+    if not state:
+        return False
+    if state.get("OOMKilled") is True or state.get("oom_killed") is True:
+        return True
+    try:
+        exit_code = int(state.get("ExitCode"))
+    except (TypeError, ValueError):
+        exit_code = None
+    status = str(state.get("Status") or state.get("status") or "").lower()
+    return exit_code == 137 and status in {"exited", "stopped", "dead", "stopping"}
+
+
+def _is_oom_result(result: dict | None, env: InstrumentedDockerEnvironment | None) -> bool:
+    if not result:
+        return False
+    rc = result.get("returncode")
+    if rc == 137:
+        return True
+    text = _result_text(result)
+    if _looks_like_oom_text(text):
+        return True
+    if _looks_like_container_gone_text(text):
+        return _state_indicates_oom(_inspect_container_state(env))
+    return False
 
 
 def _run_trace_attempt(
@@ -155,18 +249,25 @@ def _run_trace_attempt(
                     raise e
                 rc = result.get("returncode")
                 matched = expected is None or rc == expected
-                if rc == 137:
+                oom = _is_oom_result(result, env)
+                if oom:
                     saw_oom = True
-                if not matched:
+                elif not matched:
                     saw_mismatch = True
                 bus.emit("replay_action_end", task_id=task_id, call_idx=call_idx,
                          action_idx=action_idx, returncode=rc, attempt=attempt,
-                         expected_returncode=expected, matched=matched)
+                         expected_returncode=expected, matched=matched, oom=oom)
+                if oom:
+                    raise _ReplayOOMDetected()
+    except _ReplayOOMDetected:
+        pass
     except Submitted:
         pass
     except Exception as e:
         exit_status = type(e).__name__
         err = str(e)[:300]
+        if _looks_like_oom_text(err):
+            saw_oom = True
     finally:
         if exit_status == "Completed":
             if saw_oom:
@@ -242,12 +343,14 @@ def run_one_trace(
     n_attempts = len(attempts)
     final_status = result["exit_status"]
     exhausted = result["saw_oom"]  # still OOM on the last allowed attempt
+    ever_saw_oom = any(a["saw_oom"] for a in attempts)
     bus.emit("task_done", task_id=task_id, base_instance_id=base_instance_id,
              exit_status=final_status, flow_s=total_flow, err=result["err"],
              n_attempts=n_attempts, wasted_actions=wasted_actions,
              retry_exhausted=exhausted, replay=True,
              n_replay_actions=result["n_replay_actions"],
-             saw_oom=result["saw_oom"], saw_mismatch=result["saw_mismatch"])
+             saw_oom=ever_saw_oom, final_saw_oom=result["saw_oom"],
+             saw_mismatch=result["saw_mismatch"])
     return {
         "task_id": task_id,
         "base_instance_id": base_instance_id,
@@ -258,7 +361,8 @@ def run_one_trace(
         "wasted_actions": wasted_actions,
         "retry_exhausted": exhausted,
         "n_replay_actions": result["n_replay_actions"],
-        "saw_oom": result["saw_oom"],
+        "saw_oom": ever_saw_oom,
+        "final_saw_oom": result["saw_oom"],
         "saw_mismatch": result["saw_mismatch"],
     }
 
@@ -313,7 +417,10 @@ def run_cell(
     # goodput counts only tasks that finished cleanly (no OOM/mismatch); naive
     # over-subscription fails fast, so counting "completed" would let failures
     # masquerade as throughput. Retries/wasted work are reported alongside.
-    n_solved = sum(1 for r in results if r["exit_status"] in {"Completed", "Submitted"})
+    n_solved = sum(
+        1 for r in results
+        if r["exit_status"] in {"Completed", "Submitted"} and not r.get("saw_mismatch")
+    )
     total_attempts = sum(r.get("n_attempts", 1) for r in results)
     total_wasted = sum(r.get("wasted_actions", 0) for r in results)
     n_exhausted = sum(1 for r in results if r.get("retry_exhausted"))
@@ -385,6 +492,7 @@ def main() -> None:
         "n_traces": len(traces),
         "docker_executable": docker_exe,
         "offered_concurrency": cfg["run"]["offered_concurrency"],
+        "max_retries": cfg["run"].get("max_retries", 0),
     }, indent=2, sort_keys=True) + "\n")
 
     for cap in capacities:
